@@ -17,7 +17,7 @@ public class WorkshiftMock
         {
             Workshift e = new Workshift();
             e.setId(i);
-            e.setName("name"+i);
+            e.setName("workshift"+i);
             e.setDailyScheduleList(DailyScheduleMock.mock());
             list.add(e);
         }

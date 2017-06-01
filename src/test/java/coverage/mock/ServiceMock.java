@@ -17,7 +17,7 @@ public class ServiceMock
         {
             Service e = new Service();
             e.setId(i);
-            e.setName("name"+i);
+            e.setName("service"+i);
             e.setStaffSkill(StaffSkillMock.mock());
             list.add(e);
         }

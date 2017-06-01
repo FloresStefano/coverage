@@ -18,7 +18,7 @@ public class RuleMock
         for ( long i = 0; i < RULE_COUNT; i++ )
         {
             Rule e = new Rule();
-            e.setName("name"+i);
+            e.setName("rule"+i);
             e.setId(i);
            
             list.add(e);

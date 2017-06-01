@@ -2,12 +2,13 @@ package it.addvalue.coverage.bean;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Configurazione calendario (=insieme di giorni) del piano do programmazione (scheduling plan) per sirioHR
  */
 
-public class Calendar implements Serializable
+public class PlanCalendar implements Serializable
 {
 
     private static final long serialVersionUID = 1L;
@@ -25,8 +26,9 @@ public class Calendar implements Serializable
     private Integer           expectedCalls;
 
     private String            expectedCallsDetail;
+    
+    private List <Marker>            markerList;
 
-    private String            expectedCallsServiceDetail;
 
     public Long getId()
     {
@@ -88,15 +90,6 @@ public class Calendar implements Serializable
         this.expectedCallsDetail = expectedCallsDetail;
     }
 
-    public String getExpectedCallsServiceDetail()
-    {
-        return expectedCallsServiceDetail;
-    }
-
-    public void setExpectedCallsServiceDetail(String expectedCallsServiceDetail)
-    {
-        this.expectedCallsServiceDetail = expectedCallsServiceDetail;
-    }
 
     public String getName()
     {
@@ -106,6 +99,16 @@ public class Calendar implements Serializable
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public List<Marker> getMarkerList()
+    {
+        return markerList;
+    }
+
+    public void setMarkerList(List<Marker> markerList)
+    {
+        this.markerList = markerList;
     }
 
 }

@@ -3,7 +3,7 @@ package it.addvalue.coverage;
 import java.io.Serializable;
 import java.util.List;
 
-import it.addvalue.coverage.bean.Calendar;
+import it.addvalue.coverage.bean.PlanCalendar;
 import it.addvalue.coverage.bean.Rule;
 import it.addvalue.coverage.bean.Staff;
 
@@ -14,7 +14,7 @@ public class Input implements Serializable
 
     private List<Staff>        staffList;
 
-    private List<Calendar> calendarList;
+    private List<PlanCalendar> calendarList;
 
     private List<Rule>         ruleList;
 
@@ -28,12 +28,12 @@ public class Input implements Serializable
         this.staffList = staffList;
     }
 
-    public List<Calendar> getCalendarList()
+    public List<PlanCalendar> getCalendarList()
     {
         return calendarList;
     }
 
-    public void setCalendarList(List<Calendar> calendarList)
+    public void setCalendarList(List<PlanCalendar> calendarList)
     {
         this.calendarList = calendarList;
     }

@@ -12,7 +12,7 @@ public class StaffSkillMock
 
             StaffSkill e = new StaffSkill();
             e.setId(0L);
-            e.setName("name"+0);
+            e.setName("skill"+0);
 
         return e;
     }

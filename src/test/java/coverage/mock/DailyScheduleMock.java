@@ -17,7 +17,7 @@ public class DailyScheduleMock
         {
             DailySchedule e = new DailySchedule();
             e.setId(i);
-            e.setName("name"+i);
+            e.setName("schedule"+i);
             list.add(e);
         }
         return list;

@@ -19,7 +19,7 @@ public class StaffMock
         {
             Staff e = new Staff();
             e.setId(i);
-            e.setName("name"+i);
+            e.setName("staff"+i);
             e.setServiceList(ServiceMock.mock());
             e.setWorkshiftList(WorkshiftMock.mock());
             list.add(e);
