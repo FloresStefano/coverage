@@ -25,7 +25,11 @@ public class Service implements Serializable
 
     private Integer           coverageTo;
 
-    private StaffSkill        staffSkill;
+    private Integer           skillLevel;
+
+    private Integer           usagePriority;
+
+    private Integer           handledCallsOverrided;
 
     public Long getId()
     {
@@ -97,14 +101,36 @@ public class Service implements Serializable
         this.coverageTo = coverageTo;
     }
 
-    public StaffSkill getStaffSkill()
+    public Integer getSkillLevel()
     {
-        return staffSkill;
+        return skillLevel;
     }
 
-    public void setStaffSkill(StaffSkill staffSkill)
+    public void setSkillLevel(Integer skillLevel)
     {
-        this.staffSkill = staffSkill;
+        this.skillLevel = skillLevel;
     }
 
+    public Integer getUsagePriority()
+    {
+        return usagePriority;
+    }
+
+    public void setUsagePriority(Integer usagePriority)
+    {
+        this.usagePriority = usagePriority;
+    }
+
+    public Integer getHandledCallsOverrided()
+    {
+        return handledCallsOverrided;
+    }
+
+    public void setHandledCallsOverrided(Integer handledCallsOverrided)
+    {
+        this.handledCallsOverrided = handledCallsOverrided;
+    }
+
+    
+    
 }

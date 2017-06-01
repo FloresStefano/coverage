@@ -1,7 +1,5 @@
 package coverage.mock;
 
-
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,9 +36,9 @@ public class CalendarMock
             e.setDayOfWeek(c.get(Calendar.DAY_OF_WEEK));
             e.setExpectedCalls(1000);
             e.setExpectedCallsDetail("100,200,200,200,200,100");
-            if(i>350 && i<360)
+            if ( i > 350 && i < 360 )
             {
-                ArrayList<Marker> markerList = new ArrayList< Marker>();
+                ArrayList<Marker> markerList = new ArrayList<Marker>();
                 Marker m = new Marker();
                 m.setDailyCallsMarked(2000);
                 m.setDailyCallsDetailMarked("200,400,400,400,400,200");
@@ -54,14 +52,13 @@ public class CalendarMock
         }
         return list;
     }
-    
-    @Test
-    public void testmock    () throws IOException
-    {
 
+    @Test
+    public void testmock() throws IOException
+    {
         XmlMapper xmlMapper = new XmlMapper();
-        xmlMapper.writeValue(new File("mock.xml"), mock());
-        System.out.println(xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString( mock()));
+        // xmlMapper.writeValue(new File("mock.xml"), mock());
+        System.out.println(xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(mock()));
     }
 
 }
