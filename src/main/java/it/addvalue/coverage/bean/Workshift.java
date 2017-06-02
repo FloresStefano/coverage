@@ -19,7 +19,7 @@ public class Workshift implements Serializable
 
     private String              contractName;
 
-    private Map<Integer, int[]> dailySchedule;
+    private Map dailySchedule;
 
     public Long getId()
     {
@@ -51,12 +51,12 @@ public class Workshift implements Serializable
         this.contractName = contractName;
     }
 
-    public Map<Integer, int[]> getDailySchedule()
+    public Map getDailySchedule()
     {
         return dailySchedule;
     }
 
-    public void setDailySchedule(Map<Integer, int[]> dailySchedule)
+    public void setDailySchedule(Map dailySchedule)
     {
         this.dailySchedule = dailySchedule;
     }
