@@ -2,7 +2,7 @@ package it.addvalue.coverage.bean;
 
 import java.io.Serializable;
 
-public class Marker implements Serializable
+public class PlanCalendarMarker implements Serializable
 {
 
     private static final long serialVersionUID = 1L;

@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
-import it.addvalue.coverage.bean.Marker;
+import it.addvalue.coverage.bean.PlanCalendarMarker;
 import it.addvalue.coverage.bean.PlanCalendar;
 
 public class CalendarMock
@@ -38,8 +38,8 @@ public class CalendarMock
             e.setExpectedCallsDetail("100,200,200,200,200,100");
             if ( i > 350 && i < 360 )
             {
-                ArrayList<Marker> markerList = new ArrayList<Marker>();
-                Marker m = new Marker();
+                ArrayList<PlanCalendarMarker> markerList = new ArrayList<PlanCalendarMarker>();
+                PlanCalendarMarker m = new PlanCalendarMarker();
                 m.setDailyCallsMarked(2000);
                 m.setDailyCallsDetailMarked("200,400,400,400,400,200");
                 m.setId(i);
