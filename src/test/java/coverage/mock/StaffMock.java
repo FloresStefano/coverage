@@ -1,5 +1,7 @@
 package coverage.mock;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +42,8 @@ public class StaffMock
     public void testmock() throws IOException
     {
         XmlMapper xmlMapper = new XmlMapper();
-        // xmlMapper.writeValue(new File("mock.xml"), mock());
-        System.out.println(xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(mock()));
+        String writeValueAsString = xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(mock());
+		System.out.println(writeValueAsString);
+		assertNotNull(writeValueAsString);
     }
 }

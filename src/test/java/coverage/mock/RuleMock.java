@@ -1,7 +1,14 @@
 package coverage.mock;
 
+import static org.junit.Assert.assertNotNull;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.Test;
+
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import it.addvalue.coverage.bean.Rule;
 
@@ -24,5 +31,14 @@ public class RuleMock
             list.add(e);
         }
         return list;
+    }
+    
+    @Test
+    public void testmock() throws IOException
+    {
+        XmlMapper xmlMapper = new XmlMapper();
+        String writeValueAsString = xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(mock());
+		System.out.println(writeValueAsString);
+		assertNotNull(writeValueAsString);
     }
 }
