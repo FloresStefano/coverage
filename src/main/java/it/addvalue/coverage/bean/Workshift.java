@@ -2,6 +2,7 @@ package it.addvalue.coverage.bean;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Configurazione dei turni per SirioHR
@@ -18,7 +19,7 @@ public class Workshift implements Serializable
 
     private String              contractName;
 
-    private List<DailySchedule> dailyScheduleList;
+    private Map<Integer, int[]> dailySchedule;
 
     public Long getId()
     {
@@ -50,14 +51,16 @@ public class Workshift implements Serializable
         this.contractName = contractName;
     }
 
-    public List<DailySchedule> getDailyScheduleList()
+    public Map<Integer, int[]> getDailySchedule()
     {
-        return dailyScheduleList;
+        return dailySchedule;
     }
 
-    public void setDailyScheduleList(List<DailySchedule> dailyScheduleList)
+    public void setDailySchedule(Map<Integer, int[]> dailySchedule)
     {
-        this.dailyScheduleList = dailyScheduleList;
+        this.dailySchedule = dailySchedule;
     }
+
+   
 
 }

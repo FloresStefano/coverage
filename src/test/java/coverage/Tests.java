@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import coverage.mock.CalendarMock;
@@ -24,7 +25,7 @@ public class Tests
 {
 
     @Test
-    public void firstTest()
+    public void firstTest() throws IOException
     {
 
         Input input = new Input();
@@ -32,6 +33,8 @@ public class Tests
         input.setRuleList(RuleMock.mock());
         input.setStaffList(StaffMock.mock());
 
+        XmlMapper xmlMapper = new XmlMapper();
+        System.out.println(xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(input));
         assertTrue(input != null);
     }
 

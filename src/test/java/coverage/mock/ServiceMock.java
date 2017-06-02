@@ -16,16 +16,16 @@ import it.addvalue.coverage.bean.Service;
 public class ServiceMock
 {
 
-    private static Map<String, Service> serviceMap;
+    private static Map<Integer, Service> serviceMap;
     static
     {
-        serviceMap = new HashMap<String, Service>();
-        serviceMap.put("0", mockOne(0L));
-        serviceMap.put("1", mockOne(1L));
-        serviceMap.put("2", mockOne(2L));
-        serviceMap.put("3", mockOne(3L));
-        serviceMap.put("4", mockOne(4L));
-        serviceMap.put("5", mockOne(5L));
+        serviceMap = new HashMap<Integer, Service>();
+        serviceMap.put(0, mockOne(0L));
+        serviceMap.put(1, mockOne(1L));
+        serviceMap.put(2, mockOne(2L));
+        serviceMap.put(3, mockOne(3L));
+        serviceMap.put(4, mockOne(4L));
+        serviceMap.put(5, mockOne(5L));
     }
 
 
