@@ -11,9 +11,8 @@ import java.util.Random;
 
 import org.junit.Test;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-
 import it.addvalue.coverage.bean.Workshift;
+import it.addvalue.coverage.core.XmlUtil;
 
 public class WorkshiftMock {
 
@@ -76,11 +75,7 @@ public class WorkshiftMock {
 
 	@Test
 	public void testmock() throws IOException {
-		XmlMapper xmlMapper = new XmlMapper();
-		String writeValueAsString = xmlMapper.writerWithDefaultPrettyPrinter()
-				.writeValueAsString(mock());
-		System.out.println(writeValueAsString);
-		assertNotNull(writeValueAsString);
+		assertNotNull(XmlUtil.prettyPrint(mock()));
 	}
 
 }

@@ -18,7 +18,7 @@ import it.addvalue.coverage.bean.Service;
 public class ServiceMock
 {
 
-    private static Map<Integer, Service> serviceMap;
+    public  static Map<Integer, Service> serviceMap;
     static
     {
         serviceMap = new HashMap<Integer, Service>();

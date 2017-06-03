@@ -11,6 +11,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import it.addvalue.coverage.bean.Rule;
+import it.addvalue.coverage.core.XmlUtil;
 
 public class RuleMock
 {
@@ -36,9 +37,6 @@ public class RuleMock
     @Test
     public void testmock() throws IOException
     {
-        XmlMapper xmlMapper = new XmlMapper();
-        String writeValueAsString = xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(mock());
-		System.out.println(writeValueAsString);
-		assertNotNull(writeValueAsString);
+		assertNotNull(XmlUtil.prettyPrint(mock()));
     }
 }

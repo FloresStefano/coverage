@@ -2,21 +2,18 @@ package coverage;
 
 import static org.junit.Assert.assertNotNull;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.List;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import coverage.mock.CalendarMock;
 import coverage.mock.RuleMock;
 import coverage.mock.StaffMock;
 import it.addvalue.coverage.Input;
+import it.addvalue.coverage.bean.Allocation;
+import it.addvalue.coverage.core.CoverageGenerator;
+import it.addvalue.coverage.core.XmlUtil;
 
 public class Tests {
 
@@ -29,42 +26,25 @@ public class Tests {
 	}
 
 	@Test
-	public void firstTest() throws IOException {
+	public void coverageGeneratorTest() throws IOException {
 
-		Input input = buildInput();
+		Input input = (Input) XmlUtil.deserializedToXmlFile(Input.class,"coverage_data.xml");
 
-		XmlMapper xmlMapper = new XmlMapper();
-		String writeValueAsString = xmlMapper.writerWithDefaultPrettyPrinter()
-				.writeValueAsString(input);
-		System.out.println(writeValueAsString);
-		assertNotNull(writeValueAsString);
+		CoverageGenerator generator= new CoverageGenerator();
+		List<Allocation> output=generator.generate(input);
+		assertNotNull(output);
+		assertNotNull(input);
 	}
-
+	
 	@Test
-	public void serializedToXmlFileTest() throws IOException {
+	public void randomDataForCoverageGeneratorTest() throws IOException {
 
-		XmlMapper xmlMapper = new XmlMapper();
-		xmlMapper.writeValue(new File("simple_bean.xml"), buildInput());
-	}
+		Input originalInput = buildInput();
+		Input deserializedInput = null;
 
-	@Test
-	public void deserializedToXmlFileTest() throws IOException {
-		File file = new File("simple_bean.xml");
-		XmlMapper xmlMapper = new XmlMapper();
-		String xml = inputStreamToString(new FileInputStream(file));
-		Input value = xmlMapper.readValue(xml, Input.class);
-	}
-
-	public static String inputStreamToString(InputStream is)
-			throws IOException {
-		StringBuilder sb = new StringBuilder();
-		String line;
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-		while ((line = br.readLine()) != null) {
-			sb.append(line);
-		}
-		br.close();
-		return sb.toString();
+		XmlUtil.serializedToXmlFile(originalInput,"simple_bean.xml");
+		deserializedInput = (Input) XmlUtil.deserializedToXmlFile(Input.class,"simple_bean.xml");
+		assertNotNull(deserializedInput);
 	}
 
 }
