@@ -3,7 +3,7 @@ package coverage.mock;
 import it.addvalue.coverage.bean.PlanCalendar;
 import it.addvalue.coverage.bean.PlanCalendarMarker;
 import it.addvalue.coverage.bean.Service;
-import it.addvalue.coverage.engine.XmlUtil;
+import it.addvalue.coverage.utils.XmlUtil;
 import org.junit.Test;
 
 import java.io.IOException;

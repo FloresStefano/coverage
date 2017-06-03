@@ -1,4 +1,4 @@
-package it.addvalue.coverage.engine;
+package it.addvalue.coverage.core;
 
 import it.addvalue.coverage.Input;
 import it.addvalue.coverage.Output;

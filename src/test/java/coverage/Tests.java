@@ -4,13 +4,12 @@ import coverage.mock.CalendarMock;
 import coverage.mock.RuleMock;
 import coverage.mock.StaffMock;
 import it.addvalue.coverage.Input;
-import it.addvalue.coverage.bean.Allocation;
-import it.addvalue.coverage.engine.CoverageGenerator;
-import it.addvalue.coverage.engine.XmlUtil;
+import it.addvalue.coverage.Output;
+import it.addvalue.coverage.core.CoverageGenerator;
+import it.addvalue.coverage.utils.XmlUtil;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -23,7 +22,7 @@ public class Tests {
 		Input input = (Input) XmlUtil.deserializedToXmlFile(Input.class, "coverage_data.xml");
 
 		CoverageGenerator generator = new CoverageGenerator();
-		List<Allocation> output = generator.generate(input);
+		Output output = generator.generate(input);
 		assertNotNull(output);
 		assertNotNull(input);
 	}

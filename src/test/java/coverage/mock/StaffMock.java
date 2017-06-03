@@ -2,7 +2,7 @@ package coverage.mock;
 
 import it.addvalue.coverage.bean.Staff;
 import it.addvalue.coverage.bean.Workshift;
-import it.addvalue.coverage.engine.XmlUtil;
+import it.addvalue.coverage.utils.XmlUtil;
 import org.junit.Test;
 
 import java.io.IOException;
