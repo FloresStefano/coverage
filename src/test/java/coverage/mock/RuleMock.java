@@ -1,42 +1,34 @@
 package coverage.mock;
 
-import static org.junit.Assert.assertNotNull;
+import it.addvalue.coverage.bean.Rule;
+import it.addvalue.coverage.engine.XmlUtil;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+public class RuleMock {
 
-import it.addvalue.coverage.bean.Rule;
-import it.addvalue.coverage.core.XmlUtil;
+	private static final int RULE_COUNT = 10;
 
-public class RuleMock
-{
+	public static List<Rule> mock() {
+		List<Rule> list = new ArrayList<Rule>();
+		for (long i = 0; i < RULE_COUNT; i++) {
+			Rule e = new Rule();
+			e.setName("rule" + i);
+			e.setId(i);
 
+			list.add(e);
+		}
+		return list;
+	}
 
-    private static final int RULE_COUNT     = 10;
-    
-    
-    public static List<Rule> mock()
-    {
-        List<Rule> list = new ArrayList<Rule>();
-        for ( long i = 0; i < RULE_COUNT; i++ )
-        {
-            Rule e = new Rule();
-            e.setName("rule"+i);
-            e.setId(i);
-           
-            list.add(e);
-        }
-        return list;
-    }
-    
-    @Test
-    public void testmock() throws IOException
-    {
+	@Test
+	public void testmock()
+	throws IOException {
 		assertNotNull(XmlUtil.prettyPrint(mock()));
-    }
+	}
 }

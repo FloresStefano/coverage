@@ -1,4 +1,6 @@
-package it.addvalue.coverage.core;
+package it.addvalue.coverage.utils;
+
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,19 +9,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-
 public class XmlUtil {
 
 	public static void serializedToXmlFile(Object object, String namefile)
-			throws IOException {
+	throws IOException {
 
 		XmlMapper xmlMapper = new XmlMapper();
 		xmlMapper.writeValue(new File(namefile), object);
 	}
 
 	public static Object deserializedToXmlFile(Class clazz, String namefile)
-			throws IOException {
+	throws IOException {
 		File file = new File(namefile);
 		XmlMapper xmlMapper = new XmlMapper();
 		String xml = inputStreamToString(new FileInputStream(file));
@@ -27,7 +27,7 @@ public class XmlUtil {
 	}
 
 	public static String inputStreamToString(InputStream is)
-			throws IOException {
+	throws IOException {
 		StringBuilder sb = new StringBuilder();
 		String line;
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -38,10 +38,10 @@ public class XmlUtil {
 		return sb.toString();
 	}
 
-	public static String prettyPrint(Object object) throws IOException {
+	public static String prettyPrint(Object object)
+	throws IOException {
 		XmlMapper xmlMapper = new XmlMapper();
-		String writeValueAsString = xmlMapper.writerWithDefaultPrettyPrinter()
-				.writeValueAsString(object);
+		String writeValueAsString = xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
 		System.out.println(writeValueAsString);
 		return writeValueAsString;
 	}

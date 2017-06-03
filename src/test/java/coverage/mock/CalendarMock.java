@@ -1,6 +1,10 @@
 package coverage.mock;
 
-import static org.junit.Assert.assertNotNull;
+import it.addvalue.coverage.bean.PlanCalendar;
+import it.addvalue.coverage.bean.PlanCalendarMarker;
+import it.addvalue.coverage.bean.Service;
+import it.addvalue.coverage.engine.XmlUtil;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,12 +15,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.junit.Test;
-
-import it.addvalue.coverage.bean.PlanCalendar;
-import it.addvalue.coverage.bean.PlanCalendarMarker;
-import it.addvalue.coverage.bean.Service;
-import it.addvalue.coverage.core.XmlUtil;
+import static org.junit.Assert.assertNotNull;
 
 public class CalendarMock {
 
@@ -30,8 +29,7 @@ public class CalendarMock {
 			c.set(Calendar.DAY_OF_YEAR, (int) i); // 0-based
 			c.set(Calendar.YEAR, 2017);
 			PlanCalendar e = new PlanCalendar();
-			String displayName = c.getDisplayName(Calendar.DAY_OF_WEEK,
-					Calendar.SHORT, Locale.ITALIAN);
+			String displayName = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ITALIAN);
 			e.setId(i);
 			e.setName(displayName);
 			e.setDay(c.getTime());
@@ -45,6 +43,13 @@ public class CalendarMock {
 		return list;
 	}
 
+	@Test
+	public void testmock()
+	throws IOException {
+
+		assertNotNull(XmlUtil.prettyPrint(mock()));
+	}
+
 	private static ArrayList<PlanCalendarMarker> mockMarker(long i) {
 
 		ArrayList<PlanCalendarMarker> markerList = new ArrayList<PlanCalendarMarker>();
@@ -53,7 +58,6 @@ public class CalendarMock {
 			Map.Entry map = (Map.Entry) it.next();
 			Service service = (Service) map.getValue();
 
-			
 			PlanCalendarMarker m = new PlanCalendarMarker();
 			m.setDailyCallsMarked(service.getDailyCalls());
 			m.setDailyCallsDetailMarked(service.getDailyCallsDetail());
@@ -68,12 +72,6 @@ public class CalendarMock {
 		}
 
 		return markerList;
-	}
-
-	@Test
-	public void testmock() throws IOException {
-
-		assertNotNull(XmlUtil.prettyPrint(mock()));
 	}
 
 }
