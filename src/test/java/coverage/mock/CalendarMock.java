@@ -25,20 +25,28 @@ public class CalendarMock {
 		List<PlanCalendar> list = new ArrayList<PlanCalendar>();
 
 		for (long i = 0; i < CALENDAR_COUNT; i++) {
+
 			Calendar c = Calendar.getInstance();
 			c.set(Calendar.DAY_OF_YEAR, (int) i); // 0-based
 			c.set(Calendar.YEAR, 2017);
-			PlanCalendar e = new PlanCalendar();
 			String displayName = c.getDisplayName(Calendar.DAY_OF_WEEK,
 					Calendar.SHORT, Locale.ITALIAN);
+
+			PlanCalendar e = new PlanCalendar();
 			e.setId(i);
 			e.setName(displayName);
 			e.setDay(c.getTime());
 			e.setWeekOfYear(c.get(Calendar.WEEK_OF_YEAR));
 			e.setDayOfWeek(c.get(Calendar.DAY_OF_WEEK));
-			e.setExpectedCalls(1000);
+
 			e.setExpectedCallsDetail("100,200,200,200,200,100");
-			e.setMarkerList(mockPlanCalendarDetail(i));
+			int sum = 0;
+			List<PlanCalendarDetail> details = mockPlanCalendarDetail(i);
+			for (PlanCalendarDetail detail : details)
+				sum += detail.getDailyCallsMarked();
+
+			e.setExpectedCalls(sum);
+			e.setMarkerList(details);
 			list.add(e);
 		}
 		return list;

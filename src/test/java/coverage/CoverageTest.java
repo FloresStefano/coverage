@@ -83,6 +83,24 @@ public class CoverageTest {
 		assertTrue(specialMarker < (size + 356));
 	}
 
+	@Test
+	public void expectedCallsVsDailyCallsTest() throws IOException {
+
+		for (PlanCalendar pc : input.getCalendarList()) {
+			int dailyCallsMarked = 0;
+			int dailyCalls = 0;
+			for (PlanCalendarDetail pcm : pc.getMarkerList()) {
+				dailyCallsMarked += pcm.getDailyCallsMarked();
+				dailyCalls += pcm.getService().getDailyCalls();
+			}
+			Integer expectedCalls = pc.getExpectedCalls();
+			assertTrue(dailyCallsMarked >= dailyCalls);
+			assertTrue(expectedCalls >= dailyCalls);
+			assertTrue(expectedCalls == dailyCallsMarked);
+
+		}
+	}
+
 	// L'input deve contenere oltre ai giorni, la lista degli utenti per i quali
 	// si vuole trovare il turno idoneo.
 	// per ogni utente c'è la lista dei turni ammissibili fra i quali scegliere.
