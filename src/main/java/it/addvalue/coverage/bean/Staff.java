@@ -4,14 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
-
-/**
- * Configurazione del personale per SirioHR
- */
-
-
 public class Staff implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -96,6 +88,4 @@ public class Staff implements Serializable {
 		this.workshiftList = workshiftList;
 	}
 
-	
-	
 }

@@ -2,135 +2,68 @@ package it.addvalue.coverage.bean;
 
 import java.io.Serializable;
 
-/**
- * Configurazione servizi per SirioHR
- */
+public class Service implements Serializable {
 
-public class Service implements Serializable
-{
+	private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 1L;
+	private Long id;
 
-    private Long              id;
+	private String name;
 
-    private String            name;
+	private Integer dailyCalls;
 
-    private Integer           dailyCalls;
+	private String dailyCallsDetail;
 
-    private String            dailyCallsDetail;
+	private Integer coverageFrom;
 
-    private String            dailyCallsDetailTemplate;
+	private Integer coverageTo;
 
-    private Integer           coverageFrom;
+	public Long getId() {
+		return id;
+	}
 
-    private Integer           coverageTo;
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    private Integer           skillLevel;
+	public String getName() {
+		return name;
+	}
 
-    private Integer           usagePriority;
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    private Integer           handledCallsOverrided;
+	public Integer getDailyCalls() {
+		return dailyCalls;
+	}
 
-    public Long getId()
-    {
-        return id;
-    }
+	public void setDailyCalls(Integer dailyCalls) {
+		this.dailyCalls = dailyCalls;
+	}
 
-    public void setId(Long id)
-    {
-        this.id = id;
-    }
+	public String getDailyCallsDetail() {
+		return dailyCallsDetail;
+	}
 
-    public String getName()
-    {
-        return name;
-    }
+	public void setDailyCallsDetail(String dailyCallsDetail) {
+		this.dailyCallsDetail = dailyCallsDetail;
+	}
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }
+	public Integer getCoverageFrom() {
+		return coverageFrom;
+	}
 
-    public Integer getDailyCalls()
-    {
-        return dailyCalls;
-    }
+	public void setCoverageFrom(Integer coverageFrom) {
+		this.coverageFrom = coverageFrom;
+	}
 
-    public void setDailyCalls(Integer dailyCalls)
-    {
-        this.dailyCalls = dailyCalls;
-    }
+	public Integer getCoverageTo() {
+		return coverageTo;
+	}
 
-    public String getDailyCallsDetail()
-    {
-        return dailyCallsDetail;
-    }
+	public void setCoverageTo(Integer coverageTo) {
+		this.coverageTo = coverageTo;
+	}
 
-    public void setDailyCallsDetail(String dailyCallsDetail)
-    {
-        this.dailyCallsDetail = dailyCallsDetail;
-    }
-
-    public String getDailyCallsDetailTemplate()
-    {
-        return dailyCallsDetailTemplate;
-    }
-
-    public void setDailyCallsDetailTemplate(String dailyCallsDetailTemplate)
-    {
-        this.dailyCallsDetailTemplate = dailyCallsDetailTemplate;
-    }
-
-    public Integer getCoverageFrom()
-    {
-        return coverageFrom;
-    }
-
-    public void setCoverageFrom(Integer coverageFrom)
-    {
-        this.coverageFrom = coverageFrom;
-    }
-
-    public Integer getCoverageTo()
-    {
-        return coverageTo;
-    }
-
-    public void setCoverageTo(Integer coverageTo)
-    {
-        this.coverageTo = coverageTo;
-    }
-
-    public Integer getSkillLevel()
-    {
-        return skillLevel;
-    }
-
-    public void setSkillLevel(Integer skillLevel)
-    {
-        this.skillLevel = skillLevel;
-    }
-
-    public Integer getUsagePriority()
-    {
-        return usagePriority;
-    }
-
-    public void setUsagePriority(Integer usagePriority)
-    {
-        this.usagePriority = usagePriority;
-    }
-
-    public Integer getHandledCallsOverrided()
-    {
-        return handledCallsOverrided;
-    }
-
-    public void setHandledCallsOverrided(Integer handledCallsOverrided)
-    {
-        this.handledCallsOverrided = handledCallsOverrided;
-    }
-
-    
-    
 }

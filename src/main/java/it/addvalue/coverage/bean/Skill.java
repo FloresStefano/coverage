@@ -2,16 +2,12 @@ package it.addvalue.coverage.bean;
 
 import java.io.Serializable;
 
-/**
- * Configurazione servizi per SirioHR
- */
-
 public class Skill implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	
+
 	private Integer skillLevel;
 
 	private Integer usagePriority;
@@ -59,7 +55,5 @@ public class Skill implements Serializable {
 	public void setService(Service service) {
 		this.service = service;
 	}
-	
-	
 
 }

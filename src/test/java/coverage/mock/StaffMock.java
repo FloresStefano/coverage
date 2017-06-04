@@ -8,40 +8,32 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-
 import it.addvalue.coverage.bean.Staff;
 import it.addvalue.coverage.bean.Workshift;
 import it.addvalue.coverage.core.XmlUtil;
 
-public class StaffMock
-{
+public class StaffMock {
 
+	private static final int STAFF_COUNT = 15;
 
-    private static final int STAFF_COUNT     = 40;
-    
-    
-    public static List<Staff> mock()
-    {
-        List<Staff> list = new ArrayList<Staff>();
-        for ( long i = 0; i < STAFF_COUNT; i++ )
-        {
-            Staff e = new Staff();
-            e.setId(i);
-            e.setName("staff_"+i);
-            e.setContractName(WorkshiftMock.CONTRACTNAME);
-            e.setIdTeam(0L);
-            e.setSkillList(ServiceMock.skillMock());
-            List<Workshift> workshift = WorkshiftMock.mock();
+	public static List<Staff> mock() {
+		List<Staff> list = new ArrayList<Staff>();
+		for (long i = 0; i < STAFF_COUNT; i++) {
+			Staff e = new Staff();
+			e.setId(i);
+			e.setName("staff_" + i);
+			e.setContractName(WorkshiftMock.CONTRACTNAME);
+			e.setIdTeam(0L);
+			e.setSkillList(ServiceMock.skillMock());
+			List<Workshift> workshift = WorkshiftMock.mock();
 			e.setWorkshiftList(workshift);
-            list.add(e);
-        }
-        return list;
-    }
-    
-    @Test
-    public void testmock() throws IOException
-    {
+			list.add(e);
+		}
+		return list;
+	}
+
+	@Test
+	public void testmock() throws IOException {
 		assertNotNull(XmlUtil.prettyPrint(mock()));
-    }
+	}
 }

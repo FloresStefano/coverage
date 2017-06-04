@@ -2,20 +2,19 @@ package it.addvalue.coverage.bean;
 
 import java.io.Serializable;
 
-public class PlanCalendarDetail implements Serializable
-{
+public class PlanCalendarDetail implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private Long              id;
+	private Long id;
 
-    private Service service;
+	private Service service;
 
-    private String            markerName;
+	private String markerName;
 
-    private Integer           dailyCallsMarked;
+	private Integer dailyCallsMarked;
 
-    private String            dailyCallsDetailMarked;
+	private String dailyCallsDetailMarked;
 
 	public Long getId() {
 		return id;
@@ -56,7 +55,5 @@ public class PlanCalendarDetail implements Serializable
 	public void setDailyCallsDetailMarked(String dailyCallsDetailMarked) {
 		this.dailyCallsDetailMarked = dailyCallsDetailMarked;
 	}
-
-    
 
 }

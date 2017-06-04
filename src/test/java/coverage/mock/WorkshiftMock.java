@@ -17,7 +17,7 @@ import it.addvalue.coverage.core.XmlUtil;
 public class WorkshiftMock {
 
 	public static final String CONTRACTNAME = "FullTime";
-	private static final int WORKSHIFT_COUNT = 4;
+	public static final int WORKSHIFT_COUNT = 4;
 
 	public static List<Workshift> mock() {
 
