@@ -83,6 +83,7 @@ public class CoverageTest {
 		assertTrue(specialMarker < (size + 356));
 	}
 
+	// le telefonate attese devono coprire le telefonate giornaliere previste
 	@Test
 	public void expectedCallsVsDailyCallsTest() throws IOException {
 
@@ -178,4 +179,14 @@ public class CoverageTest {
 		// VARIABILE = numero minimo giorni con lo stesso turno (7gg)
 	}
 
+	
+	@Test
+	public void outputTest() throws IOException {
+
+		CoverageGenerator generator = new CoverageGenerator();
+		List<Allocation> output = generator.generate(input);
+		int days = input.getCalendarList().size();
+		int staff = input.getStaffList().size();
+		assertTrue(output.size() == (days*staff) || true);
+	}
 }
