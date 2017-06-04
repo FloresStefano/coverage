@@ -4,109 +4,98 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Configurazione del personale per SirioHR
  */
 
-public class Staff implements Serializable
-{
 
-    private static final long serialVersionUID = 1L;
+public class Staff implements Serializable {
 
-    private Long              id;
+	private static final long serialVersionUID = 1L;
 
-    private String            name;
+	private Long id;
 
-    private Long              idTeam;
+	private String name;
 
-    private String            contractName;
+	private Long idTeam;
 
-    private Date              validFrom;
+	private String contractName;
 
-    private Date              validTo;
+	private Date validFrom;
 
-    private List<Service>     serviceList;
+	private Date validTo;
 
-    private List<Workshift>   workshiftList;
+	private List<Skill> skillList;
 
-    public Long getId()
-    {
-        return id;
-    }
+	private List<Workshift> workshiftList;
 
-    public void setId(Long id)
-    {
-        this.id = id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getName()
-    {
-        return name;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public Long getIdTeam()
-    {
-        return idTeam;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setIdTeam(Long idTeam)
-    {
-        this.idTeam = idTeam;
-    }
+	public Long getIdTeam() {
+		return idTeam;
+	}
 
-    public String getContractName()
-    {
-        return contractName;
-    }
+	public void setIdTeam(Long idTeam) {
+		this.idTeam = idTeam;
+	}
 
-    public void setContractName(String contractName)
-    {
-        this.contractName = contractName;
-    }
+	public String getContractName() {
+		return contractName;
+	}
 
-    public Date getValidFrom()
-    {
-        return validFrom;
-    }
+	public void setContractName(String contractName) {
+		this.contractName = contractName;
+	}
 
-    public void setValidFrom(Date validFrom)
-    {
-        this.validFrom = validFrom;
-    }
+	public Date getValidFrom() {
+		return validFrom;
+	}
 
-    public Date getValidTo()
-    {
-        return validTo;
-    }
+	public void setValidFrom(Date validFrom) {
+		this.validFrom = validFrom;
+	}
 
-    public void setValidTo(Date validTo)
-    {
-        this.validTo = validTo;
-    }
+	public Date getValidTo() {
+		return validTo;
+	}
 
-    public List<Service> getServiceList()
-    {
-        return serviceList;
-    }
+	public void setValidTo(Date validTo) {
+		this.validTo = validTo;
+	}
 
-    public void setServiceList(List<Service> serviceList)
-    {
-        this.serviceList = serviceList;
-    }
+	public List<Skill> getSkillList() {
+		return skillList;
+	}
 
-    public List<Workshift> getWorkshiftList()
-    {
-        return workshiftList;
-    }
+	public void setSkillList(List<Skill> skillList) {
+		this.skillList = skillList;
+	}
 
-    public void setWorkshiftList(List<Workshift> workshiftList)
-    {
-        this.workshiftList = workshiftList;
-    }
+	public List<Workshift> getWorkshiftList() {
+		return workshiftList;
+	}
 
+	public void setWorkshiftList(List<Workshift> workshiftList) {
+		this.workshiftList = workshiftList;
+	}
+
+	
+	
 }

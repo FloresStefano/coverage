@@ -31,7 +31,7 @@ public class StaffMock
             e.setName("staff_"+i);
             e.setContractName(WorkshiftMock.CONTRACTNAME);
             e.setIdTeam(0L);
-            e.setServiceList(ServiceMock.mock());
+            e.setSkillList(ServiceMock.skillMock());
             List<Workshift> workshift = WorkshiftMock.mock();
 			e.setWorkshiftList(workshift);
             list.add(e);

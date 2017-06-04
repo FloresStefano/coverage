@@ -14,6 +14,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import it.addvalue.coverage.bean.Service;
+import it.addvalue.coverage.bean.Skill;
 
 public class ServiceMock
 {
@@ -22,29 +23,31 @@ public class ServiceMock
     static
     {
         serviceMap = new HashMap<Integer, Service>();
-        serviceMap.put(0, mockOne(0L));
-        serviceMap.put(1, mockOne(1L));
-        serviceMap.put(2, mockOne(2L));
-        serviceMap.put(3, mockOne(3L));
-        serviceMap.put(4, mockOne(4L));
-        serviceMap.put(5, mockOne(5L));
+        serviceMap.put(0, mockService(0L));
+        serviceMap.put(1, mockService(1L));
+        serviceMap.put(2, mockService(2L));
+        serviceMap.put(3, mockService(3L));
+        serviceMap.put(4, mockService(4L));
+        serviceMap.put(5, mockService(5L));
     }
 
 
-    public static List<Service> mock()
+    public static List<Skill> skillMock()
     {
-        List<Service> list = new ArrayList<Service>();
+        List<Skill> list = new ArrayList<Skill>();
         for ( long i = 0; i < random(1,3); i++ )
         {
             Random generator = new Random();
             Object[] values = serviceMap.values().toArray();
-            Service randomValue = (Service) values[generator.nextInt(values.length)];
-            list.add(randomValue);
+            Service randomService = (Service) values[generator.nextInt(values.length)];
+            Skill skill= new Skill();
+            skill.setService(randomService);
+            list.add(skill);
         }
         return list;
     }
 
-    private static Service mockOne(long l)
+    private static Service mockService(long l)
     {
         Service e = new Service();
         e.setId(l);
@@ -77,7 +80,7 @@ public class ServiceMock
     public void testmock() throws IOException
     {
         XmlMapper xmlMapper = new XmlMapper();
-        String writeValueAsString = xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(mock());
+        String writeValueAsString = xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(skillMock());
 		System.out.println(writeValueAsString);
 		assertNotNull(writeValueAsString);
     }

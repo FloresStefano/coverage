@@ -27,7 +27,7 @@ public class PlanCalendar implements Serializable
 
     private String            expectedCallsDetail;
     
-    private List <PlanCalendarMarker>            markerList;
+    private List <PlanCalendarDetail>            markerList;
 
 
     public Long getId()
@@ -101,12 +101,12 @@ public class PlanCalendar implements Serializable
         this.name = name;
     }
 
-    public List<PlanCalendarMarker> getMarkerList()
+    public List<PlanCalendarDetail> getMarkerList()
     {
         return markerList;
     }
 
-    public void setMarkerList(List<PlanCalendarMarker> markerList)
+    public void setMarkerList(List<PlanCalendarDetail> markerList)
     {
         this.markerList = markerList;
     }
