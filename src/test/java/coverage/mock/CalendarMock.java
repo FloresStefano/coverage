@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 
 import org.junit.Test;
 
@@ -38,44 +36,53 @@ public class CalendarMock {
 			e.setDay(c.getTime());
 			e.setWeekOfYear(c.get(Calendar.WEEK_OF_YEAR));
 			e.setDayOfWeek(c.get(Calendar.DAY_OF_WEEK));
+			e.setDetailList(new ArrayList<PlanCalendarDetail>());
 
-			e.setExpectedCallsDetail("100,200,200,200,200,100");
-			int sum = 0;
-			List<PlanCalendarDetail> details = mockPlanCalendarDetail(i);
-			for (PlanCalendarDetail detail : details)
-				sum += detail.getDailyCallsMarked();
+			int totalExpectedCalls = 0;
+			String totalExpectedCallsDetail = "0,0,0,0,0,0";
 
-			e.setExpectedCalls(sum);
-			e.setMarkerList(details);
+			for (String key : ServiceMock.serviceMap.keySet()) {
+				Service service = ServiceMock.serviceMap.get(key);
+
+				// PlanCalendarDetail
+				PlanCalendarDetail det = new PlanCalendarDetail();
+				det.setId(i);
+				det.setIdService(service.getId());
+				det.setMarkerMultiplier("x1");
+
+				// PlanCalendar
+				e.getDetailList().add(det);
+				totalExpectedCalls += service.getDailyCalls();
+				totalExpectedCallsDetail = csvadd(totalExpectedCallsDetail,
+						service.getDailyCallsDetail());
+			}
+
+			e.setTotalExpectedCalls(totalExpectedCalls);
+			e.setTotalExpectedCallsDetail(totalExpectedCallsDetail);
 			list.add(e);
 		}
 		return list;
 	}
 
-	private static List<PlanCalendarDetail> mockPlanCalendarDetail(long i) {
-
-		ArrayList<PlanCalendarDetail> detailList = new ArrayList<PlanCalendarDetail>();
-
-		Set<Map.Entry<Integer, Service>> entrySet = ServiceMock.serviceMap
-				.entrySet();
-		for (Map.Entry<Integer, Service> entry : entrySet) {
-			Service service = entry.getValue();
-
-			PlanCalendarDetail d = new PlanCalendarDetail();
-			d.setDailyCallsMarked(service.getDailyCalls());
-			d.setDailyCallsDetailMarked(service.getDailyCallsDetail());
-			d.setMarkerName("standard");
-			d.setId(i);
-			d.setService(service);
-			if (i > 350 && i < 360) {
-				d.setDailyCallsMarked(service.getDailyCalls() * 2);
-				d.setDailyCallsDetailMarked(service.getDailyCallsDetail());
-				d.setMarkerName("special");
-			}
-			detailList.add(d);
+	public static String csvadd(String csv1, String csv2) {
+		String[] a=csv1.split(",");
+		String[] b=csv2.split(",");
+		String out="";
+		for (int i = 0; i < 5; i++) {
+			out+=Integer.parseInt(a[i])+Integer.parseInt(b[i])+",";
+			
 		}
-
-		return detailList;
+		return out.substring(0, out.length()-1);
+	}
+	
+	public static int csvsum(String csv) {
+		String[] a=csv.split(",");
+		int out=0;
+		for (int i = 0; i < 5; i++) {
+			out+=Integer.parseInt(a[i]);
+			
+		}
+		return out;
 	}
 
 	@Test

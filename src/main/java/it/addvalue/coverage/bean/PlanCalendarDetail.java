@@ -8,13 +8,9 @@ public class PlanCalendarDetail implements Serializable {
 
 	private Long id;
 
-	private Service service;
+	private Long idService;
 
-	private String markerName;
-
-	private Integer dailyCallsMarked;
-
-	private String dailyCallsDetailMarked;
+	private String markerMultiplier;
 
 	public Long getId() {
 		return id;
@@ -24,36 +20,24 @@ public class PlanCalendarDetail implements Serializable {
 		this.id = id;
 	}
 
-	public Service getService() {
-		return service;
+
+	public Long getIdService() {
+		return idService;
 	}
 
-	public void setService(Service service) {
-		this.service = service;
+	public void setIdService(Long idService) {
+		this.idService = idService;
 	}
 
-	public String getMarkerName() {
-		return markerName;
+	public String getMarkerMultiplier() {
+		return markerMultiplier;
 	}
 
-	public void setMarkerName(String markerName) {
-		this.markerName = markerName;
+	public void setMarkerMultiplier(String markerMultiplier) {
+		this.markerMultiplier = markerMultiplier;
 	}
 
-	public Integer getDailyCallsMarked() {
-		return dailyCallsMarked;
-	}
+	
 
-	public void setDailyCallsMarked(Integer dailyCallsMarked) {
-		this.dailyCallsMarked = dailyCallsMarked;
-	}
-
-	public String getDailyCallsDetailMarked() {
-		return dailyCallsDetailMarked;
-	}
-
-	public void setDailyCallsDetailMarked(String dailyCallsDetailMarked) {
-		this.dailyCallsDetailMarked = dailyCallsDetailMarked;
-	}
-
+	
 }

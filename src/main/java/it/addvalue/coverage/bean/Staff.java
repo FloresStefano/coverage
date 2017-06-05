@@ -22,7 +22,7 @@ public class Staff implements Serializable {
 
 	private List<Skill> skillList;
 
-	private List<Workshift> workshiftList;
+	private List<Long> idsWorkshift;
 
 	public Long getId() {
 		return id;
@@ -80,12 +80,14 @@ public class Staff implements Serializable {
 		this.skillList = skillList;
 	}
 
-	public List<Workshift> getWorkshiftList() {
-		return workshiftList;
+	public List<Long> getIdsWorkshift() {
+		return idsWorkshift;
 	}
 
-	public void setWorkshiftList(List<Workshift> workshiftList) {
-		this.workshiftList = workshiftList;
+	public void setIdsWorkshift(List<Long> idsWorkshift) {
+		this.idsWorkshift = idsWorkshift;
 	}
+
+
 
 }

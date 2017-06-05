@@ -14,7 +14,7 @@ public class Skill implements Serializable {
 
 	private Integer handledCallsOverrided;
 
-	private Service service;
+	private Long idService;
 
 	public Long getId() {
 		return id;
@@ -48,12 +48,14 @@ public class Skill implements Serializable {
 		this.handledCallsOverrided = handledCallsOverrided;
 	}
 
-	public Service getService() {
-		return service;
+	public Long getIdService() {
+		return idService;
 	}
 
-	public void setService(Service service) {
-		this.service = service;
+	public void setIdService(Long idService) {
+		this.idService = idService;
 	}
+
+
 
 }

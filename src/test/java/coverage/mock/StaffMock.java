@@ -9,7 +9,6 @@ import java.util.List;
 import org.junit.Test;
 
 import it.addvalue.coverage.bean.Staff;
-import it.addvalue.coverage.bean.Workshift;
 import it.addvalue.coverage.core.XmlUtil;
 
 public class StaffMock {
@@ -25,8 +24,7 @@ public class StaffMock {
 			e.setContractName(WorkshiftMock.CONTRACTNAME);
 			e.setIdTeam(0L);
 			e.setSkillList(ServiceMock.skillMock());
-			List<Workshift> workshift = WorkshiftMock.mock();
-			e.setWorkshiftList(workshift);
+			e.setIdsWorkshift(WorkshiftMock.mock());
 			list.add(e);
 		}
 		return list;

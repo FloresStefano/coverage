@@ -18,11 +18,11 @@ public class PlanCalendar implements Serializable {
 
 	private int dayOfWeek;
 
-	private Integer expectedCalls;
+	private Integer totalExpectedCalls;
 
-	private String expectedCallsDetail;
+	private String totalExpectedCallsDetail;
 
-	private List<PlanCalendarDetail> markerList;
+	private List<PlanCalendarDetail> detailList;
 
 	public Long getId() {
 		return id;
@@ -56,22 +56,6 @@ public class PlanCalendar implements Serializable {
 		this.dayOfWeek = dayOfWeek;
 	}
 
-	public Integer getExpectedCalls() {
-		return expectedCalls;
-	}
-
-	public void setExpectedCalls(Integer expectedCalls) {
-		this.expectedCalls = expectedCalls;
-	}
-
-	public String getExpectedCallsDetail() {
-		return expectedCallsDetail;
-	}
-
-	public void setExpectedCallsDetail(String expectedCallsDetail) {
-		this.expectedCallsDetail = expectedCallsDetail;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -80,12 +64,28 @@ public class PlanCalendar implements Serializable {
 		this.name = name;
 	}
 
-	public List<PlanCalendarDetail> getMarkerList() {
-		return markerList;
+	public Integer getTotalExpectedCalls() {
+		return totalExpectedCalls;
 	}
 
-	public void setMarkerList(List<PlanCalendarDetail> markerList) {
-		this.markerList = markerList;
+	public void setTotalExpectedCalls(Integer totalExpectedCalls) {
+		this.totalExpectedCalls = totalExpectedCalls;
+	}
+
+	public String getTotalExpectedCallsDetail() {
+		return totalExpectedCallsDetail;
+	}
+
+	public void setTotalExpectedCallsDetail(String totalExpectedCallsDetail) {
+		this.totalExpectedCallsDetail = totalExpectedCallsDetail;
+	}
+
+	public List<PlanCalendarDetail> getDetailList() {
+		return detailList;
+	}
+
+	public void setDetailList(List<PlanCalendarDetail> detailList) {
+		this.detailList = detailList;
 	}
 
 }

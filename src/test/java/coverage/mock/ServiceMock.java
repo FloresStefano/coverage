@@ -18,15 +18,16 @@ import it.addvalue.coverage.bean.Skill;
 
 public class ServiceMock {
 
-	public static Map<Integer, Service> serviceMap;
+	public static Map<String, Service> serviceMap;
+	
 	static {
-		serviceMap = new HashMap<Integer, Service>();
-		serviceMap.put(0, mockService(0L));
-		serviceMap.put(1, mockService(1L));
-		serviceMap.put(2, mockService(2L));
-		serviceMap.put(3, mockService(3L));
-		serviceMap.put(4, mockService(4L));
-		serviceMap.put(5, mockService(5L));
+		serviceMap = new HashMap<String, Service>();
+		serviceMap.put("Service0", mockService(0L));
+		serviceMap.put("Service1", mockService(1L));
+		serviceMap.put("Service2", mockService(2L));
+		serviceMap.put("Service3", mockService(3L));
+		serviceMap.put("Service4", mockService(4L));
+		serviceMap.put("Service5", mockService(5L));
 	}
 
 	public static List<Skill> skillMock() {
@@ -41,7 +42,7 @@ public class ServiceMock {
 			skill.setHandledCallsOverrided(random(40, 50));
 			skill.setSkillLevel(random(4, 10));
 			skill.setUsagePriority(10);
-			skill.setService(randomService);
+			skill.setIdService(randomService.getId());
 			list.add(skill);
 		}
 		return list;

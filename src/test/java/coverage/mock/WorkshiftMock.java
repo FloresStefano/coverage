@@ -16,44 +16,61 @@ import it.addvalue.coverage.core.XmlUtil;
 
 public class WorkshiftMock {
 
+	
 	public static final String CONTRACTNAME = "FullTime";
-	public static final int WORKSHIFT_COUNT = 4;
+	public static Map<String, Workshift> workshiftMap;
+	
+	static {
+		workshiftMap = new HashMap<String, Workshift>();
+		workshiftMap.put("Workshift0", mockWorkshift(0L));
+		workshiftMap.put("Workshift1", mockWorkshift(1L));
+		workshiftMap.put("Workshift2", mockWorkshift(2L));
+		workshiftMap.put("Workshift3", mockWorkshift(3L));
+	}
+	
+	
 
-	public static List<Workshift> mock() {
 
-		Random random = new Random();
-		int randomNumber = random.nextInt(WORKSHIFT_COUNT) + 1;
-
-		List<Workshift> list = new ArrayList<Workshift>();
-		for (long i = 0; i < randomNumber; i++) {
-			Workshift e = mockOne(i);
-			list.add(e);
+	public static List<Long> mock() {
+		List<Long> idsWorkshift = new ArrayList<Long>();
+		for (long i = 0; i < random(1, 3); i++) {
+			Random generator = new Random();
+			Object[] values = workshiftMap.values().toArray();
+			Workshift randomWorkshift = (Workshift) values[generator
+					.nextInt(values.length)];
+			
+			idsWorkshift.add(randomWorkshift.getId());
 		}
-		return list;
+		
+
+		return idsWorkshift;
 	}
 
-	private static Workshift mockOne(long i) {
+	private static Workshift mockWorkshift(long i) {
 
 		Workshift e = new Workshift();
 		e.setId(i);
-		e.setName("workshift_" + i);
+		e.setName("Workshift" + i);
 		e.setContractName(CONTRACTNAME);
 		switch ((int) i) {
 			case 0 :
-				e.setDailySchedule(mockOne(200, 800));
+				e.setDailySchedule(mockWorkshift(200, 800));
 				break;
 			case 1 :
-				e.setDailySchedule(mockOne(300, 900));
+				e.setDailySchedule(mockWorkshift(300, 900));
 				break;
 			case 2 :
-				e.setDailySchedule(mockOne(400, 1000));
+				e.setDailySchedule(mockWorkshift(400, 1000));
+				break;
+			default:	
+				e.setDailySchedule(mockWorkshift(400, 1000));
 				break;
 		}
 
 		return e;
 	}
 
-	private static Map<String, String> mockOne(int min, int max) {
+	private static Map<String, String> mockWorkshift(int min, int max) {
 
 		if ((min + 150) >= max) {
 			throw new IllegalArgumentException("max must be greater than min");
@@ -73,6 +90,16 @@ public class WorkshiftMock {
 		return dailyMap;
 	}
 
+	private static int random(int min, int max) {
+
+		if (min >= max) {
+			throw new IllegalArgumentException("max must be greater than min");
+		}
+
+		Random r = new Random();
+		return r.nextInt((max - min) + 1) + min;
+	}
+	
 	@Test
 	public void testmock() throws IOException {
 		assertNotNull(XmlUtil.prettyPrint(mock()));
