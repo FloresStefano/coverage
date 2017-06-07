@@ -1,51 +1,57 @@
 package it.addvalue.coverage.core.engine;
 
+import lombok.EqualsAndHashCode;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
 
-public class Solution<K extends PlanKey, V extends PlanValue> {
+@EqualsAndHashCode(of = "assignments")
+public class Solution {
 
-	private final Stack<Assignment> stack       = new Stack<Assignment>();
-	private final Map<K, V>         assignments = new HashMap<K, V>();
-	private final Set<K> keys;
-	private final Set<V> values;
+	public static final Solution INFEASIBLE = new Solution();
 
-	public Solution(Set<K> keys, Set<V> values) {
-		this.keys = keys;
-		this.values = values;
+	private final Map<Variable, Value> assignments = new HashMap<Variable, Value>();
+
+	public static Solution empty() {
+		return new Solution();
 	}
 
-	public void set(K key, V value) {
-		stack.push(new Assignment(key, value));
-		assignments.put(key, value);
+	public static Solution fromMap(Map<Variable, Value> assignments) {
+		Solution solution = new Solution();
+		solution.assignments.putAll(assignments);
+		return solution;
 	}
 
-	public void backtrack() {
-		Assignment assignment = stack.pop();
-		assignments.remove(assignment.key);
+	public boolean assigns(Variable variable) {
+		return assignments.containsKey(variable);
 	}
 
-	public boolean isComplete() {
-		return assignments.keySet().equals(keys);
-	}
-
-	public Map<K, V> toMap() {
+	public Map<Variable, Value> assignments() {
 		return Collections.unmodifiableMap(assignments);
 	}
 
-	private class Assignment {
+	public Value evaluate(Variable variable) {
+		return assignments.get(variable);
+	}
 
-		public final K key;
-		public final V value;
+	public boolean isCompleteFor(Csp csp) {
+		return assignments.keySet().containsAll(csp.getVariables());
+	}
 
-		private Assignment(K key, V value) {
-			this.key = key;
-			this.value = value;
-		}
+	public boolean isCompleteFor(Constraint constraint) {
+		return assignments.keySet().containsAll(constraint.variables());
+	}
 
+	public Solution addAssignment(Variable variable, Value value) {
+		Solution result = new Solution();
+		result.assignments.putAll(this.assignments);
+		result.assignments.put(variable, value);
+		return result;
+	}
+
+	public String toString() {
+		return this == INFEASIBLE ? "INFEASIBLE" : assignments.toString();
 	}
 
 }
