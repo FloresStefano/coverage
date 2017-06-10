@@ -8,11 +8,14 @@ import java.util.Map;
 import java.util.Set;
 
 @Data
-public class Csp {
+public class Csp implements Cloneable {
 
-	private Set<Variable>         variables;
 	private Map<Variable, Domain> domains;
 	private Set<Constraint>       constraints;
+
+	public Set<Variable> variables() {
+		return domains.keySet();
+	}
 
 	public boolean verifyConsistency(Solution solution) {
 		for (Constraint constraint : constraints) {
@@ -24,20 +27,19 @@ public class Csp {
 	}
 
 	public Csp restrictDomain(Variable variable, Value value) {
-		Csp copy = new Csp();
-		copy.variables = variables;
-		copy.domains = new HashMap<Variable, Domain>(this.domains);
+		Csp copy = clone();
 		copy.domains.put(variable, Domain.singletonSet(value));
-		copy.constraints = constraints;
 		return copy;
 	}
 
 	public Csp clone() {
-		Csp copy = new Csp();
-		copy.variables = this.variables;
-		copy.domains = new HashMap<Variable, Domain>(this.domains);
-		copy.constraints = this.constraints;
-		return copy;
+		try {
+			Csp copy = (Csp) super.clone();
+			copy.domains = new HashMap<Variable, Domain>(this.domains);
+			return copy;
+		} catch (CloneNotSupportedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public Iterable<Solution> solutionsFor(Constraint constraint) {

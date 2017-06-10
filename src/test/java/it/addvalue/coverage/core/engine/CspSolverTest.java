@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static it.addvalue.coverage.core.engine.Solution.INFEASIBLE;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -38,7 +39,6 @@ public class CspSolverTest {
 	@Test
 	public void testCsp() {
 		Csp csp = new Csp();
-		csp.setVariables(setOf(x, y, z));
 		csp.setDomains(domains);
 		csp.setConstraints(setOf(constraint1(), constraint2(), constraint3()));
 
@@ -50,10 +50,6 @@ public class CspSolverTest {
 		assertThat(x(solution), is(equalTo(3)));
 		assertThat(y(solution), is(equalTo(2)));
 		assertThat(z(solution), is(equalTo(4)));
-	}
-
-	private Set<Variable> setOf(Variable... variables) {
-		return new HashSet<Variable>(Arrays.asList(variables));
 	}
 
 	private Set<Constraint> setOf(Constraint... constraints) {
@@ -124,6 +120,42 @@ public class CspSolverTest {
 
 	private int z(Solution solution) {
 		return ((TestValue) solution.evaluate(z)).value;
+	}
+
+	private Set<Variable> setOf(Variable... variables) {
+		return new HashSet<Variable>(Arrays.asList(variables));
+	}
+
+	@Test
+	public void testInfeasibleCsp() {
+		Csp csp = new Csp();
+		csp.setDomains(domains);
+		csp.setConstraints(setOf(constraint1(), constraint2(), constraint3(), constraint4()));
+
+		System.out.println(csp);
+
+		Solution solution = new CspSolver().solve(csp);
+		System.out.println(solution);
+
+		assertThat(solution, is(INFEASIBLE));
+	}
+
+	private Constraint constraint4() {
+		return new Constraint() {
+
+			public Set<Variable> variables() {
+				return setOf(x);
+			}
+
+			public boolean verify(Solution solution) {
+				return x(solution) > 3;
+			}
+
+			public String toString() {
+				return "x > 3";
+			}
+
+		};
 	}
 
 	private static class TestVariable implements Variable {

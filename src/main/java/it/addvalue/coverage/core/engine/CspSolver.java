@@ -56,7 +56,7 @@ public class CspSolver {
 	}
 
 	private Variable selectUnassignedVariable(Csp csp, Solution solution) {
-		Set<Variable> variables = new HashSet<Variable>(csp.getVariables());
+		Set<Variable> variables = new HashSet<Variable>(csp.variables());
 		retainUnassignedVariables(variables, solution);
 
 		if (useMrv && variables.size() > 1) {
@@ -71,7 +71,6 @@ public class CspSolver {
 	}
 
 	private Iterable<Value> variableDomain(Csp csp, Variable variable, Solution solution) {
-		// TODO Least Constraining Value? (domain.iterate)
 		return csp.getDomains().get(variable);
 	}
 

@@ -36,7 +36,7 @@ public class Solution {
 	}
 
 	public boolean isCompleteFor(Csp csp) {
-		return assignments.keySet().containsAll(csp.getVariables());
+		return assignments.keySet().containsAll(csp.variables());
 	}
 
 	public boolean isCompleteFor(Constraint constraint) {
