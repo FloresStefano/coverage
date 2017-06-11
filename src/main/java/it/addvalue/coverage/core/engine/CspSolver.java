@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import static it.addvalue.coverage.utils.SetUtils.oneOf;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
@@ -102,10 +103,6 @@ public class CspSolver {
 				it.remove();
 			}
 		}
-	}
-
-	private <T> T oneOf(Set<T> set) {
-		return set.iterator().next();
 	}
 
 	private int minimumCardinality(Set<Variable> unassignedVariables, Map<Variable, Domain> domains) {

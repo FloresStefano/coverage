@@ -2,14 +2,11 @@ package it.addvalue.coverage.core.engine;
 
 import lombok.EqualsAndHashCode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
+
+import static it.addvalue.coverage.utils.SetUtils.setOf;
 
 @EqualsAndHashCode(of = "values")
 public class Domain implements Iterable<Value> {
@@ -25,11 +22,7 @@ public class Domain implements Iterable<Value> {
 	}
 
 	public static Domain containing(Value... values) {
-		return new Domain(new HashSet<Value>(Arrays.asList(values)));
-	}
-
-	public static Domain singletonSet(Value value) {
-		return new Domain(Collections.singleton(value));
+		return new Domain(setOf(values));
 	}
 
 	public static Domain empty() {
@@ -42,12 +35,6 @@ public class Domain implements Iterable<Value> {
 
 	public Iterator<Value> iterator() {
 		return values.iterator();
-	}
-
-	public Iterable<Value> sortedBy(Comparator<Value> heuristic) {
-		List<Value> list = new ArrayList<Value>(values);
-		Collections.sort(list, heuristic);
-		return list;
 	}
 
 	public int size() {

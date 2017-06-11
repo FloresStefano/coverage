@@ -28,7 +28,7 @@ public class Csp implements Cloneable {
 
 	public Csp restrictDomain(Variable variable, Value value) {
 		Csp copy = clone();
-		copy.domains.put(variable, Domain.singletonSet(value));
+		copy.domains.put(variable, Domain.containing(value));
 		return copy;
 	}
 
@@ -40,6 +40,19 @@ public class Csp implements Cloneable {
 		} catch (CloneNotSupportedException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("domains:\n");
+		for (Map.Entry<Variable, Domain> entry : domains.entrySet()) {
+			sb.append("\t").append(entry.getKey()).append(" in ").append(entry.getValue()).append("\n");
+		}
+		sb.append("constraints:\n");
+		for (Constraint constraint : constraints) {
+			sb.append("\t").append(constraint).append("\n");
+		}
+		return sb.toString();
 	}
 
 	public Iterable<Solution> solutionsFor(Constraint constraint) {
@@ -62,19 +75,6 @@ public class Csp implements Cloneable {
 			}
 		}
 		return result;
-	}
-
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("domains:\n");
-		for (Map.Entry<Variable, Domain> entry : domains.entrySet()) {
-			sb.append("\t").append(entry.getKey()).append(" in ").append(entry.getValue()).append("\n");
-		}
-		sb.append("constraints:\n");
-		for (Constraint constraint : constraints) {
-			sb.append("\t").append(constraint).append("\n");
-		}
-		return sb.toString();
 	}
 
 }

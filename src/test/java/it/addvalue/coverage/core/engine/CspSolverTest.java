@@ -3,13 +3,13 @@ package it.addvalue.coverage.core.engine;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static it.addvalue.coverage.core.engine.CspSolverTestUtils.solve;
 import static it.addvalue.coverage.core.engine.Solution.INFEASIBLE;
+import static it.addvalue.coverage.utils.SetUtils.setOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -38,22 +38,11 @@ public class CspSolverTest {
 		csp.setDomains(domains);
 		csp.setConstraints(setOf(constraint1(), constraint2(), constraint3()));
 
-		System.out.println("Problem definition:");
-		System.out.println(csp);
-
-		System.out.println("Solving problem...\n");
-		Solution solution = new CspSolver().solve(csp);
-
-		System.out.println("Solution:");
-		System.out.println(solution);
+		Solution solution = solve(csp);
 
 		assertThat(x(solution), is(equalTo(3)));
 		assertThat(y(solution), is(equalTo(2)));
 		assertThat(z(solution), is(equalTo(4)));
-	}
-
-	private Set<Constraint> setOf(Constraint... constraints) {
-		return new HashSet<Constraint>(Arrays.asList(constraints));
 	}
 
 	private Constraint constraint1() {
@@ -63,12 +52,12 @@ public class CspSolverTest {
 				return setOf(x, y, z);
 			}
 
-			public boolean verify(Solution solution) {
-				return x(solution) + y(solution) > z(solution);
-			}
-
 			public String toString() {
 				return "x + y > z";
+			}
+
+			public boolean verify(Solution solution) {
+				return x(solution) + y(solution) > z(solution);
 			}
 
 		};
@@ -122,24 +111,13 @@ public class CspSolverTest {
 		return ((TestValue) solution.evaluate(z)).value;
 	}
 
-	private Set<Variable> setOf(Variable... variables) {
-		return new HashSet<Variable>(Arrays.asList(variables));
-	}
-
 	@Test
 	public void testInfeasibleCsp() {
 		Csp csp = new Csp();
 		csp.setDomains(domains);
 		csp.setConstraints(setOf(constraint1(), constraint2(), constraint3(), constraint4()));
 
-		System.out.println("Problem definition:");
-		System.out.println(csp);
-
-		System.out.println("Solving problem...\n");
-		Solution solution = new CspSolver().solve(csp);
-
-		System.out.println("Solution:");
-		System.out.println(solution);
+		Solution solution = solve(csp);
 
 		assertThat(solution, is(INFEASIBLE));
 	}
