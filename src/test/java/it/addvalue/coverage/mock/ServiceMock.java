@@ -1,8 +1,6 @@
-package it.addvalue.coverage.mock;
+package coverage.mock;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import it.addvalue.coverage.bean.Service;
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,40 +9,55 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
+
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+
+import it.addvalue.coverage.bean.Service;
+import it.addvalue.coverage.bean.Skill;
 
 public class ServiceMock {
 
-	public static Map<Integer, Service> serviceMap;
-
+	public static Map<String, Service> serviceMap;
+	
 	static {
-		serviceMap = new HashMap<Integer, Service>();
-		serviceMap.put(0, mockOne(0L));
-		serviceMap.put(1, mockOne(1L));
-		serviceMap.put(2, mockOne(2L));
-		serviceMap.put(3, mockOne(3L));
-		serviceMap.put(4, mockOne(4L));
-		serviceMap.put(5, mockOne(5L));
+		serviceMap = new HashMap<String, Service>();
+		serviceMap.put("Service0", mockService(0L));
+		serviceMap.put("Service1", mockService(1L));
+		serviceMap.put("Service2", mockService(2L));
+		serviceMap.put("Service3", mockService(3L));
+		serviceMap.put("Service4", mockService(4L));
+		serviceMap.put("Service5", mockService(5L));
 	}
 
-	@Test
-	public void testmock()
-	throws IOException {
-		XmlMapper xmlMapper = new XmlMapper();
-		String writeValueAsString = xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(mock());
-		System.out.println(writeValueAsString);
-		assertNotNull(writeValueAsString);
-	}
+	public static List<Skill> skillMock() {
 
-	public static List<Service> mock() {
-		List<Service> list = new ArrayList<Service>();
+		List<Skill> list = new ArrayList<Skill>();
 		for (long i = 0; i < random(1, 3); i++) {
 			Random generator = new Random();
 			Object[] values = serviceMap.values().toArray();
-			Service randomValue = (Service) values[generator.nextInt(values.length)];
-			list.add(randomValue);
+			Service randomService = (Service) values[generator
+					.nextInt(values.length)];
+			Skill skill = new Skill();
+			skill.setHandledCallsOverrided(random(40, 50));
+			skill.setSkillLevel(random(4, 10));
+			skill.setUsagePriority(10);
+			skill.setIdService(randomService.getId());
+			list.add(skill);
 		}
 		return list;
+	}
+
+	private static Service mockService(long l) {
+		Service e = new Service();
+		e.setId(l);
+		e.setName("service" + l);
+		e.setCoverageFrom(400);
+		e.setCoverageTo(900);
+		e.setDailyCalls(1000);
+		e.setDailyCallsDetail("200,400,400,400,400,200");
+
+		return e;
 	}
 
 	private static int random(int min, int max) {
@@ -57,18 +70,12 @@ public class ServiceMock {
 		return r.nextInt((max - min) + 1) + min;
 	}
 
-	private static Service mockOne(long l) {
-		Service e = new Service();
-		e.setId(l);
-		e.setName("service" + l);
-		e.setCoverageFrom(400);
-		e.setCoverageTo(900);
-		e.setDailyCalls(1000);
-		e.setDailyCallsDetail("200,400,400,400,400,200");
-		e.setDailyCallsDetailTemplate("base");
-		e.setHandledCallsOverrided(random(40, 50));
-		e.setSkillLevel(random(4, 10));
-		e.setUsagePriority(10);
-		return e;
+	@Test
+	public void testmock() throws IOException {
+		XmlMapper xmlMapper = new XmlMapper();
+		String writeValueAsString = xmlMapper.writerWithDefaultPrettyPrinter()
+				.writeValueAsString(skillMock());
+		System.out.println(writeValueAsString);
+		assertNotNull(writeValueAsString);
 	}
 }

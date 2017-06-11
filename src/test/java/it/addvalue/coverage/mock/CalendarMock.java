@@ -1,77 +1,94 @@
-package it.addvalue.coverage.mock;
+package coverage.mock;
 
-import it.addvalue.coverage.bean.PlanCalendar;
-import it.addvalue.coverage.bean.PlanCalendarMarker;
-import it.addvalue.coverage.bean.Service;
-import it.addvalue.coverage.utils.XmlUtil;
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
 
-import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
+
+import it.addvalue.coverage.bean.PlanCalendar;
+import it.addvalue.coverage.bean.PlanCalendarDetail;
+import it.addvalue.coverage.bean.Service;
+import it.addvalue.coverage.core.XmlUtil;
 
 public class CalendarMock {
 
 	private static final int CALENDAR_COUNT = 365;
 
-	@Test
-	public void testmock()
-	throws IOException {
-
-		assertNotNull(XmlUtil.prettyPrint(mock()));
-	}
-
 	public static List<PlanCalendar> mock() {
 		List<PlanCalendar> list = new ArrayList<PlanCalendar>();
 
-		for (long i = 1; i < CALENDAR_COUNT; i++) {
+		for (long i = 0; i < CALENDAR_COUNT; i++) {
+
 			Calendar c = Calendar.getInstance();
 			c.set(Calendar.DAY_OF_YEAR, (int) i); // 0-based
 			c.set(Calendar.YEAR, 2017);
+			String displayName = c.getDisplayName(Calendar.DAY_OF_WEEK,
+					Calendar.SHORT, Locale.ITALIAN);
+
 			PlanCalendar e = new PlanCalendar();
-			String displayName = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ITALIAN);
 			e.setId(i);
 			e.setName(displayName);
 			e.setDay(c.getTime());
 			e.setWeekOfYear(c.get(Calendar.WEEK_OF_YEAR));
 			e.setDayOfWeek(c.get(Calendar.DAY_OF_WEEK));
-			e.setExpectedCalls(1000);
-			e.setExpectedCallsDetail("100,200,200,200,200,100");
-			e.setMarkerList(mockMarker(i));
+			e.setDetailList(new ArrayList<PlanCalendarDetail>());
+
+			int totalExpectedCalls = 0;
+			String totalExpectedCallsDetail = "0,0,0,0,0,0";
+
+			for (String key : ServiceMock.serviceMap.keySet()) {
+				Service service = ServiceMock.serviceMap.get(key);
+
+				// PlanCalendarDetail
+				PlanCalendarDetail det = new PlanCalendarDetail();
+				det.setId(i);
+				det.setIdService(service.getId());
+				det.setMarkerMultiplier("x1");
+
+				// PlanCalendar
+				e.getDetailList().add(det);
+				totalExpectedCalls += service.getDailyCalls();
+				totalExpectedCallsDetail = csvadd(totalExpectedCallsDetail,
+						service.getDailyCallsDetail());
+			}
+
+			e.setTotalExpectedCalls(totalExpectedCalls);
+			e.setTotalExpectedCallsDetail(totalExpectedCallsDetail);
 			list.add(e);
 		}
 		return list;
 	}
 
-	private static ArrayList<PlanCalendarMarker> mockMarker(long i) {
-
-		ArrayList<PlanCalendarMarker> markerList = new ArrayList<PlanCalendarMarker>();
-		Iterator<Entry<Integer, Service>> it = ServiceMock.serviceMap.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry map = (Map.Entry) it.next();
-			Service service = (Service) map.getValue();
-
-			PlanCalendarMarker m = new PlanCalendarMarker();
-			m.setDailyCallsMarked(service.getDailyCalls());
-			m.setDailyCallsDetailMarked(service.getDailyCallsDetail());
-			m.setId(i);
-			m.setIdService(service.getId());
-			m.setValue("standard");
-			markerList.add(m);
+	public static String csvadd(String csv1, String csv2) {
+		String[] a=csv1.split(",");
+		String[] b=csv2.split(",");
+		String out="";
+		for (int i = 0; i < 5; i++) {
+			out+=Integer.parseInt(a[i])+Integer.parseInt(b[i])+",";
+			
 		}
-
-		if (i > 350 && i < 360) {
-
+		return out.substring(0, out.length()-1);
+	}
+	
+	public static int csvsum(String csv) {
+		String[] a=csv.split(",");
+		int out=0;
+		for (int i = 0; i < 5; i++) {
+			out+=Integer.parseInt(a[i]);
+			
 		}
+		return out;
+	}
 
-		return markerList;
+	@Test
+	public void testmock() throws IOException {
+
+		assertNotNull(XmlUtil.prettyPrint(mock()));
 	}
 
 }

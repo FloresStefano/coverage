@@ -1,25 +1,19 @@
-package it.addvalue.coverage.mock;
+package coverage.mock;
 
-import it.addvalue.coverage.bean.Staff;
-import it.addvalue.coverage.bean.Workshift;
-import it.addvalue.coverage.utils.XmlUtil;
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
+
+import it.addvalue.coverage.bean.Staff;
+import it.addvalue.coverage.core.XmlUtil;
 
 public class StaffMock {
 
-	private static final int STAFF_COUNT = 40;
-
-	@Test
-	public void testmock()
-	throws IOException {
-		assertNotNull(XmlUtil.prettyPrint(mock()));
-	}
+	private static final int STAFF_COUNT = 15;
 
 	public static List<Staff> mock() {
 		List<Staff> list = new ArrayList<Staff>();
@@ -29,11 +23,15 @@ public class StaffMock {
 			e.setName("staff_" + i);
 			e.setContractName(WorkshiftMock.CONTRACTNAME);
 			e.setIdTeam(0L);
-			e.setServiceList(ServiceMock.mock());
-			List<Workshift> workshift = WorkshiftMock.mock();
-			e.setWorkshiftList(workshift);
+			e.setSkillList(ServiceMock.skillMock());
+			e.setIdsWorkshift(WorkshiftMock.mock());
 			list.add(e);
 		}
 		return list;
+	}
+
+	@Test
+	public void testmock() throws IOException {
+		assertNotNull(XmlUtil.prettyPrint(mock()));
 	}
 }
