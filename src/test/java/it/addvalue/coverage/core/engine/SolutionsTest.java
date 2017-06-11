@@ -3,7 +3,6 @@ package it.addvalue.coverage.core.engine;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -19,10 +18,6 @@ public class SolutionsTest {
 	private Variable              y;
 	private Variable              z;
 	private Variable              w;
-	private Set<Value>            xValues;
-	private Set<Value>            yValues;
-	private Set<Value>            zValues;
-	private Set<Value>            wValues;
 	private Map<Variable, Domain> domains;
 
 	@Before
@@ -36,10 +31,10 @@ public class SolutionsTest {
 
 	@Test
 	public void testNonEmptySolution() {
-		domains.put(x, new Domain(xValues = setOf(new TestValue("x1"), new TestValue("x2"), new TestValue("x3"))));
-		domains.put(y, new Domain(yValues = setOf(new TestValue("y1"), new TestValue("y2"), new TestValue("y3"))));
-		domains.put(z, new Domain(zValues = setOf(new TestValue("z1"), new TestValue("z2"))));
-		domains.put(w, new Domain(wValues = setOf(new TestValue("w1"))));
+		domains.put(x, Domain.containing(new TestValue("x1"), new TestValue("x2"), new TestValue("x3")));
+		domains.put(y, Domain.containing(new TestValue("y1"), new TestValue("y2"), new TestValue("y3")));
+		domains.put(z, Domain.containing(new TestValue("z1"), new TestValue("z2")));
+		domains.put(w, Domain.containing(new TestValue("w1")));
 
 		Solutions solutions = new Solutions(domains);
 
@@ -52,16 +47,12 @@ public class SolutionsTest {
 		assertThat(actualSolutions, is(equalTo(expectedSolutions())));
 	}
 
-	private Set<Value> setOf(Value... values) {
-		return new HashSet<Value>(Arrays.asList(values));
-	}
-
 	private Set<Solution> expectedSolutions() {
 		Set<Solution> expectedSolutions = new HashSet<Solution>();
-		for (Value xValue : xValues) {
-			for (Value yValue : yValues) {
-				for (Value zValue : zValues) {
-					for (Value wValue : wValues) {
+		for (Value xValue : domains.get(x)) {
+			for (Value yValue : domains.get(y)) {
+				for (Value zValue : domains.get(z)) {
+					for (Value wValue : domains.get(w)) {
 						Map<Variable, Value> map = new HashMap<Variable, Value>();
 						map.put(x, xValue);
 						map.put(y, yValue);
@@ -77,10 +68,10 @@ public class SolutionsTest {
 
 	@Test
 	public void testEmptySolution() {
-		domains.put(x, new Domain(xValues = setOf(new TestValue("x1"), new TestValue("x2"), new TestValue("x3"))));
-		domains.put(y, new Domain(yValues = setOf(new TestValue("y1"), new TestValue("y2"), new TestValue("y3"))));
-		domains.put(z, new Domain(zValues = setOf(new TestValue("z1"), new TestValue("z2"))));
-		domains.put(w, new Domain(wValues = setOf()));
+		domains.put(x, Domain.containing(new TestValue("x1"), new TestValue("x2"), new TestValue("x3")));
+		domains.put(y, Domain.containing(new TestValue("y1"), new TestValue("y2"), new TestValue("y3")));
+		domains.put(z, Domain.containing(new TestValue("z1"), new TestValue("z2")));
+		domains.put(w, Domain.empty());
 
 		Solutions solutions = new Solutions(domains);
 

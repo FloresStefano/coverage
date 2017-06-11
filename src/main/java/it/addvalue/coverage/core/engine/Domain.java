@@ -3,6 +3,7 @@ package it.addvalue.coverage.core.engine;
 import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -23,8 +24,16 @@ public class Domain implements Iterable<Value> {
 		this.values = new HashSet<Value>(values);
 	}
 
+	public static Domain containing(Value... values) {
+		return new Domain(new HashSet<Value>(Arrays.asList(values)));
+	}
+
 	public static Domain singletonSet(Value value) {
 		return new Domain(Collections.singleton(value));
+	}
+
+	public static Domain empty() {
+		return new Domain();
 	}
 
 	public void add(Value value) {
@@ -56,5 +65,4 @@ public class Domain implements Iterable<Value> {
 	public String toString() {
 		return values.toString();
 	}
-
 }

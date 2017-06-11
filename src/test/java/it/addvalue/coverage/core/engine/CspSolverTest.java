@@ -27,24 +27,24 @@ public class CspSolverTest {
 		y = new TestVariable("Y");
 		z = new TestVariable("Z");
 		domains = new HashMap<Variable, Domain>();
-		domains.put(x, new Domain(setOf(new TestValue(1), new TestValue(2), new TestValue(3))));
-		domains.put(y, new Domain(setOf(new TestValue(2), new TestValue(3), new TestValue(4))));
-		domains.put(z, new Domain(setOf(new TestValue(3), new TestValue(4), new TestValue(5))));
-	}
-
-	private Set<Value> setOf(Value... values) {
-		return new HashSet<Value>(Arrays.asList(values));
+		domains.put(x, Domain.containing(new TestValue(1), new TestValue(2), new TestValue(3)));
+		domains.put(y, Domain.containing(new TestValue(2), new TestValue(3), new TestValue(4)));
+		domains.put(z, Domain.containing(new TestValue(3), new TestValue(4), new TestValue(5)));
 	}
 
 	@Test
-	public void testCsp() {
+	public void testFeasibleCsp() {
 		Csp csp = new Csp();
 		csp.setDomains(domains);
 		csp.setConstraints(setOf(constraint1(), constraint2(), constraint3()));
 
+		System.out.println("Problem definition:");
 		System.out.println(csp);
 
+		System.out.println("Solving problem...\n");
 		Solution solution = new CspSolver().solve(csp);
+
+		System.out.println("Solution:");
 		System.out.println(solution);
 
 		assertThat(x(solution), is(equalTo(3)));
@@ -132,9 +132,13 @@ public class CspSolverTest {
 		csp.setDomains(domains);
 		csp.setConstraints(setOf(constraint1(), constraint2(), constraint3(), constraint4()));
 
+		System.out.println("Problem definition:");
 		System.out.println(csp);
 
+		System.out.println("Solving problem...\n");
 		Solution solution = new CspSolver().solve(csp);
+
+		System.out.println("Solution:");
 		System.out.println(solution);
 
 		assertThat(solution, is(INFEASIBLE));
