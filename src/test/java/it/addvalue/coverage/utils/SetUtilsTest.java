@@ -16,24 +16,24 @@ public class SetUtilsTest {
 
 	@Test
 	public void testLimitCase() {
-		Set<UnorderedPair<Integer>> visitedPairs = emptySet();
+		Set<Pair<Integer>> visitedPairs = emptySet();
 
-		for (UnorderedPair<Integer> pair : unorderedPairsFrom(1, 2)) {
+		for (Pair<Integer> pair : unorderedPairsFrom(1, 2)) {
 			visitedPairs.add(pair);
 		}
 
 		assertThat(visitedPairs, is(equalTo(setOf(pair(1, 2)))));
 	}
 
-	private static UnorderedPair<Integer> pair(Integer item1, Integer item2) {
-		return new UnorderedPair<Integer>(item1, item2);
+	private static Pair<Integer> pair(Integer item1, Integer item2) {
+		return Pair.unordered(item1, item2);
 	}
 
 	@Test
 	public void testUnorderedPairs() {
-		Set<UnorderedPair<Integer>> visitedPairs = emptySet();
+		Set<Pair<Integer>> visitedPairs = emptySet();
 
-		for (UnorderedPair<Integer> pair : unorderedPairsFrom(1, 2, 3, 4)) {
+		for (Pair<Integer> pair : unorderedPairsFrom(1, 2, 3, 4)) {
 			visitedPairs.add(pair);
 		}
 

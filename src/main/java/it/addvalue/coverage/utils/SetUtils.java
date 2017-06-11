@@ -19,26 +19,26 @@ public class SetUtils {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> Iterable<UnorderedPair<T>> unorderedPairsFrom(Set<T> set) {
+	public static <T> Iterable<Pair<T>> unorderedPairsFrom(Set<T> set) {
 		return unorderedPairsFrom((T[]) set.toArray());
 	}
 
-	public static <T> Iterable<UnorderedPair<T>> unorderedPairsFrom(final T... items) {
+	public static <T> Iterable<Pair<T>> unorderedPairsFrom(final T... items) {
 		final int imax = items.length - 2;
 		final int jmax = items.length - 1;
-		return new Iterable<UnorderedPair<T>>() {
+		return new Iterable<Pair<T>>() {
 
 			private int i = -1;
 			private int j = -1;
 
-			public Iterator<UnorderedPair<T>> iterator() {
-				return new Iterator<UnorderedPair<T>>() {
+			public Iterator<Pair<T>> iterator() {
+				return new Iterator<Pair<T>>() {
 
 					public boolean hasNext() {
 						return (j < jmax) ? i <= imax : i < imax;
 					}
 
-					public UnorderedPair<T> next() {
+					public Pair<T> next() {
 						if (i < 0) {
 							i = 0;
 							j = 1;
@@ -48,7 +48,7 @@ public class SetUtils {
 						} else {
 							j++;
 						}
-						return new UnorderedPair<T>(items[i], items[j]);
+						return Pair.unordered(items[i], items[j]);
 					}
 
 					public void remove() {

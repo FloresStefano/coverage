@@ -1,6 +1,6 @@
 package it.addvalue.coverage.core.engine;
 
-import it.addvalue.coverage.utils.UnorderedPair;
+import it.addvalue.coverage.utils.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -70,7 +70,7 @@ public class AustraliaMapColoringTest {
 			}
 
 			public boolean verify(Solution solution) {
-				for (UnorderedPair<Variable> pair : unorderedPairsFrom(states)) {
+				for (Pair<Variable> pair : unorderedPairsFrom(states)) {
 					Value color1 = solution.evaluate(pair.getItem1());
 					Value color2 = solution.evaluate(pair.getItem2());
 					if (color1.equals(color2)) {
