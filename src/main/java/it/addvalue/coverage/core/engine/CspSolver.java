@@ -1,12 +1,14 @@
 package it.addvalue.coverage.core.engine;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static it.addvalue.coverage.utils.SetUtils.oneOf;
+import static it.addvalue.coverage.utils.Collections.oneOf;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
@@ -28,17 +30,22 @@ public class CspSolver {
 		this.useMac = mac;
 	}
 
-	public Solution solve(Csp csp) {
-		return solveRecursively(csp, Solution.empty());
+	public List<Solution> solve(Csp csp) {
+		List<Solution> solutions = new ArrayList<Solution>();
+
+		solveRecursively(csp, Solution.empty(), solutions);
+
+		return solutions;
 	}
 
-	private Solution solveRecursively(Csp csp, Solution solution) {
+	private boolean solveRecursively(Csp csp, Solution solution, List<Solution> solutions) {
 		if (useMac) {
 			csp = maintainArcConsistency(csp);
 		}
 
 		if (solution.isCompleteFor(csp)) {
-			return solution;
+			solutions.add(solution);
+			return true;
 		}
 
 		Variable variable = selectUnassignedVariable(csp, solution);
@@ -46,14 +53,13 @@ public class CspSolver {
 			Solution newSolution = solution.addAssignment(variable, value);
 			if (csp.verifyConsistency(newSolution)) {
 				Csp newCsp = csp.restrictDomain(variable, value);
-				Solution result = solveRecursively(newCsp, newSolution);
-				if (result != Solution.INFEASIBLE) {
-					return result;
+				if (solveRecursively(newCsp, newSolution, solutions)) {
+					return true;
 				}
 			}
 		}
 
-		return Solution.INFEASIBLE;
+		return false;
 	}
 
 	private Variable selectUnassignedVariable(Csp csp, Solution solution) {

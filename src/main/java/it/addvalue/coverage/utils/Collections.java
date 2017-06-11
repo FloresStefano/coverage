@@ -1,13 +1,15 @@
 package it.addvalue.coverage.utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
-public class SetUtils {
+public class Collections {
 
-	private SetUtils() {
+	private Collections() {
 	}
 
 	public static <T> T oneOf(Set<T> set) {
@@ -16,6 +18,10 @@ public class SetUtils {
 
 	public static <T> Set<T> emptySet() {
 		return new HashSet<T>();
+	}
+
+	public static <T> List<T> emptyList() {
+		return new ArrayList<T>();
 	}
 
 	@SuppressWarnings("unchecked")

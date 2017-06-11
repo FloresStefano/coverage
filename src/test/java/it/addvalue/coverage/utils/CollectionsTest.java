@@ -4,15 +4,15 @@ import org.junit.Test;
 
 import java.util.Set;
 
-import static it.addvalue.coverage.utils.SetUtils.emptySet;
-import static it.addvalue.coverage.utils.SetUtils.setOf;
-import static it.addvalue.coverage.utils.SetUtils.unorderedPairsFrom;
+import static it.addvalue.coverage.utils.Collections.emptySet;
+import static it.addvalue.coverage.utils.Collections.setOf;
+import static it.addvalue.coverage.utils.Collections.unorderedPairsFrom;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 @SuppressWarnings("unchecked")
-public class SetUtilsTest {
+public class CollectionsTest {
 
 	@Test
 	public void testLimitCase() {

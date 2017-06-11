@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import static it.addvalue.coverage.utils.SetUtils.setOf;
+import static it.addvalue.coverage.utils.Collections.setOf;
 
 @EqualsAndHashCode(of = "values")
 public class Domain implements Iterable<Value> {

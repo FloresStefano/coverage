@@ -3,13 +3,14 @@ package it.addvalue.coverage.core.engine;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import static it.addvalue.coverage.core.engine.CspSolverTestUtils.solve;
-import static it.addvalue.coverage.core.engine.Solution.INFEASIBLE;
-import static it.addvalue.coverage.utils.SetUtils.setOf;
+import static it.addvalue.coverage.utils.Collections.setOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -38,7 +39,11 @@ public class CspSolverTest {
 		csp.setDomains(domains);
 		csp.setConstraints(setOf(constraint1(), constraint2(), constraint3()));
 
-		Solution solution = solve(csp);
+		List<Solution> solutions = solve(csp);
+
+		assertThat(solutions.size(), is(equalTo(1)));
+
+		Solution solution = solutions.get(0);
 
 		assertThat(x(solution), is(equalTo(3)));
 		assertThat(y(solution), is(equalTo(2)));
@@ -117,9 +122,9 @@ public class CspSolverTest {
 		csp.setDomains(domains);
 		csp.setConstraints(setOf(constraint1(), constraint2(), constraint3(), constraint4()));
 
-		Solution solution = solve(csp);
+		List<Solution> solutions = solve(csp);
 
-		assertThat(solution, is(INFEASIBLE));
+		assertThat(solutions, is(emptyList()));
 	}
 
 	private Constraint constraint4() {
@@ -138,6 +143,10 @@ public class CspSolverTest {
 			}
 
 		};
+	}
+
+	private List<Solution> emptyList() {
+		return new ArrayList<Solution>();
 	}
 
 	private static class TestVariable implements Variable {
