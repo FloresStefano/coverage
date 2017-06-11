@@ -2,16 +2,27 @@ package it.addvalue.coverage.core.engine;
 
 import lombok.Data;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Data
 public class Csp implements Cloneable {
 
 	private Map<Variable, Domain> domains;
 	private Set<Constraint>       constraints;
+	private Comparator<Solution>  solutionComparator;
+
+	public Set<Solution> newSolutionSet() {
+		if (solutionComparator != null) {
+			return new TreeSet<Solution>(solutionComparator);
+		} else {
+			return new HashSet<Solution>();
+		}
+	}
 
 	public Set<Variable> variables() {
 		return domains.keySet();

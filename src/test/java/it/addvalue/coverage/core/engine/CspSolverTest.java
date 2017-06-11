@@ -1,15 +1,15 @@
 package it.addvalue.coverage.core.engine;
 
+import lombok.EqualsAndHashCode;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static it.addvalue.coverage.core.engine.CspSolverTestUtils.solve;
+import static it.addvalue.coverage.core.engine.CspSolverTestUtils.solutionsOf;
 import static it.addvalue.coverage.utils.Collections.setOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -35,19 +35,22 @@ public class CspSolverTest {
 
 	@Test
 	public void testFeasibleCsp() {
+		assertThat(solutionsOf(feasibleProblem()), is(equalTo(setOf(expectedSolution()))));
+	}
+
+	private Csp feasibleProblem() {
 		Csp csp = new Csp();
 		csp.setDomains(domains);
 		csp.setConstraints(setOf(constraint1(), constraint2(), constraint3()));
+		return csp;
+	}
 
-		List<Solution> solutions = solve(csp);
-
-		assertThat(solutions.size(), is(equalTo(1)));
-
-		Solution solution = solutions.get(0);
-
-		assertThat(x(solution), is(equalTo(3)));
-		assertThat(y(solution), is(equalTo(2)));
-		assertThat(z(solution), is(equalTo(4)));
+	private Solution expectedSolution() {
+		Map<Variable, Value> assignments = new HashMap<Variable, Value>();
+		assignments.put(x, new TestValue(3));
+		assignments.put(y, new TestValue(2));
+		assignments.put(z, new TestValue(4));
+		return Solution.fromMap(assignments);
 	}
 
 	private Constraint constraint1() {
@@ -118,13 +121,18 @@ public class CspSolverTest {
 
 	@Test
 	public void testInfeasibleCsp() {
+		assertThat(solutionsOf(infeasibleProblem()), is(emptySet()));
+	}
+
+	private Csp infeasibleProblem() {
 		Csp csp = new Csp();
 		csp.setDomains(domains);
 		csp.setConstraints(setOf(constraint1(), constraint2(), constraint3(), constraint4()));
+		return csp;
+	}
 
-		List<Solution> solutions = solve(csp);
-
-		assertThat(solutions, is(emptyList()));
+	private Set<Solution> emptySet() {
+		return new HashSet<Solution>();
 	}
 
 	private Constraint constraint4() {
@@ -145,10 +153,6 @@ public class CspSolverTest {
 		};
 	}
 
-	private List<Solution> emptyList() {
-		return new ArrayList<Solution>();
-	}
-
 	private static class TestVariable implements Variable {
 
 		private final String name;
@@ -163,6 +167,7 @@ public class CspSolverTest {
 
 	}
 
+	@EqualsAndHashCode(of = "value")
 	private static class TestValue implements Value {
 
 		private final int value;

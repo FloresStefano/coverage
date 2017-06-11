@@ -4,10 +4,8 @@ import it.addvalue.coverage.utils.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,7 +15,7 @@ import static it.addvalue.coverage.core.engine.AustraliaMapColoringTest.State.Q;
 import static it.addvalue.coverage.core.engine.AustraliaMapColoringTest.State.SA;
 import static it.addvalue.coverage.core.engine.AustraliaMapColoringTest.State.V;
 import static it.addvalue.coverage.core.engine.AustraliaMapColoringTest.State.WA;
-import static it.addvalue.coverage.core.engine.CspSolverTestUtils.solve;
+import static it.addvalue.coverage.core.engine.CspSolverTestUtils.solutionsOf;
 import static it.addvalue.coverage.utils.Collections.setOf;
 import static it.addvalue.coverage.utils.Collections.unorderedPairsFrom;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -40,33 +38,29 @@ public class AustraliaMapColoringTest {
 
 	@Test
 	public void testWithBinaryConstraints() {
-		assertThat(solutionsOf(binaryProblem()), is(not(emptyList())));
-	}
-
-	private List<Solution> solutionsOf(Csp problem) {
-		return solve(problem);
+		assertThat(solutionsOf(binaryProblem()), is(not(emptySet())));
 	}
 
 	private Csp binaryProblem() {
 		Csp csp = new Csp();
 		csp.setDomains(domains);
-		csp.setConstraints(setOf(haveDifferentColors(WA, NT),
-		                         haveDifferentColors(WA, SA),
-		                         haveDifferentColors(NT, SA),
-		                         haveDifferentColors(NT, Q),
-		                         haveDifferentColors(SA, Q),
-		                         haveDifferentColors(SA, NSW),
-		                         haveDifferentColors(Q, NSW),
-		                         haveDifferentColors(SA, V),
-		                         haveDifferentColors(V, NSW)));
+		csp.setConstraints(setOf(mustHaveDifferentColors(WA, NT),
+		                         mustHaveDifferentColors(WA, SA),
+		                         mustHaveDifferentColors(NT, SA),
+		                         mustHaveDifferentColors(NT, Q),
+		                         mustHaveDifferentColors(SA, Q),
+		                         mustHaveDifferentColors(SA, NSW),
+		                         mustHaveDifferentColors(Q, NSW),
+		                         mustHaveDifferentColors(SA, V),
+		                         mustHaveDifferentColors(V, NSW)));
 		return csp;
 	}
 
-	private List<Solution> emptyList() {
-		return new ArrayList<Solution>();
+	private Set<Solution> emptySet() {
+		return new HashSet<Solution>();
 	}
 
-	private Constraint haveDifferentColors(final Variable... states) {
+	private Constraint mustHaveDifferentColors(final Variable... states) {
 		final Set<Variable> stateSet = setOf(states);
 		return new Constraint() {
 
@@ -86,7 +80,7 @@ public class AustraliaMapColoringTest {
 			}
 
 			public String toString() {
-				return Arrays.asList(states) + " have different colors";
+				return stateSet + " must have different colors";
 			}
 
 		};
@@ -94,16 +88,16 @@ public class AustraliaMapColoringTest {
 
 	@Test
 	public void testWithNaryConstraints() {
-		assertThat(solutionsOf(naryProblem()), is(not(emptyList())));
+		assertThat(solutionsOf(naryProblem()), is(not(emptySet())));
 	}
 
 	private Csp naryProblem() {
 		Csp csp = new Csp();
 		csp.setDomains(domains);
-		csp.setConstraints(setOf(haveDifferentColors(WA, NT, SA),
-		                         haveDifferentColors(NT, SA, Q),
-		                         haveDifferentColors(SA, Q, NSW),
-		                         haveDifferentColors(SA, NSW, V)));
+		csp.setConstraints(setOf(mustHaveDifferentColors(WA, NT, SA),
+		                         mustHaveDifferentColors(NT, SA, Q),
+		                         mustHaveDifferentColors(SA, Q, NSW),
+		                         mustHaveDifferentColors(SA, NSW, V)));
 		return csp;
 	}
 
@@ -130,9 +124,9 @@ public class AustraliaMapColoringTest {
 	}
 
 	public enum Color implements Value {
-		RED,
-		GREEN,
-		BLUE
+		red,
+		green,
+		blue
 	}
 
 }

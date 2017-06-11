@@ -9,8 +9,6 @@ import java.util.Map;
 @EqualsAndHashCode(of = "assignments")
 public class Solution {
 
-	public static final Solution INFEASIBLE = new Solution();
-
 	private final Map<Variable, Value> assignments = new HashMap<Variable, Value>();
 
 	public static Solution empty() {
@@ -51,7 +49,7 @@ public class Solution {
 	}
 
 	public String toString() {
-		return this == INFEASIBLE ? "INFEASIBLE" : assignments.toString();
+		return assignments.toString();
 	}
 
 }

@@ -55,6 +55,21 @@ class Solutions implements Iterable<Solution> {
 
 			private boolean initialized = false;
 
+			private void nextRecursively(int i) {
+				if (i < variables.size()) {
+					Variable variable = variables.get(i);
+					Iterator<Value> it = domainIterators.get(variable);
+					if (!it.hasNext()) {
+						it = newDomainIterator(variable);
+						domainIterators.put(variable, it);
+						nextRecursively(i + 1);
+					} else if (!initialized) {
+						nextRecursively(i + 1);
+					}
+					variableValues.put(variable, it.next());
+				}
+			}
+
 			public boolean hasNext() {
 				for (Iterator<Value> it : domainIterators.values()) {
 					if (it.hasNext()) {
@@ -74,20 +89,7 @@ class Solutions implements Iterable<Solution> {
 				throw new UnsupportedOperationException();
 			}
 
-			private void nextRecursively(int i) {
-				if (i < variables.size()) {
-					Variable variable = variables.get(i);
-					Iterator<Value> it = domainIterators.get(variable);
-					if (!it.hasNext()) {
-						it = newDomainIterator(variable);
-						domainIterators.put(variable, it);
-						nextRecursively(i + 1);
-					} else if (!initialized) {
-						nextRecursively(i + 1);
-					}
-					variableValues.put(variable, it.next());
-				}
-			}
+
 
 		};
 	}

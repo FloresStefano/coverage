@@ -1,22 +1,28 @@
 package it.addvalue.coverage.core.engine;
 
-import java.util.List;
+import java.util.Set;
+
+import static it.addvalue.coverage.utils.Collections.oneOf;
 
 public class CspSolverTestUtils {
 
 	private CspSolverTestUtils() {
 	}
 
-	public static List<Solution> solve(Csp problem) {
+	public static Set<Solution> solutionsOf(Csp problem) {
+		return solve(problem);
+	}
+
+	public static Set<Solution> solve(Csp problem) {
 		return solve(problem, new CspSolver());
 	}
 
-	public static List<Solution> solve(Csp problem, CspSolver solver) {
+	public static Set<Solution> solve(Csp problem, CspSolver solver) {
 		System.out.println("Problem definition:");
 		System.out.println(problem);
 
 		System.out.println("Solving problem...\n");
-		List<Solution> solutions = solver.solve(problem);
+		Set<Solution> solutions = solver.solve(problem);
 
 		switch (solutions.size()) {
 		case 0:
@@ -24,7 +30,7 @@ public class CspSolverTestUtils {
 			return solutions;
 		case 1:
 			System.out.println("Found 1 solution:");
-			System.out.println(solutions.get(0));
+			System.out.println(oneOf(solutions));
 			System.out.println();
 			return solutions;
 		default:

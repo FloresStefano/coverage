@@ -1,10 +1,8 @@
 package it.addvalue.coverage.core.engine;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,36 +28,30 @@ public class CspSolver {
 		this.useMac = mac;
 	}
 
-	public List<Solution> solve(Csp csp) {
-		List<Solution> solutions = new ArrayList<Solution>();
+	public Set<Solution> solve(Csp csp) {
+		Set<Solution> solutions = csp.newSolutionSet();
 
 		solveRecursively(csp, Solution.empty(), solutions);
 
 		return solutions;
 	}
 
-	private boolean solveRecursively(Csp csp, Solution solution, List<Solution> solutions) {
-		if (useMac) {
-			csp = maintainArcConsistency(csp);
-		}
-
+	private void solveRecursively(Csp csp, Solution solution, Set<Solution> solutions) {
 		if (solution.isCompleteFor(csp)) {
 			solutions.add(solution);
-			return true;
-		}
-
-		Variable variable = selectUnassignedVariable(csp, solution);
-		for (Value value : variableDomain(csp, variable, solution)) {
-			Solution newSolution = solution.addAssignment(variable, value);
-			if (csp.verifyConsistency(newSolution)) {
-				Csp newCsp = csp.restrictDomain(variable, value);
-				if (solveRecursively(newCsp, newSolution, solutions)) {
-					return true;
+		} else {
+			if (useMac) {
+				csp = maintainArcConsistency(csp);
+			}
+			Variable variable = selectUnassignedVariable(csp, solution);
+			for (Value value : variableDomain(csp, variable, solution)) {
+				Solution newSolution = solution.addAssignment(variable, value);
+				if (csp.verifyConsistency(newSolution)) {
+					Csp newCsp = csp.restrictDomain(variable, value);
+					solveRecursively(newCsp, newSolution, solutions);
 				}
 			}
 		}
-
-		return false;
 	}
 
 	private Variable selectUnassignedVariable(Csp csp, Solution solution) {
