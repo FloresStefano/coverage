@@ -1,19 +1,24 @@
-package coverage.mock;
+package it.addvalue.coverage.mock;
 
-import static org.junit.Assert.assertNotNull;
+import it.addvalue.coverage.bean.Rule;
+import it.addvalue.coverage.utils.XmlUtil;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-
-import it.addvalue.coverage.bean.Rule;
-import it.addvalue.coverage.core.XmlUtil;
+import static org.junit.Assert.assertNotNull;
 
 public class RuleMock {
 
 	private static final int RULE_COUNT = 5;
+
+	@Test
+	public void testmock()
+	throws IOException {
+		assertNotNull(XmlUtil.prettyPrint(mock()));
+	}
 
 	public static List<Rule> mock() {
 		List<Rule> list = new ArrayList<Rule>();
@@ -25,10 +30,5 @@ public class RuleMock {
 			list.add(e);
 		}
 		return list;
-	}
-
-	@Test
-	public void testmock() throws IOException {
-		assertNotNull(XmlUtil.prettyPrint(mock()));
 	}
 }

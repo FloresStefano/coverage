@@ -104,12 +104,8 @@ public class CspSolver {
 		}
 	}
 
-	private Variable oneOf(Set<Variable> variables) {
-		return variables.iterator().next();
-	}
-
-	private Constraint oneOf(Set<Constraint> constraints) {
-		return constraints.iterator().next();
+	private <T> T oneOf(Set<T> set) {
+		return set.iterator().next();
 	}
 
 	private int minimumCardinality(Set<Variable> unassignedVariables, Map<Variable, Domain> domains) {

@@ -1,6 +1,9 @@
-package coverage.mock;
+package it.addvalue.coverage.mock;
 
-import static org.junit.Assert.assertNotNull;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import it.addvalue.coverage.bean.Service;
+import it.addvalue.coverage.bean.Skill;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,17 +12,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-
-import it.addvalue.coverage.bean.Service;
-import it.addvalue.coverage.bean.Skill;
+import static org.junit.Assert.assertNotNull;
 
 public class ServiceMock {
 
 	public static Map<String, Service> serviceMap;
-	
+
 	static {
 		serviceMap = new HashMap<String, Service>();
 		serviceMap.put("Service0", mockService(0L));
@@ -30,34 +28,30 @@ public class ServiceMock {
 		serviceMap.put("Service5", mockService(5L));
 	}
 
+	@Test
+	public void testmock()
+	throws IOException {
+		XmlMapper xmlMapper = new XmlMapper();
+		String writeValueAsString = xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(skillMock());
+		System.out.println(writeValueAsString);
+		assertNotNull(writeValueAsString);
+	}
+
 	public static List<Skill> skillMock() {
 
 		List<Skill> list = new ArrayList<Skill>();
 		for (long i = 0; i < random(1, 3); i++) {
 			Random generator = new Random();
 			Object[] values = serviceMap.values().toArray();
-			Service randomService = (Service) values[generator
-					.nextInt(values.length)];
+			Service randomService = (Service) values[generator.nextInt(values.length)];
 			Skill skill = new Skill();
-			skill.setHandledCallsOverrided(random(40, 50));
+			skill.setHandledCallsOverridden(random(40, 50));
 			skill.setSkillLevel(random(4, 10));
 			skill.setUsagePriority(10);
 			skill.setIdService(randomService.getId());
 			list.add(skill);
 		}
 		return list;
-	}
-
-	private static Service mockService(long l) {
-		Service e = new Service();
-		e.setId(l);
-		e.setName("service" + l);
-		e.setCoverageFrom(400);
-		e.setCoverageTo(900);
-		e.setDailyCalls(1000);
-		e.setDailyCallsDetail("200,400,400,400,400,200");
-
-		return e;
 	}
 
 	private static int random(int min, int max) {
@@ -70,12 +64,15 @@ public class ServiceMock {
 		return r.nextInt((max - min) + 1) + min;
 	}
 
-	@Test
-	public void testmock() throws IOException {
-		XmlMapper xmlMapper = new XmlMapper();
-		String writeValueAsString = xmlMapper.writerWithDefaultPrettyPrinter()
-				.writeValueAsString(skillMock());
-		System.out.println(writeValueAsString);
-		assertNotNull(writeValueAsString);
+	private static Service mockService(long l) {
+		Service e = new Service();
+		e.setId(l);
+		e.setName("service" + l);
+		e.setCoverageFrom(400);
+		e.setCoverageTo(900);
+		e.setDailyCalls(1000);
+		e.setDailyCallsDetail("200,400,400,400,400,200");
+
+		return e;
 	}
 }

@@ -1,6 +1,10 @@
-package coverage.mock;
+package it.addvalue.coverage.mock;
 
-import static org.junit.Assert.assertNotNull;
+import it.addvalue.coverage.bean.PlanCalendar;
+import it.addvalue.coverage.bean.PlanCalendarDetail;
+import it.addvalue.coverage.bean.Service;
+import it.addvalue.coverage.utils.XmlUtil;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,16 +12,27 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import org.junit.Test;
-
-import it.addvalue.coverage.bean.PlanCalendar;
-import it.addvalue.coverage.bean.PlanCalendarDetail;
-import it.addvalue.coverage.bean.Service;
-import it.addvalue.coverage.core.XmlUtil;
+import static org.junit.Assert.assertNotNull;
 
 public class CalendarMock {
 
 	private static final int CALENDAR_COUNT = 365;
+
+	public static int csvsum(String csv) {
+		String[] a = csv.split(",");
+		int out = 0;
+		for (int i = 0; i < 5; i++) {
+			out += Integer.parseInt(a[i]);
+
+		}
+		return out;
+	}
+
+	@Test
+	public void testmock()
+	throws IOException {
+		assertNotNull(XmlUtil.prettyPrint(mock()));
+	}
 
 	public static List<PlanCalendar> mock() {
 		List<PlanCalendar> list = new ArrayList<PlanCalendar>();
@@ -27,8 +42,7 @@ public class CalendarMock {
 			Calendar c = Calendar.getInstance();
 			c.set(Calendar.DAY_OF_YEAR, (int) i); // 0-based
 			c.set(Calendar.YEAR, 2017);
-			String displayName = c.getDisplayName(Calendar.DAY_OF_WEEK,
-					Calendar.SHORT, Locale.ITALIAN);
+			String displayName = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ITALIAN);
 
 			PlanCalendar e = new PlanCalendar();
 			e.setId(i);
@@ -53,8 +67,7 @@ public class CalendarMock {
 				// PlanCalendar
 				e.getDetailList().add(det);
 				totalExpectedCalls += service.getDailyCalls();
-				totalExpectedCallsDetail = csvadd(totalExpectedCallsDetail,
-						service.getDailyCallsDetail());
+				totalExpectedCallsDetail = csvadd(totalExpectedCallsDetail, service.getDailyCallsDetail());
 			}
 
 			e.setTotalExpectedCalls(totalExpectedCalls);
@@ -65,30 +78,14 @@ public class CalendarMock {
 	}
 
 	public static String csvadd(String csv1, String csv2) {
-		String[] a=csv1.split(",");
-		String[] b=csv2.split(",");
-		String out="";
+		String[] a = csv1.split(",");
+		String[] b = csv2.split(",");
+		String out = "";
 		for (int i = 0; i < 5; i++) {
-			out+=Integer.parseInt(a[i])+Integer.parseInt(b[i])+",";
-			
-		}
-		return out.substring(0, out.length()-1);
-	}
-	
-	public static int csvsum(String csv) {
-		String[] a=csv.split(",");
-		int out=0;
-		for (int i = 0; i < 5; i++) {
-			out+=Integer.parseInt(a[i]);
-			
-		}
-		return out;
-	}
+			out += Integer.parseInt(a[i]) + Integer.parseInt(b[i]) + ",";
 
-	@Test
-	public void testmock() throws IOException {
-
-		assertNotNull(XmlUtil.prettyPrint(mock()));
+		}
+		return out.substring(0, out.length() - 1);
 	}
 
 }
