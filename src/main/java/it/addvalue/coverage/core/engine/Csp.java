@@ -14,14 +14,36 @@ public class Csp implements Cloneable {
 
 	private Map<Variable, Domain> domains;
 	private Set<Constraint>       constraints;
-	private Comparator<Solution>  solutionComparator;
+	private CostFunction          costFunction;
 
 	public Set<Solution> newSolutionSet() {
-		if (solutionComparator != null) {
-			return new TreeSet<Solution>(solutionComparator);
+		if (hasCostFunctionDefined()) {
+			return sortedSolutionSetWithAscendingCost();
 		} else {
-			return new HashSet<Solution>();
+			return unsortedSolutionSet();
 		}
+	}
+
+	private boolean hasCostFunctionDefined() {
+		return costFunction != null;
+	}
+
+	private TreeSet<Solution> sortedSolutionSetWithAscendingCost() {
+		return new TreeSet<Solution>(ascendingCostComparator());
+	}
+
+	private HashSet<Solution> unsortedSolutionSet() {
+		return new HashSet<Solution>();
+	}
+
+	private Comparator<Solution> ascendingCostComparator() {
+		return new Comparator<Solution>() {
+
+			public int compare(Solution solution1, Solution solution2) {
+				return costFunction.evaluate(solution1) - costFunction.evaluate(solution2);
+			}
+
+		};
 	}
 
 	public Set<Variable> variables() {

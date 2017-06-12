@@ -20,6 +20,11 @@ public class CspSolverTest {
 	private Variable              x;
 	private Variable              y;
 	private Variable              z;
+	private Value                 $1;
+	private Value                 $2;
+	private Value                 $3;
+	private Value                 $4;
+	private Value                 $5;
 	private Map<Variable, Domain> domains;
 
 	@Before
@@ -27,10 +32,15 @@ public class CspSolverTest {
 		x = new TestVariable("X");
 		y = new TestVariable("Y");
 		z = new TestVariable("Z");
+		$1 = new TestValue(1);
+		$2 = new TestValue(2);
+		$3 = new TestValue(3);
+		$4 = new TestValue(4);
+		$5 = new TestValue(5);
 		domains = new HashMap<Variable, Domain>();
-		domains.put(x, Domain.containing(new TestValue(1), new TestValue(2), new TestValue(3)));
-		domains.put(y, Domain.containing(new TestValue(2), new TestValue(3), new TestValue(4)));
-		domains.put(z, Domain.containing(new TestValue(3), new TestValue(4), new TestValue(5)));
+		domains.put(x, Domain.containing($1, $2, $3));
+		domains.put(y, Domain.containing($2, $3, $4));
+		domains.put(z, Domain.containing($3, $4, $5));
 	}
 
 	@Test
@@ -46,11 +56,7 @@ public class CspSolverTest {
 	}
 
 	private Solution expectedSolution() {
-		Map<Variable, Value> assignments = new HashMap<Variable, Value>();
-		assignments.put(x, new TestValue(3));
-		assignments.put(y, new TestValue(2));
-		assignments.put(z, new TestValue(4));
-		return Solution.fromMap(assignments);
+		return Solution.builder().set(x, $3).set(y, $2).set(z, $4).build();
 	}
 
 	private Constraint constraint1() {
@@ -148,6 +154,37 @@ public class CspSolverTest {
 
 			public String toString() {
 				return "x > 3";
+			}
+
+		};
+	}
+
+	@Test
+	public void testWithCost() {
+		assertThat(solutionsOf(problemWithCostFunction()), is(equalTo(solutionsWithAscendingCost())));
+	}
+
+	private Csp problemWithCostFunction() {
+		Csp csp = new Csp();
+		csp.setDomains(domains);
+		csp.setConstraints(setOf(constraint1(), constraint3()));
+		csp.setCostFunction(costFunction());
+		return csp;
+	}
+
+	private Set<Solution> solutionsWithAscendingCost() {
+		Set<Solution> solutions = problemWithCostFunction().newSolutionSet();
+		solutions.add(Solution.builder().set(x, $1).set(y, $3).set(z, $3).build());
+		solutions.add(Solution.builder().set(x, $2).set(y, $3).set(z, $3).build());
+		solutions.add(Solution.builder().set(x, $3).set(y, $2).set(z, $4).build());
+		return solutions;
+	}
+
+	private CostFunction costFunction() {
+		return new CostFunction() {
+
+			public int evaluate(Solution solution) {
+				return x(solution) + y(solution) + z(solution);
 			}
 
 		};

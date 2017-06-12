@@ -2,8 +2,6 @@ package it.addvalue.coverage.core.engine;
 
 import java.util.Set;
 
-import static it.addvalue.coverage.utils.Collections.oneOf;
-
 public class CspSolverTestUtils {
 
 	private CspSolverTestUtils() {
@@ -24,23 +22,23 @@ public class CspSolverTestUtils {
 		System.out.println("Solving problem...\n");
 		Set<Solution> solutions = solver.solve(problem);
 
-		switch (solutions.size()) {
-		case 0:
+		if (solutions.isEmpty()) {
 			System.out.println("No solutions found");
-			return solutions;
-		case 1:
-			System.out.println("Found 1 solution:");
-			System.out.println(oneOf(solutions));
-			System.out.println();
-			return solutions;
-		default:
-			System.out.println("Found " + solutions.size() + " solutions:");
+		} else {
+			if (solutions.size() == 1) {
+				System.out.println("1 solution found:");
+			} else {
+				System.out.println(solutions.size() + " solutions found:");
+			}
 			for (Solution solution : solutions) {
+				if (problem.getCostFunction() != null) {
+					System.out.printf("\tcost=%d : ", problem.getCostFunction().evaluate(solution));
+				}
 				System.out.println(solution);
 			}
-			System.out.println();
-			return solutions;
 		}
+		System.out.println();
+		return solutions;
 	}
 
 }

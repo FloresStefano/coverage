@@ -53,12 +53,12 @@ public class SolutionsTest {
 			for (Value yValue : domains.get(y)) {
 				for (Value zValue : domains.get(z)) {
 					for (Value wValue : domains.get(w)) {
-						Map<Variable, Value> map = new HashMap<Variable, Value>();
-						map.put(x, xValue);
-						map.put(y, yValue);
-						map.put(z, zValue);
-						map.put(w, wValue);
-						expectedSolutions.add(Solution.fromMap(map));
+						expectedSolutions.add(Solution.builder()
+						                              .set(x, xValue)
+						                              .set(y, yValue)
+						                              .set(z, zValue)
+						                              .set(w, wValue)
+						                              .build());
 					}
 				}
 			}

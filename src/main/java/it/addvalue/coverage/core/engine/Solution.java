@@ -9,7 +9,15 @@ import java.util.Map;
 @EqualsAndHashCode(of = "assignments")
 public class Solution {
 
-	private final Map<Variable, Value> assignments = new HashMap<Variable, Value>();
+	private final Map<Variable, Value> assignments;
+
+	public Solution() {
+		assignments = new HashMap<Variable, Value>();
+	}
+
+	private Solution(Map<Variable, Value> assignments) {
+		this.assignments = assignments;
+	}
 
 	public static Solution empty() {
 		return new Solution();
@@ -50,6 +58,25 @@ public class Solution {
 
 	public String toString() {
 		return assignments.toString();
+	}
+
+	public static Builder builder() {
+		return new Builder();
+	}
+
+	public static class Builder {
+
+		final Map<Variable, Value> assignments = new HashMap<Variable, Value>();
+
+		public Builder set(Variable variable, Value value) {
+			assignments.put(variable, value);
+			return this;
+		}
+
+		public Solution build() {
+			return new Solution(assignments);
+		}
+
 	}
 
 }
