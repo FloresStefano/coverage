@@ -9,10 +9,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static it.addvalue.coverage.core.engine.CspSolverTestUtils.contains;
 import static it.addvalue.coverage.core.engine.CspSolverTestUtils.solutionsOf;
 import static it.addvalue.coverage.utils.Collections.setOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertThat;
 
 public class CspSolverTest {
@@ -44,7 +47,7 @@ public class CspSolverTest {
 	}
 
 	@Test
-	public void testFeasibleCsp() {
+	public void aFeasibleProblemHasSolutions() {
 		assertThat(solutionsOf(feasibleProblem()), is(equalTo(setOf(expectedSolution()))));
 	}
 
@@ -126,7 +129,7 @@ public class CspSolverTest {
 	}
 
 	@Test
-	public void testInfeasibleCsp() {
+	public void anInfeasibleProblemHasNoSolutions() {
 		assertThat(solutionsOf(infeasibleProblem()), is(emptySet()));
 	}
 
@@ -160,8 +163,48 @@ public class CspSolverTest {
 	}
 
 	@Test
-	public void testWithCost() {
+	public void ifCostFunctionIsDefinedThenSolutionsAreSortedByAscendingCost() {
 		assertThat(solutionsOf(problemWithCostFunction()), is(equalTo(solutionsWithAscendingCost())));
+	}
+
+	@Test
+	public void ifMaxResultsIsDefinedThenSolutionsAreFewerThanItsValue() {
+		assertThat(solutionsOf(problemWithMaxResults()),
+		           hasSize(lessThanOrEqualTo(problemWithMaxResults().getMaxSolutions())));
+	}
+
+	private Csp problemWithMaxResults() {
+		Csp csp = new Csp();
+		csp.setDomains(domains);
+		csp.setConstraints(setOf(constraint1(), constraint3()));
+		csp.setMaxSolutions(2);
+		return csp;
+	}
+
+	@Test
+	public void ifMaxResultsIsDefinedThenSolutionsAreSubsetOfThoseOfTheUnboundedProblem() {
+		assertThat(solutionsOf(problemWithoutMaxResults()), contains(solutionsOf(problemWithMaxResults())));
+	}
+
+	private Csp problemWithoutMaxResults() {
+		Csp csp = new Csp();
+		csp.setDomains(domains);
+		csp.setConstraints(setOf(constraint1(), constraint3()));
+		return csp;
+	}
+
+	private CostFunction costFunction() {
+		return new CostFunction() {
+
+			public int evaluate(Solution solution) {
+				return x(solution) + y(solution) + z(solution);
+			}
+
+			public String toString() {
+				return "x + y + z";
+			}
+
+		};
 	}
 
 	private Csp problemWithCostFunction() {
@@ -178,16 +221,6 @@ public class CspSolverTest {
 		solutions.add(Solution.builder().set(x, $2).set(y, $3).set(z, $3).build());
 		solutions.add(Solution.builder().set(x, $3).set(y, $2).set(z, $4).build());
 		return solutions;
-	}
-
-	private CostFunction costFunction() {
-		return new CostFunction() {
-
-			public int evaluate(Solution solution) {
-				return x(solution) + y(solution) + z(solution);
-			}
-
-		};
 	}
 
 	private static class TestVariable implements Variable {

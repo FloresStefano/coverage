@@ -15,6 +15,7 @@ public class Csp implements Cloneable {
 	private Map<Variable, Domain> domains;
 	private Set<Constraint>       constraints;
 	private CostFunction          costFunction;
+	private int maxSolutions = Integer.MAX_VALUE;
 
 	public Set<Solution> newSolutionSet() {
 		if (hasCostFunctionDefined()) {
@@ -85,6 +86,12 @@ public class Csp implements Cloneable {
 		for (Constraint constraint : constraints) {
 			sb.append("\t").append(constraint).append("\n");
 		}
+		if (costFunction != null) {
+			sb.append("solution cost:\n\t").append(costFunction).append("\n");
+		}
+		if (maxSolutions < Integer.MAX_VALUE) {
+			sb.append("max solutions:\n\t").append(maxSolutions).append("\n");
+		}
 		return sb.toString();
 	}
 
@@ -108,6 +115,14 @@ public class Csp implements Cloneable {
 			}
 		}
 		return result;
+	}
+
+	public Domain domainOf(Variable variable) {
+		return domains.get(variable);
+	}
+
+	public boolean reachedSolutionCount(Set<Solution> solutions) {
+		return solutions.size() >= maxSolutions;
 	}
 
 }

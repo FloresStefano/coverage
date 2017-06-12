@@ -1,5 +1,10 @@
 package it.addvalue.coverage.core.engine;
 
+import org.apache.commons.collections4.SetUtils;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+
 import java.util.Set;
 
 public class CspSolverTestUtils {
@@ -32,13 +37,34 @@ public class CspSolverTestUtils {
 			}
 			for (Solution solution : solutions) {
 				if (problem.getCostFunction() != null) {
-					System.out.printf("\tcost=%d : ", problem.getCostFunction().evaluate(solution));
+					System.out.printf("\tcost = %d: ", problem.getCostFunction().evaluate(solution));
 				}
 				System.out.println(solution);
 			}
 		}
 		System.out.println();
 		return solutions;
+	}
+
+	public static Matcher<? super Set<Solution>> contains(final Set<Solution> solutions) {
+		return new BaseMatcher<Set<Solution>>() {
+
+			private Set<Solution> arg;
+
+			@SuppressWarnings("unchecked")
+			public boolean matches(Object o) {
+				return (arg = (Set<Solution>) o).containsAll(solutions);
+			}
+
+			public void describeTo(Description description) {
+				description.appendValue(arg).appendText(" to contain ").appendValue(solutions);
+			}
+
+			public void describeMismatch(Object item, Description description) {
+				description.appendValue(SetUtils.difference(solutions, arg)).appendText(" were also present");
+			}
+
+		};
 	}
 
 }

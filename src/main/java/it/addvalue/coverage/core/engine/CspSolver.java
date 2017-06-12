@@ -36,22 +36,26 @@ public class CspSolver {
 		return solutions;
 	}
 
-	private void solveRecursively(Csp csp, Solution solution, Set<Solution> solutions) {
+	private boolean solveRecursively(Csp csp, Solution solution, Set<Solution> solutions) {
 		if (solution.isCompleteFor(csp)) {
 			solutions.add(solution);
-		} else {
-			if (useMac) {
-				csp = maintainArcConsistency(csp);
-			}
-			Variable variable = selectUnassignedVariable(csp, solution);
-			for (Value value : variableDomain(csp, variable, solution)) {
-				Solution newSolution = solution.addAssignment(variable, value);
-				if (csp.verifyConsistency(newSolution)) {
-					Csp newCsp = csp.restrictDomain(variable, value);
-					solveRecursively(newCsp, newSolution, solutions);
+			return csp.reachedSolutionCount(solutions);
+		}
+
+		if (useMac) {
+			csp = maintainArcConsistency(csp);
+		}
+		Variable variable = selectUnassignedVariable(csp, solution);
+		for (Value value : csp.domainOf(variable)) {
+			Solution newSolution = solution.addAssignment(variable, value);
+			if (csp.verifyConsistency(newSolution)) {
+				Csp newCsp = csp.restrictDomain(variable, value);
+				if (solveRecursively(newCsp, newSolution, solutions)) {
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 
 	private Variable selectUnassignedVariable(Csp csp, Solution solution) {
@@ -67,10 +71,6 @@ public class CspSolver {
 		}
 
 		return oneOf(variables);
-	}
-
-	private Iterable<Value> variableDomain(Csp csp, Variable variable, Solution solution) {
-		return csp.getDomains().get(variable);
 	}
 
 	private void retainUnassignedVariables(Set<Variable> variables, Solution solution) {
