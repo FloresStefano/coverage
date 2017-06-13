@@ -46,10 +46,6 @@ public abstract class Pair<T> {
 	public static <T> Pair<T> unordered(T item1, T item2) {
 		return new Pair<T>(item1, item2) {
 
-			public int hashCode() {
-				return this.item1.hashCode() ^ this.item2.hashCode();
-			}
-
 			public boolean equals(Object o) {
 				if (o == this) {
 					return true;
@@ -65,6 +61,10 @@ public abstract class Pair<T> {
 
 				return this.item1.equals(that.item1) && this.item2.equals(that.item2) ||
 				       this.item1.equals(that.item2) && this.item2.equals(that.item1);
+			}
+
+			public int hashCode() {
+				return this.item1.hashCode() ^ this.item2.hashCode();
 			}
 
 			public String toString() {

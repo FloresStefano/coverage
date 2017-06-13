@@ -1,6 +1,7 @@
 package it.addvalue.csp.engine;
 
 import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -220,13 +221,10 @@ public class CspSolverTest {
 		return solutions;
 	}
 
+	@RequiredArgsConstructor
 	private static class TestVariable implements Variable {
 
 		private final String name;
-
-		private TestVariable(String name) {
-			this.name = name;
-		}
 
 		public String toString() {
 			return name;
@@ -234,14 +232,11 @@ public class CspSolverTest {
 
 	}
 
+	@RequiredArgsConstructor
 	@EqualsAndHashCode(of = "value")
 	private static class TestValue implements Value {
 
 		private final int value;
-
-		private TestValue(int value) {
-			this.value = value;
-		}
 
 		public String toString() {
 			return String.valueOf(value);
