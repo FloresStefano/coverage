@@ -5,6 +5,7 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class CspSolverTestUtils {
@@ -65,6 +66,10 @@ public class CspSolverTestUtils {
 			}
 
 		};
+	}
+
+	public static Set<Solution> noSolutions() {
+		return new HashSet<Solution>();
 	}
 
 }

@@ -5,11 +5,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import static it.addvalue.coverage.core.engine.CspSolverTestUtils.contains;
+import static it.addvalue.coverage.core.engine.CspSolverTestUtils.noSolutions;
 import static it.addvalue.coverage.core.engine.CspSolverTestUtils.solutionsOf;
 import static it.addvalue.coverage.utils.Collections.setOf;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -130,7 +130,7 @@ public class CspSolverTest {
 
 	@Test
 	public void anInfeasibleProblemHasNoSolutions() {
-		assertThat(solutionsOf(infeasibleProblem()), is(emptySet()));
+		assertThat(solutionsOf(infeasibleProblem()), is(noSolutions()));
 	}
 
 	private Csp infeasibleProblem() {
@@ -138,10 +138,6 @@ public class CspSolverTest {
 		csp.setDomains(domains);
 		csp.setConstraints(setOf(constraint1(), constraint2(), constraint3(), constraint4()));
 		return csp;
-	}
-
-	private Set<Solution> emptySet() {
-		return new HashSet<Solution>();
 	}
 
 	private Constraint constraint4() {
