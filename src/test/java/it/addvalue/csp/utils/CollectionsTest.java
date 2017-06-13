@@ -1,12 +1,12 @@
-package it.addvalue.coverage.utils;
+package it.addvalue.csp.utils;
 
 import org.junit.Test;
 
 import java.util.Set;
 
-import static it.addvalue.coverage.utils.Collections.emptySet;
-import static it.addvalue.coverage.utils.Collections.setOf;
-import static it.addvalue.coverage.utils.Collections.unorderedPairsFrom;
+import static it.addvalue.csp.utils.Collections.emptySet;
+import static it.addvalue.csp.utils.Collections.setOf;
+import static it.addvalue.csp.utils.Collections.unorderedPairsFrom;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;

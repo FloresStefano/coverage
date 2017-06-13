@@ -1,4 +1,4 @@
-package it.addvalue.coverage.core.engine;
+package it.addvalue.csp.engine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,8 +88,6 @@ class Solutions implements Iterable<Solution> {
 			public void remove() {
 				throw new UnsupportedOperationException();
 			}
-
-
 
 		};
 	}

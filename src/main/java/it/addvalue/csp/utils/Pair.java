@@ -1,4 +1,4 @@
-package it.addvalue.coverage.utils;
+package it.addvalue.csp.utils;
 
 import lombok.Data;
 

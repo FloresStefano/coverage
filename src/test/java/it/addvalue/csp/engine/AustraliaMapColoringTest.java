@@ -1,6 +1,6 @@
-package it.addvalue.coverage.core.engine;
+package it.addvalue.csp.engine;
 
-import it.addvalue.coverage.utils.Pair;
+import it.addvalue.csp.utils.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,15 +9,14 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static it.addvalue.coverage.core.engine.AustraliaMapColoringTest.State.NSW;
-import static it.addvalue.coverage.core.engine.AustraliaMapColoringTest.State.NT;
-import static it.addvalue.coverage.core.engine.AustraliaMapColoringTest.State.Q;
-import static it.addvalue.coverage.core.engine.AustraliaMapColoringTest.State.SA;
-import static it.addvalue.coverage.core.engine.AustraliaMapColoringTest.State.V;
-import static it.addvalue.coverage.core.engine.AustraliaMapColoringTest.State.WA;
-import static it.addvalue.coverage.core.engine.CspSolverTestUtils.solutionsOf;
-import static it.addvalue.coverage.utils.Collections.setOf;
-import static it.addvalue.coverage.utils.Collections.unorderedPairsFrom;
+import static it.addvalue.csp.engine.AustraliaMapColoringTest.State.NSW;
+import static it.addvalue.csp.engine.AustraliaMapColoringTest.State.NT;
+import static it.addvalue.csp.engine.AustraliaMapColoringTest.State.Q;
+import static it.addvalue.csp.engine.AustraliaMapColoringTest.State.SA;
+import static it.addvalue.csp.engine.AustraliaMapColoringTest.State.V;
+import static it.addvalue.csp.engine.AustraliaMapColoringTest.State.WA;
+import static it.addvalue.csp.utils.Collections.setOf;
+import static it.addvalue.csp.utils.Collections.unorderedPairsFrom;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -38,7 +37,7 @@ public class AustraliaMapColoringTest {
 
 	@Test
 	public void testWithBinaryConstraints() {
-		assertThat(solutionsOf(binaryProblem()), is(not(emptySet())));
+		assertThat(CspSolverTestUtils.solutionsOf(binaryProblem()), is(not(emptySet())));
 	}
 
 	private Csp binaryProblem() {
@@ -88,7 +87,7 @@ public class AustraliaMapColoringTest {
 
 	@Test
 	public void testWithNaryConstraints() {
-		assertThat(solutionsOf(naryProblem()), is(not(emptySet())));
+		assertThat(CspSolverTestUtils.solutionsOf(naryProblem()), is(not(emptySet())));
 	}
 
 	private Csp naryProblem() {
@@ -103,7 +102,8 @@ public class AustraliaMapColoringTest {
 
 	@Test
 	public void equivalentProblemsHaveSameSolution() {
-		assertThat(solutionsOf(binaryProblem()), is(equalTo(solutionsOf(naryProblem()))));
+		assertThat(CspSolverTestUtils.solutionsOf(binaryProblem()),
+		           is(equalTo(CspSolverTestUtils.solutionsOf(naryProblem()))));
 	}
 
 	public enum State implements Variable {

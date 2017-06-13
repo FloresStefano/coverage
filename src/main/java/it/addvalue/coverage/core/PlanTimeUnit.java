@@ -1,4 +1,4 @@
-package it.addvalue.coverage.core.engineold;
+package it.addvalue.coverage.core;
 
 import it.addvalue.coverage.bean.PlanCalendar;
 import lombok.Data;

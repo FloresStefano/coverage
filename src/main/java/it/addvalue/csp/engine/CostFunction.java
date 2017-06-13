@@ -1,4 +1,4 @@
-package it.addvalue.coverage.core.engine;
+package it.addvalue.csp.engine;
 
 public interface CostFunction {
 	int evaluate(Solution solution);

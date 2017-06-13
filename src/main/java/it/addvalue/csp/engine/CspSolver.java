@@ -1,4 +1,4 @@
-package it.addvalue.coverage.core.engine;
+package it.addvalue.csp.engine;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import static it.addvalue.coverage.utils.Collections.oneOf;
+import static it.addvalue.csp.utils.Collections.oneOf;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 

@@ -1,4 +1,4 @@
-package it.addvalue.coverage.core.engine;
+package it.addvalue.csp.engine;
 
 import lombok.EqualsAndHashCode;
 
@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import static it.addvalue.coverage.utils.Collections.setOf;
+import static it.addvalue.csp.utils.Collections.setOf;
 
 @EqualsAndHashCode(of = "values")
 public class Domain implements Iterable<Value> {

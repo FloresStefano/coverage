@@ -1,6 +1,7 @@
-package it.addvalue.coverage.core.engine;
+package it.addvalue.csp.engine;
 
 import lombok.EqualsAndHashCode;
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,10 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static it.addvalue.coverage.core.engine.CspSolverTestUtils.contains;
-import static it.addvalue.coverage.core.engine.CspSolverTestUtils.noSolutions;
-import static it.addvalue.coverage.core.engine.CspSolverTestUtils.solutionsOf;
-import static it.addvalue.coverage.utils.Collections.setOf;
+import static it.addvalue.csp.utils.Collections.setOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
@@ -48,7 +46,7 @@ public class CspSolverTest {
 
 	@Test
 	public void aFeasibleProblemHasSolutions() {
-		assertThat(solutionsOf(feasibleProblem()), is(equalTo(setOf(expectedSolution()))));
+		assertThat(CspSolverTestUtils.solutionsOf(feasibleProblem()), is(equalTo(setOf(expectedSolution()))));
 	}
 
 	private Csp feasibleProblem() {
@@ -130,7 +128,8 @@ public class CspSolverTest {
 
 	@Test
 	public void anInfeasibleProblemHasNoSolutions() {
-		assertThat(solutionsOf(infeasibleProblem()), is(noSolutions()));
+		assertThat(CspSolverTestUtils.solutionsOf(infeasibleProblem()),
+		           CoreMatchers.is(CspSolverTestUtils.noSolutions()));
 	}
 
 	private Csp infeasibleProblem() {
@@ -160,12 +159,13 @@ public class CspSolverTest {
 
 	@Test
 	public void ifCostFunctionIsDefinedThenSolutionsAreSortedByAscendingCost() {
-		assertThat(solutionsOf(problemWithCostFunction()), is(equalTo(solutionsWithAscendingCost())));
+		assertThat(CspSolverTestUtils.solutionsOf(problemWithCostFunction()),
+		           is(equalTo(solutionsWithAscendingCost())));
 	}
 
 	@Test
 	public void ifMaxResultsIsDefinedThenSolutionsAreFewerThanItsValue() {
-		assertThat(solutionsOf(problemWithMaxResults()),
+		assertThat(CspSolverTestUtils.solutionsOf(problemWithMaxResults()),
 		           hasSize(lessThanOrEqualTo(problemWithMaxResults().getMaxSolutions())));
 	}
 
@@ -179,7 +179,8 @@ public class CspSolverTest {
 
 	@Test
 	public void ifMaxResultsIsDefinedThenSolutionsAreSubsetOfThoseOfTheUnboundedProblem() {
-		assertThat(solutionsOf(problemWithoutMaxResults()), contains(solutionsOf(problemWithMaxResults())));
+		assertThat(CspSolverTestUtils.solutionsOf(problemWithoutMaxResults()),
+		           CspSolverTestUtils.contains(CspSolverTestUtils.solutionsOf(problemWithMaxResults())));
 	}
 
 	private Csp problemWithoutMaxResults() {

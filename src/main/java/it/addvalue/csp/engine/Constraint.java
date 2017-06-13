@@ -1,4 +1,4 @@
-package it.addvalue.coverage.core.engine;
+package it.addvalue.csp.engine;
 
 import java.util.Set;
 

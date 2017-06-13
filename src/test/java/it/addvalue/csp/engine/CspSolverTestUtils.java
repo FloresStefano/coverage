@@ -1,4 +1,4 @@
-package it.addvalue.coverage.core.engine;
+package it.addvalue.csp.engine;
 
 import org.apache.commons.collections4.SetUtils;
 import org.hamcrest.BaseMatcher;
