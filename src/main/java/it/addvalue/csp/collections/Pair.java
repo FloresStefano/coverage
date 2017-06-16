@@ -1,4 +1,4 @@
-package it.addvalue.csp.utils;
+package it.addvalue.csp.collections;
 
 import lombok.Data;
 

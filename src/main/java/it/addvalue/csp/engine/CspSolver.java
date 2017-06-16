@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import static it.addvalue.csp.utils.Collections.oneOf;
+import static it.addvalue.csp.collections.Collections.oneOf;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
@@ -39,7 +39,7 @@ public class CspSolver {
 	private boolean solveRecursively(Csp csp, Solution solution, Set<Solution> solutions) {
 		if (solution.isCompleteFor(csp)) {
 			solutions.add(solution);
-			return csp.reachedSolutionCount(solutions);
+			return !csp.isFullSearch() && csp.reachedSolutionCount(solutions);
 		}
 
 		if (useMac) {

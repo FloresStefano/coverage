@@ -10,7 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static it.addvalue.csp.utils.Collections.setOf;
+import static it.addvalue.csp.collections.Collections.setOf;
+import static it.addvalue.csp.engine.CspSolverTestUtils.contains;
+import static it.addvalue.csp.engine.CspSolverTestUtils.solutionsOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
@@ -47,7 +49,7 @@ public class CspSolverTest {
 
 	@Test
 	public void aFeasibleProblemHasSolutions() {
-		assertThat(CspSolverTestUtils.solutionsOf(feasibleProblem()), is(equalTo(setOf(expectedSolution()))));
+		assertThat(solutionsOf(feasibleProblem()), is(equalTo(setOf(expectedSolution()))));
 	}
 
 	private Csp feasibleProblem() {
@@ -129,8 +131,7 @@ public class CspSolverTest {
 
 	@Test
 	public void anInfeasibleProblemHasNoSolutions() {
-		assertThat(CspSolverTestUtils.solutionsOf(infeasibleProblem()),
-		           CoreMatchers.is(CspSolverTestUtils.noSolutions()));
+		assertThat(solutionsOf(infeasibleProblem()), CoreMatchers.is(CspSolverTestUtils.noSolutions()));
 	}
 
 	private Csp infeasibleProblem() {
@@ -160,13 +161,12 @@ public class CspSolverTest {
 
 	@Test
 	public void ifCostFunctionIsDefinedThenSolutionsAreSortedByAscendingCost() {
-		assertThat(CspSolverTestUtils.solutionsOf(problemWithCostFunction()),
-		           is(equalTo(solutionsWithAscendingCost())));
+		assertThat(solutionsOf(problemWithCostFunction()), is(equalTo(solutionsWithAscendingCost())));
 	}
 
 	@Test
 	public void ifMaxResultsIsDefinedThenSolutionsAreFewerThanItsValue() {
-		assertThat(CspSolverTestUtils.solutionsOf(problemWithMaxResults()),
+		assertThat(solutionsOf(problemWithMaxResults()),
 		           hasSize(lessThanOrEqualTo(problemWithMaxResults().getMaxSolutions())));
 	}
 
@@ -180,15 +180,27 @@ public class CspSolverTest {
 
 	@Test
 	public void ifMaxResultsIsDefinedThenSolutionsAreSubsetOfThoseOfTheUnboundedProblem() {
-		assertThat(CspSolverTestUtils.solutionsOf(problemWithoutMaxResults()),
-		           CspSolverTestUtils.contains(CspSolverTestUtils.solutionsOf(problemWithMaxResults())));
+		assertThat(solutionsOf(problemWithoutMaxResults()), contains(solutionsOf(problemWithMaxResults())));
 	}
 
-	private Csp problemWithoutMaxResults() {
+	@Test
+	public void aFullSearchUsingCostFunctionAndMaxResultsProducesTheCheapestSolutions() {
+		assertThat(solutionsOf(problemWithCostFunctionMaxResultsAndFullSearch()), is(equalTo(cheapestSolutions())));
+	}
+
+	private Csp problemWithCostFunctionMaxResultsAndFullSearch() {
 		Csp csp = new Csp();
 		csp.setDomains(domains);
 		csp.setConstraints(setOf(constraint1(), constraint3()));
+		csp.setCostFunction(costFunction());
+		csp.setMaxSolutions(2);
+		csp.setFullSearch(true);
 		return csp;
+	}
+
+	private Set<Solution> cheapestSolutions() {
+		return setOf(Solution.builder().set(x, $1).set(y, $3).set(z, $3).build(),
+		             Solution.builder().set(x, $2).set(y, $3).set(z, $3).build());
 	}
 
 	private CostFunction costFunction() {
@@ -203,6 +215,13 @@ public class CspSolverTest {
 			}
 
 		};
+	}
+
+	private Csp problemWithoutMaxResults() {
+		Csp csp = new Csp();
+		csp.setDomains(domains);
+		csp.setConstraints(setOf(constraint1(), constraint3()));
+		return csp;
 	}
 
 	private Csp problemWithCostFunction() {

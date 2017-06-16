@@ -1,6 +1,7 @@
-package it.addvalue.csp.utils;
+package it.addvalue.csp.collections;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -56,6 +57,16 @@ public class Collections {
 					}
 
 				};
+			}
+
+		};
+	}
+
+	public static <T extends Comparable<T>> Comparator<T> defaultComparatorFor(Class<T> clazz) {
+		return new Comparator<T>() {
+
+			public int compare(T o1, T o2) {
+				return o1.compareTo(o2);
 			}
 
 		};

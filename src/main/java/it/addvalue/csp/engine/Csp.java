@@ -1,5 +1,7 @@
 package it.addvalue.csp.engine;
 
+import it.addvalue.csp.collections.BoundedSet;
+import it.addvalue.csp.collections.BoundedSortedSet;
 import lombok.Data;
 
 import java.util.Comparator;
@@ -7,15 +9,70 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
+/**
+ * <table>
+ * <tr>
+ * <th>fullSearch</th>
+ * <th>maxSolutions</th>
+ * <th>costFunction</th>
+ * <th>Risultato ricerca</th>
+ * <th>Ordinamento</th>
+ * </tr>
+ * <tr>
+ * <td>true</td>
+ * <td>N</td>
+ * <td>definita</td>
+ * <td>le N soluzioni meno costose</td>
+ * <td>per costo crescente</td>
+ * </tr>
+ * <tr>
+ * <td>true</td>
+ * <td>N</td>
+ * <td>non definita</td>
+ * <td>N soluzioni qualsiasi fra tutte</td>
+ * <td>non predicibile</td>
+ * </tr>
+ * <tr>
+ * <td>*</td>
+ * <td>unbounded</td>
+ * <td>definita</td>
+ * <td>tutte le soluzioni del problema</td>
+ * <td>per costo crescente</td>
+ * </tr>
+ * <tr>
+ * <td>*</td>
+ * <td>unbounded</td>
+ * <td>non definita</td>
+ * <td>tutte le soluzioni del problema</td>
+ * <td>non predicibile</td>
+ * </tr>
+ * <tr>
+ * <td>false</td>
+ * <td>N</td>
+ * <td>definita</td>
+ * <td>le prime N soluzioni trovate</td>
+ * <td>per costo crescente</td>
+ * </tr>
+ * <tr>
+ * <td>false</td>
+ * <td>N</td>
+ * <td>non definita</td>
+ * <td>le prime N soluzioni trovate</td>
+ * <td>non predicibile</td>
+ * </tr>
+ * </table>
+ */
 @Data
 public class Csp implements Cloneable {
 
+	public static final int UNBOUNDED = Integer.MAX_VALUE;
+
 	private Map<Variable, Domain> domains;
 	private Set<Constraint>       constraints;
-	private CostFunction          costFunction;
-	private int maxSolutions = Integer.MAX_VALUE;
+	private CostFunction costFunction = null;
+	private int          maxSolutions = UNBOUNDED;
+	private boolean      fullSearch   = false;
 
 	public Set<Solution> newSolutionSet() {
 		if (hasCostFunctionDefined()) {
@@ -29,12 +86,12 @@ public class Csp implements Cloneable {
 		return costFunction != null;
 	}
 
-	private TreeSet<Solution> sortedSolutionSetWithAscendingCost() {
-		return new TreeSet<Solution>(ascendingCostComparator());
+	private Set<Solution> sortedSolutionSetWithAscendingCost() {
+		return new BoundedSortedSet<Solution>(maxSolutions, ascendingCostComparator());
 	}
 
-	private HashSet<Solution> unsortedSolutionSet() {
-		return new HashSet<Solution>();
+	private Set<Solution> unsortedSolutionSet() {
+		return new BoundedSet<Solution>(maxSolutions);
 	}
 
 	private Comparator<Solution> ascendingCostComparator() {
@@ -90,8 +147,9 @@ public class Csp implements Cloneable {
 			sb.append("solution cost:\n\t").append(costFunction).append("\n");
 		}
 		if (maxSolutions < Integer.MAX_VALUE) {
-			sb.append("max solutions:\n\t").append(maxSolutions).append("\n");
+			sb.append("max solutions: ").append(maxSolutions).append("\n");
 		}
+		sb.append("full search: ").append(fullSearch).append("\n");
 		return sb.toString();
 	}
 

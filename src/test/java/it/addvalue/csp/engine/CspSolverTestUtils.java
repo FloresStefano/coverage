@@ -5,7 +5,9 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class CspSolverTestUtils {
@@ -47,22 +49,54 @@ public class CspSolverTestUtils {
 		return solutions;
 	}
 
-	public static Matcher<? super Set<Solution>> contains(final Set<Solution> solutions) {
-		return new BaseMatcher<Set<Solution>>() {
+	public static <T> Matcher<Set<T>> contains(final Set<T> expected) {
+		return new BaseMatcher<Set<T>>() {
 
-			private Set<Solution> arg;
+			public boolean matches(Object actual) {
+				return set(actual).containsAll(expected);
+			}
 
 			@SuppressWarnings("unchecked")
-			public boolean matches(Object o) {
-				return (arg = (Set<Solution>) o).containsAll(solutions);
+			private Set<T> set(Object o) {
+				return (Set<T>) o;
 			}
 
 			public void describeTo(Description description) {
-				description.appendValue(arg).appendText(" to contain ").appendValue(solutions);
+				description.appendText("contains ").appendValue(expected);
 			}
 
-			public void describeMismatch(Object item, Description description) {
-				description.appendValue(SetUtils.difference(solutions, arg)).appendText(" were also present");
+			public void describeMismatch(Object actual, Description description) {
+				description.appendValue(SetUtils.difference(expected, set(actual))).appendText(" were also present");
+			}
+
+		};
+	}
+
+	public static <T> Matcher<Iterable<T>> iteratesTo(final T... expected) {
+		return new BaseMatcher<Iterable<T>>() {
+
+			@SuppressWarnings("unchecked")
+			public boolean matches(Object actual) {
+				Iterator<T> it = iterable(actual).iterator();
+				for (T expectedValue : expected) {
+					if (!it.hasNext() || !it.next().equals(expectedValue)) {
+						return false;
+					}
+				}
+				return !it.hasNext();
+			}
+
+			@SuppressWarnings("unchecked")
+			private Iterable<T> iterable(Object o) {
+				return (Iterable<T>) o;
+			}
+
+			public void describeTo(Description description) {
+				description.appendText("iterates to ").appendValue(Arrays.toString(expected));
+			}
+
+			public void describeMismatch(Object actual, Description description) {
+				description.appendText("was ").appendValue(iterable(actual));
 			}
 
 		};
