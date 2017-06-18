@@ -17,8 +17,9 @@ public class PlanCalendar implements Serializable {
 	private Long    id;
 	private String  name;
 	private Date    day;
-	private Integer weekOfYear;
 	private Integer dayOfWeek;
+	private Integer weekOfWeekyear;
+	private Integer weekyear;
 	private Integer totalExpectedCalls;
 	private String  totalExpectedCallsDetail;
 	private Set<PlanCalendarDetail> details = new HashSet<PlanCalendarDetail>();

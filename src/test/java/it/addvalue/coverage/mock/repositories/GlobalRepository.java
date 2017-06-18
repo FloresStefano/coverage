@@ -7,26 +7,29 @@ import it.addvalue.coverage.bean.Service;
 import it.addvalue.coverage.bean.Skill;
 import it.addvalue.coverage.bean.Staff;
 import it.addvalue.coverage.bean.Workshift;
-import it.addvalue.coverage.utils.XmlUtil;
-import org.junit.Test;
+import lombok.EqualsAndHashCode;
+import lombok.val;
+import org.joda.time.LocalDate;
 
-import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 import static it.addvalue.coverage.mock.utils.RandomUtils.randomInRange;
 import static it.addvalue.coverage.mock.utils.RandomUtils.randomItemsIn;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static it.addvalue.csp.collections.Collections.setOf;
 
-public class GlobalRepository {
+@EqualsAndHashCode
+public class GlobalRepository implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private static final int                          SERVICE_COUNT            = 6;
 	private static final int                          RULE_COUNT               = 5;
 	private static final int                          WORKSHIFT_COUNT          = 4;
 	private static final int                          STAFF_COUNT              = 15;
-	private static final int                          CALENDAR_COUNT           = 365;
+	private static final LocalDate                    START_DATE               = new LocalDate(2017, 1, 1);
+	private static final LocalDate                    END_DATE                 = new LocalDate(2017, 12, 31);
 	private final        ServiceRepository            serviceRepository        = new ServiceRepository();
 	private final        RuleRepository               ruleRepository           = new RuleRepository();
 	private final        WorkshiftRepository          workshiftRepository      = new WorkshiftRepository();
@@ -35,7 +38,27 @@ public class GlobalRepository {
 	private final        PlanCalendarDetailRepository calendarDetailRepository = new PlanCalendarDetailRepository();
 	private final        PlanCalendarRepository       calendarRepository       = new PlanCalendarRepository();
 
-	public GlobalRepository() {
+	public Service getService(Long id) {
+		return serviceRepository.data.get(id);
+	}
+
+	public Set<PlanCalendar> allCalendars() {
+		return setOf(calendarRepository.data.values());
+	}
+
+	public Set<Rule> allRules() {
+		return setOf(ruleRepository.data.values());
+	}
+
+	public Set<Staff> allStaffs() {
+		return setOf(staffRepository.data.values());
+	}
+
+	public Set<Workshift> allWorkshifts() {
+		return setOf(workshiftRepository.data.values());
+	}
+
+	public void populate() {
 		for (int i = 0; i < SERVICE_COUNT; i++) {
 			serviceRepository.newItem();
 		}
@@ -46,23 +69,23 @@ public class GlobalRepository {
 			workshiftRepository.newItem();
 		}
 		for (int i = 0; i < STAFF_COUNT; i++) {
-			int numSkills = randomInRange(1, 3);
-			int numWorkshifts = randomInRange(1, 3);
-			Set<Service> services = randomServices(numSkills);
-			Set<Skill> skills = new HashSet<Skill>();
-			for (Service service : services) {
+			val numSkills = randomInRange(1, 3);
+			val numWorkshifts = randomInRange(1, 3);
+			val services = randomServices(numSkills);
+			val skills = new HashSet<Skill>();
+			for (val service : services) {
 				skills.add(skillRepository.newItem(service));
 			}
-			Set<Workshift> workshifts = randomWorkshifts(numWorkshifts);
+			val workshifts = randomWorkshifts(numWorkshifts);
 			staffRepository.newItem(skills, workshifts);
 		}
-		Set<Service> services = allServices();
-		for (int i = 0; i < CALENDAR_COUNT; i++) {
-			Set<PlanCalendarDetail> details = new HashSet<PlanCalendarDetail>();
-			for (Service service : services) {
+		val services = allServices();
+		for (LocalDate date = START_DATE; date.compareTo(END_DATE) <= 0; date = date.plusDays(1)) {
+			val details = new HashSet<PlanCalendarDetail>();
+			for (val service : services) {
 				details.add(calendarDetailRepository.newItem(service));
 			}
-			calendarRepository.newItem(2017, i, details, services);
+			calendarRepository.newItem(date, details, services);
 		}
 	}
 
@@ -75,39 +98,7 @@ public class GlobalRepository {
 	}
 
 	public Set<Service> allServices() {
-		return new HashSet<Service>(serviceRepository.data.values());
-	}
-
-	public Service getService(Long id) {
-		return serviceRepository.data.get(id);
-	}
-
-	public Set<PlanCalendar> allCalendars() {
-		return new HashSet<PlanCalendar>(calendarRepository.data.values());
-	}
-
-	public Set<Rule> allRules() {
-		return new HashSet<Rule>(ruleRepository.data.values());
-	}
-
-	public Set<Staff> allStaffs() {
-		return new HashSet<Staff>(staffRepository.data.values());
-	}
-
-	public Set<Workshift> allWorkshifts() {
-		return new HashSet<Workshift>(workshiftRepository.data.values());
-	}
-
-	@Test
-	public void testXmlSerializability()
-	throws IOException {
-		assertThat(XmlUtil.prettyPrint(serviceRepository.data), is(notNullValue()));
-		assertThat(XmlUtil.prettyPrint(ruleRepository.data), is(notNullValue()));
-		assertThat(XmlUtil.prettyPrint(workshiftRepository.data), is(notNullValue()));
-		assertThat(XmlUtil.prettyPrint(skillRepository.data), is(notNullValue()));
-		assertThat(XmlUtil.prettyPrint(staffRepository.data), is(notNullValue()));
-		assertThat(XmlUtil.prettyPrint(calendarDetailRepository.data), is(notNullValue()));
-		assertThat(XmlUtil.prettyPrint(calendarRepository.data), is(notNullValue()));
+		return setOf(serviceRepository.data.values());
 	}
 
 }

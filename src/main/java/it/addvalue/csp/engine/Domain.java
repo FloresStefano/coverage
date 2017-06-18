@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import static it.addvalue.csp.collections.Collections.copySet;
 import static it.addvalue.csp.collections.Collections.setOf;
 
 @EqualsAndHashCode(of = "values")
@@ -18,7 +19,7 @@ public class Domain implements Iterable<Value> {
 	}
 
 	public Domain(Set<Value> values) {
-		this.values = new HashSet<Value>(values);
+		this.values = copySet(values);
 	}
 
 	public static Domain containing(Value... values) {

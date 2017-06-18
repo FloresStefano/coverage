@@ -7,11 +7,10 @@ import it.addvalue.coverage.bean.Staff;
 import it.addvalue.coverage.bean.Workshift;
 import it.addvalue.coverage.core.CoverageGenerator;
 import it.addvalue.coverage.mock.repositories.GlobalRepository;
-import it.addvalue.coverage.utils.XmlUtil;
+import it.addvalue.coverage.mock.utils.BinaryUtils;
+import it.addvalue.coverage.mock.utils.XmlUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.io.IOException;
 
 import static it.addvalue.coverage.mock.utils.CsvUtils.csvadd;
 import static it.addvalue.coverage.mock.utils.CsvUtils.csvsum;
@@ -32,10 +31,9 @@ public class CoverageTest {
 	private static Input            input;
 
 	@BeforeClass
-	public static void init()
-	throws IOException {
-		input = XmlUtil.deserialize("coverage_data.xml", Input.class);
-		globalRepository = new GlobalRepository();
+	public static void init() {
+		input = XmlUtils.deserialize("coverage_data.xml", Input.class);
+		globalRepository = BinaryUtils.deserialize("repository_data.bin", GlobalRepository.class);
 	}
 
 	// A fronte di un input dev'essere prodotto un output
@@ -181,7 +179,7 @@ public class CoverageTest {
 
 		int days = input.getCalendars().size();
 		int staff = input.getStaffs().size();
-		assertThat(output.getAllocationList(), hasSize(equalTo(days * staff)));
+		assertThat(output.getAllocations(), hasSize(equalTo(days * staff)));
 	}
 
 }

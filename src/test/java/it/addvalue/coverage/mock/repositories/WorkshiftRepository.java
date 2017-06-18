@@ -1,16 +1,22 @@
 package it.addvalue.coverage.mock.repositories;
 
 import it.addvalue.coverage.bean.Workshift;
+import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WorkshiftRepository {
+@EqualsAndHashCode
+public class WorkshiftRepository implements Serializable {
 
 	public static final String CONTRACTNAME = "FullTime";
 
 	public final Map<Long, Workshift> data = new HashMap<Long, Workshift>();
-	private      long                 id   = 0;
+
+	private static final long serialVersionUID = 1L;
+
+	private long id = 0;
 
 	public Workshift newItem() {
 		Workshift item = new Workshift();

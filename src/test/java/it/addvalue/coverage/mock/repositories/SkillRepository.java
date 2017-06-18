@@ -2,19 +2,26 @@ package it.addvalue.coverage.mock.repositories;
 
 import it.addvalue.coverage.bean.Service;
 import it.addvalue.coverage.bean.Skill;
+import lombok.EqualsAndHashCode;
+import lombok.val;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import static it.addvalue.coverage.mock.utils.RandomUtils.randomInRange;
 
-public class SkillRepository {
+@EqualsAndHashCode
+public class SkillRepository implements Serializable {
 
 	public final Map<Long, Skill> data = new HashMap<Long, Skill>();
-	private      long             id   = 0;
+
+	private static final long serialVersionUID = 1L;
+
+	private long id = 0;
 
 	public Skill newItem(Service service) {
-		Skill item = new Skill();
+		val item = new Skill();
 		item.setId(id);
 		item.setHandledCallsOverridden(randomInRange(40, 50));
 		item.setSkillLevel(randomInRange(4, 10));

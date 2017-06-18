@@ -1,6 +1,7 @@
 package it.addvalue.csp.collections;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -74,6 +75,14 @@ public class Collections {
 
 	public static <T> Set<T> setOf(T... items) {
 		return new HashSet<T>(Arrays.asList(items));
+	}
+
+	public static <T> Set<T> setOf(Collection<T> items) {
+		return new HashSet<T>(items);
+	}
+
+	public static <T> Set<T> copySet(Set<T> items) {
+		return new HashSet<T>(items);
 	}
 
 }

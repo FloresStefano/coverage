@@ -3,12 +3,12 @@ package it.addvalue.coverage;
 import it.addvalue.coverage.bean.Allocation;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 public class Output {
 
-	private List<List<Allocation>> allocationList = new ArrayList<List<Allocation>>();
+	private Set<Set<Allocation>> allocations = new HashSet<Set<Allocation>>();
 
 }

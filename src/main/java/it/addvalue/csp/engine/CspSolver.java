@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static it.addvalue.csp.collections.Collections.copySet;
 import static it.addvalue.csp.collections.Collections.oneOf;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -60,7 +61,7 @@ public class CspSolver {
 	}
 
 	private Variable selectUnassignedVariable(Csp csp, Solution solution) {
-		val variables = new HashSet<Variable>(csp.variables());
+		val variables = copySet(csp.variables());
 		retainUnassignedVariables(variables, solution);
 
 		if (useMrv && variables.size() > 1) {
@@ -94,7 +95,7 @@ public class CspSolver {
 	}
 
 	private void retainMostConstrainedVariables(Set<Variable> variables, Set<Constraint> constraints) {
-		val unassignedVariables = new HashSet<Variable>(variables);
+		val unassignedVariables = copySet(variables);
 		val maxDegree = maximumDegree(unassignedVariables, constraints);
 		val it = variables.iterator();
 		while (it.hasNext()) {
@@ -141,7 +142,7 @@ public class CspSolver {
 
 	private Csp maintainArcConsistency(Csp csp) {
 		csp = csp.clone();
-		val constraintsToCheck = new HashSet<Constraint>(csp.getConstraints());
+		val constraintsToCheck = copySet(csp.getConstraints());
 
 		while (!constraintsToCheck.isEmpty()) {
 			val constraint = oneOf(constraintsToCheck);
