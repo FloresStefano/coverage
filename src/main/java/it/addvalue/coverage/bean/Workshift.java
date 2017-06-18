@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 @Data
@@ -15,6 +16,6 @@ public class Workshift implements Serializable {
 	private Long   id;
 	private String name;
 	private String contractName;
-	private Map    dailySchedule;
+	private Map<String, String> dailySchedule = new HashMap<String, String>();
 
 }

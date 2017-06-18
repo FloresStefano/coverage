@@ -13,8 +13,8 @@ public class Rule implements Serializable {
 
 	private Long   id;
 	private String name;
-	private String ruleKey;
-	private String ruleValue;
-	private String ruleWeight;
+	private String key;
+	private String value;
+	private String weight;
 
 }

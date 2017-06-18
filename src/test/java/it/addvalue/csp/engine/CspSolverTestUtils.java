@@ -1,7 +1,6 @@
 package it.addvalue.csp.engine;
 
 import lombok.val;
-import org.apache.commons.collections4.SetUtils;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -69,7 +68,7 @@ public class CspSolverTestUtils {
 			}
 
 			public void describeMismatch(Object actual, Description description) {
-				description.appendValue(SetUtils.difference(expected, set(actual))).appendText(" were also present");
+				description.appendText("was ").appendValue(set(actual));
 			}
 
 		};
@@ -92,7 +91,7 @@ public class CspSolverTestUtils {
 			}
 
 			public void describeMismatch(Object actual, Description description) {
-				description.appendValue(SetUtils.difference(set(actual), expected)).appendText(" were also present");
+				description.appendText("was ").appendValue(set(actual));
 			}
 
 		};

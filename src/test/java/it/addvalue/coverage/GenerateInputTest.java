@@ -1,35 +1,41 @@
 package it.addvalue.coverage;
 
-import it.addvalue.coverage.mock.CalendarMock;
-import it.addvalue.coverage.mock.RuleMock;
-import it.addvalue.coverage.mock.ServiceMock;
-import it.addvalue.coverage.mock.StaffMock;
-import it.addvalue.coverage.mock.WorkshiftMock;
+import it.addvalue.coverage.mock.repositories.GlobalRepository;
 import it.addvalue.coverage.utils.XmlUtil;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertNotNull;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertThat;
 
 public class GenerateInputTest {
+
+	private GlobalRepository globalRepository;
+
+	@Before
+	public void setup() {
+		globalRepository = new GlobalRepository();
+	}
 
 	@Test
 	public void randomDataForCoverageGeneratorTest()
 	throws IOException {
 
 		Input randomInput = new Input();
-		randomInput.setCalendarList(CalendarMock.mock());
-		randomInput.setRuleList(RuleMock.mock());
-		randomInput.setStaffList(StaffMock.mock());
-		randomInput.setServiceMap(ServiceMock.serviceMap);
-		randomInput.setWorkshiftMap(WorkshiftMock.workshiftMap);
+		randomInput.setCalendars(globalRepository.allCalendars());
+		randomInput.setRules(globalRepository.allRules());
+		randomInput.setStaffs(globalRepository.allStaffs());
+		randomInput.setServices(globalRepository.allServices());
+		randomInput.setWorkshifts(globalRepository.allWorkshifts());
 
-		XmlUtil.serializedToXmlFile(randomInput, "simple_bean.xml");
+		XmlUtil.serialize(randomInput, "simple_bean.xml");
 
-		Input deserializedInput = (Input) XmlUtil.deserializedToXmlFile(Input.class, "simple_bean.xml");
+		Input deserializedInput = XmlUtil.deserialize("simple_bean.xml", Input.class);
 
-		assertNotNull(deserializedInput);
+		assertThat(deserializedInput, is(notNullValue()));
 	}
 
 }

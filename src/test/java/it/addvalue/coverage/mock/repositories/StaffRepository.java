@@ -1,0 +1,40 @@
+package it.addvalue.coverage.mock.repositories;
+
+import it.addvalue.coverage.bean.Skill;
+import it.addvalue.coverage.bean.Staff;
+import it.addvalue.coverage.bean.Workshift;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import static it.addvalue.coverage.mock.repositories.WorkshiftRepository.CONTRACTNAME;
+
+public class StaffRepository {
+
+	public final Map<Long, Staff> data = new HashMap<Long, Staff>();
+	private      long             id   = 0;
+
+	public Staff newItem(Set<Skill> skills, Set<Workshift> workshifts) {
+		Staff item = new Staff();
+		item.setId(id);
+		item.setName("Staff" + id);
+		item.setContractName(CONTRACTNAME);
+		item.setIdTeam(0L);
+		item.setSkills(skills);
+		item.setIdWorkshifts(idWorkshifts(workshifts));
+		data.put(id, item);
+		id++;
+		return item;
+	}
+
+	private static Set<Long> idWorkshifts(Set<Workshift> workshifts) {
+		Set<Long> ids = new HashSet<Long>();
+		for (Workshift workshift : workshifts) {
+			ids.add(workshift.getId());
+		}
+		return ids;
+	}
+
+}

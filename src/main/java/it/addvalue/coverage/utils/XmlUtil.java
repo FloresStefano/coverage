@@ -2,46 +2,28 @@ package it.addvalue.coverage.utils;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class XmlUtil {
 
-	public static void serializedToXmlFile(Object object, String namefile)
+	public static void serialize(Object object, String xmlFile)
 	throws IOException {
-
-		XmlMapper xmlMapper = new XmlMapper();
-		xmlMapper.writeValue(new File(namefile), object);
+		xmlMapper().writeValue(new File(xmlFile), object);
 	}
 
-	public static Object deserializedToXmlFile(Class clazz, String namefile)
-	throws IOException {
-		File file = new File(namefile);
-		XmlMapper xmlMapper = new XmlMapper();
-		String xml = inputStreamToString(new FileInputStream(file));
-		return xmlMapper.readValue(xml, clazz);
+	private static XmlMapper xmlMapper() {
+		return new XmlMapper();
 	}
 
-	public static String inputStreamToString(InputStream is)
+	public static <T> T deserialize(String xmlFile, Class<T> clazz)
 	throws IOException {
-		StringBuilder sb = new StringBuilder();
-		String line;
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-		while ((line = br.readLine()) != null) {
-			sb.append(line);
-		}
-		br.close();
-		return sb.toString();
+		return xmlMapper().readValue(new File(xmlFile), clazz);
 	}
 
 	public static String prettyPrint(Object object)
 	throws IOException {
-		XmlMapper xmlMapper = new XmlMapper();
-		String writeValueAsString = xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+		String writeValueAsString = xmlMapper().writerWithDefaultPrettyPrinter().writeValueAsString(object);
 		System.out.println(writeValueAsString);
 		return writeValueAsString;
 	}

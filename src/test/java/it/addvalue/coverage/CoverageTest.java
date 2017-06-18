@@ -6,138 +6,125 @@ import it.addvalue.coverage.bean.Service;
 import it.addvalue.coverage.bean.Staff;
 import it.addvalue.coverage.bean.Workshift;
 import it.addvalue.coverage.core.CoverageGenerator;
-import it.addvalue.coverage.mock.CalendarMock;
-import it.addvalue.coverage.mock.ServiceMock;
-import it.addvalue.coverage.mock.WorkshiftMock;
+import it.addvalue.coverage.mock.repositories.GlobalRepository;
 import it.addvalue.coverage.utils.XmlUtil;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static it.addvalue.coverage.mock.utils.CsvUtils.csvadd;
+import static it.addvalue.coverage.mock.utils.CsvUtils.csvsum;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.lessThan;
+import static org.junit.Assert.assertThat;
 
 public class CoverageTest {
 
-	private static Input input;
+	private static GlobalRepository globalRepository;
+	private static Input            input;
 
 	@BeforeClass
 	public static void init()
 	throws IOException {
-		input = (Input) XmlUtil.deserializedToXmlFile(Input.class, "coverage_data.xml");
+		input = XmlUtil.deserialize("coverage_data.xml", Input.class);
+		globalRepository = new GlobalRepository();
 	}
 
 	// A fronte di un input dev'essere prodotto un output
 	@Test
-	public void coverageGeneratorTest()
-	throws IOException {
+	public void coverageGeneratorTest() {
 		CoverageGenerator generator = new CoverageGenerator();
 		Output output = generator.generate(input);
-		assertNotNull(input);
-		assertNotNull(output);
+		assertThat(input, is(notNullValue()));
+		assertThat(output, is(notNullValue()));
 	}
 
 	// L'input deve contenere tutti i giorni di un anno
 	@Test
-	public void allDayPresentTest()
-	throws IOException {
-
+	public void allDayPresentTest() {
 		// VARIABILE= giorni dell'anno calcolato
-		assertTrue(input.getCalendarList().size() == 365);
+		assertThat(input.getCalendars(), hasSize(equalTo(365)));
 	}
 
 	// Per ogni giorno di input devono essere specificati quali servizi sono
 	// attivi e quali sono le loro caratteristiche in termini di expected call
 	// ecc.. Ogni servizio attivo è presente.
 	@Test
-	public void allServicePresentInDayTest()
-	throws IOException {
-
-		int size = ServiceMock.serviceMap.size();
-
-		for (PlanCalendar pc : input.getCalendarList()) {
-			assertTrue(pc.getDetailList().size() == size);
+	public void allServicesPresentEverydayTest() {
+		for (PlanCalendar pc : input.getCalendars()) {
+			assertThat(pc.getDetails(), hasSize(globalRepository.allServices().size()));
 		}
-
 	}
 
 	// Per ogni giorno, per uno dei servizi attivi, si possono verifivare picchi
 	// rispetto la media dovuti a marker speciali. Di default ci sono le
 	// caratteristiche base dei servizi ma potrei avere dei marker speciali,
 	@Test
-	public void inputServiceMarkerTest()
-	throws IOException {
-		// VARIABILE= minimo e massimo numero di marker accettati (0 e 365)
+	public void inputServiceMarkerTest() {
+		// VARIABILE = minimo e massimo numero di marker accettati (0 e 365)
+		int numMarkers = 0;
 
-		int specialMarker = 0;
-		int size = ServiceMock.serviceMap.size();
-
-		for (PlanCalendar pc : input.getCalendarList()) {
-
-			for (PlanCalendarDetail pcm : pc.getDetailList()) {
+		for (PlanCalendar pc : input.getCalendars()) {
+			for (PlanCalendarDetail pcm : pc.getDetails()) {
 				if (pcm.getMarkerMultiplier().equals("x1")) {
-					specialMarker++;
+					numMarkers++;
 				}
-
 			}
-
 		}
-		assertTrue(specialMarker > 0);
+		assertThat(numMarkers, is(greaterThan(0)));
 	}
 
 	// le telefonate attese devono coprire le telefonate giornaliere previste
 	@Test
-	public void expectedCallsVsDailyCallsTest()
-	throws IOException {
-
+	public void expectedCallsVsDailyCallsTest() {
 		// VARIABILE = la soglia accettabile di copertura in percentuale
-		for (PlanCalendar day : input.getCalendarList()) {
+		for (PlanCalendar day : input.getCalendars()) {
 			int sum = 0;
 			String sumCsv = "0,0,0,0,0,0";
 
-			for (PlanCalendarDetail detail : day.getDetailList()) {
+			for (PlanCalendarDetail detail : day.getDetails()) {
 				Long idService = detail.getIdService();
-				Service service = ServiceMock.serviceMap.get("Service" + idService);
+				Service service = globalRepository.getService(idService);
 				sum += service.getDailyCalls();
-				sumCsv = CalendarMock.csvadd(sumCsv, service.getDailyCallsDetail());
+				sumCsv = csvadd(sumCsv, service.getDailyCallsDetail());
 			}
 			Integer total = day.getTotalExpectedCalls();
 			String totalcsv = day.getTotalExpectedCallsDetail();
-			assertTrue(total >= sum);
-			assertTrue(CalendarMock.csvsum(totalcsv) == CalendarMock.csvsum(sumCsv));
-
+			assertThat(total, is(greaterThanOrEqualTo(sum)));
+			assertThat(csvsum(totalcsv), is(equalTo(csvsum(sumCsv))));
 		}
+	}
+
+	@Test
+	public void staffListNonEmpty() {
+		assertThat(input.getStaffs(), is(not(empty())));
 	}
 
 	// L'input deve contenere oltre ai giorni, la lista degli utenti per i quali
 	// si vuole trovare il turno idoneo.
 	// Per ogni utente c'è la lista dei turni ammissibili fra i quali scegliere.
 	@Test
-	public void staffAndWorkshifTest()
-	throws IOException {
-
+	public void staffAndWorkshifTest() {
 		// VARIABILE = numero m di turni assegnabili (1 turno)
-
-		List<Staff> staffList = input.getStaffList();
-		for (Staff staff : staffList) {
-			assertTrue(staff.getIdsWorkshift().size() > 0);
+		for (Staff staff : input.getStaffs()) {
+			assertThat(staff.getIdWorkshifts(), is(not(empty())));
 		}
-		assertTrue(staffList.size() > 0);
 	}
 
-	// Ad un utente puo' essere dato sol un turno coerente col suo contratto
+	// Ad un utente puo' essere dato solo un turno coerente col suo contratto
 	@Test
-	public void staffAndWorkshifByContractTest()
-	throws IOException {
-		Collection<Workshift> workshif = WorkshiftMock.workshiftMap.values();
-
-		for (Staff staff : input.getStaffList()) {
-			for (Workshift workshift : workshif) {
-				assertTrue(workshift.getContractName().equals(staff.getContractName()));
-
+	public void staffAndWorkshifByContractTest() {
+		for (Staff staff : input.getStaffs()) {
+			for (Workshift workshift : globalRepository.allWorkshifts()) {
+				assertThat(workshift.getContractName(), is(equalTo(staff.getContractName())));
 			}
 		}
 	}
@@ -147,20 +134,15 @@ public class CoverageTest {
 	// Un utente è formato ad un sottoinsieme dei servizi totali del callcenter.
 	// Da 1 a 4 su 10 totali.
 	@Test
-	public void staffTest()
-	throws IOException {
+	public void staffTest() {
 		// VARIABILE = numero minimo e massimo di servizi su cui un utente di
 		// call center
 		// e' formato (da 1 a 4 servizi)
-		int size = ServiceMock.serviceMap.size();
 
-		List<Staff> staffList = input.getStaffList();
-		for (Staff staff : staffList) {
-
-			assertTrue(staff.getSkillList().size() > 0);
-			assertTrue(staff.getSkillList().size() < size);
+		for (Staff staff : input.getStaffs()) {
+			assertThat(staff.getSkills(), is(not(empty())));
+			assertThat(staff.getSkills(), hasSize(lessThan(globalRepository.allServices().size())));
 		}
-		assertTrue(staffList.size() > 0);
 	}
 
 	// Per ogni giorno in output devono essere soddisfatte l'expected call di
@@ -168,8 +150,7 @@ public class CoverageTest {
 	// gestite dagli utenti assegnati a quel servizio deve coprire il numero di
 	// expected call
 	@Test
-	public void expectedCallsForServiceTest()
-	throws IOException {
+	public void expectedCallsForServiceTest() {
 		// TODO
 		// VARIABILE = soglia o percentuale accettabile (100%)
 	}
@@ -178,8 +159,7 @@ public class CoverageTest {
 	// oraria. Questo significa che almeno un team leader sia sempre presente
 	// nel call center durante il giorno.
 	@Test
-	public void teamleaderPresenceTest()
-	throws IOException {
+	public void teamleaderPresenceTest() {
 		// TODO
 		// VARIABILE = numero minimo di teamleader presenti (1 TL)
 	}
@@ -189,20 +169,19 @@ public class CoverageTest {
 	// giorni consecutivi dello stesso turno. Quindi si stabiliscono moduli
 	// settimanali non giornalieri.
 	@Test
-	public void weekForEachDaysTest()
-	throws IOException {
+	public void weekForEachDaysTest() {
 		// TODO
 		// VARIABILE = numero minimo giorni con lo stesso turno (7gg)
 	}
 
 	@Test
-	public void outputTest()
-	throws IOException {
-
+	public void outputTest() {
 		CoverageGenerator generator = new CoverageGenerator();
 		Output output = generator.generate(input);
-		int days = input.getCalendarList().size();
-		int staff = input.getStaffList().size();
-		assertTrue(output.getAllocationList().size() == (days * staff) || true);
+
+		int days = input.getCalendars().size();
+		int staff = input.getStaffs().size();
+		assertThat(output.getAllocationList(), hasSize(equalTo(days * staff)));
 	}
+
 }

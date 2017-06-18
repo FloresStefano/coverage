@@ -69,11 +69,11 @@ public class Csp implements Cloneable {
 
 	public static final int UNBOUNDED = Integer.MAX_VALUE;
 
-	private Map<Variable, Domain> domains;
-	private Set<Constraint>       constraints;
-	private CostFunction costFunction = null;
-	private int          maxSolutions = UNBOUNDED;
-	private boolean      fullSearch   = false;
+	private Map<Variable, Domain> domains      = new HashMap<Variable, Domain>();
+	private Set<Constraint>       constraints  = new HashSet<Constraint>();
+	private CostFunction          costFunction = null;
+	private int                   maxSolutions = UNBOUNDED;
+	private boolean               fullSearch   = false;
 
 	public Set<Solution> newSolutionSet() {
 		if (hasCostFunctionDefined()) {
