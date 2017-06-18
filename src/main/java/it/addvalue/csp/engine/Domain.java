@@ -33,10 +33,6 @@ public class Domain implements Iterable<Value> {
 		values.add(value);
 	}
 
-	public Iterator<Value> iterator() {
-		return values.iterator();
-	}
-
 	public int size() {
 		return values.size();
 	}
@@ -50,6 +46,24 @@ public class Domain implements Iterable<Value> {
 	}
 
 	public String toString() {
-		return values.toString();
+		Iterator<Value> it = iterator();
+		if (!it.hasNext()) {
+			return "{}";
+		}
+
+		StringBuilder sb = new StringBuilder();
+		sb.append('{');
+		for (; ; ) {
+			sb.append(it.next());
+			if (!it.hasNext()) {
+				return sb.append('}').toString();
+			}
+			sb.append(',').append(' ');
+		}
 	}
+
+	public Iterator<Value> iterator() {
+		return values.iterator();
+	}
+
 }

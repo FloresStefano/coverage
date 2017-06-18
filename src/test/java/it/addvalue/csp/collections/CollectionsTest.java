@@ -1,5 +1,6 @@
 package it.addvalue.csp.collections;
 
+import lombok.val;
 import org.junit.Test;
 
 import java.util.Set;
@@ -18,7 +19,7 @@ public class CollectionsTest {
 	public void testLimitCase() {
 		Set<Pair<Integer>> visitedPairs = emptySet();
 
-		for (Pair<Integer> pair : unorderedPairsFrom(1, 2)) {
+		for (val pair : unorderedPairsFrom(1, 2)) {
 			visitedPairs.add(pair);
 		}
 
@@ -33,7 +34,7 @@ public class CollectionsTest {
 	public void testUnorderedPairs() {
 		Set<Pair<Integer>> visitedPairs = emptySet();
 
-		for (Pair<Integer> pair : unorderedPairsFrom(1, 2, 3, 4)) {
+		for (val pair : unorderedPairsFrom(1, 2, 3, 4)) {
 			visitedPairs.add(pair);
 		}
 

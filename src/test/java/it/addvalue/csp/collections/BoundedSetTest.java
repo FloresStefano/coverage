@@ -1,8 +1,7 @@
 package it.addvalue.csp.collections;
 
+import lombok.val;
 import org.junit.Test;
-
-import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -12,7 +11,7 @@ public class BoundedSetTest {
 
 	@Test
 	public void neverExceedsMaxSize() {
-		Set<String> set = new BoundedSet<String>(4);
+		val set = new BoundedSet<String>(4);
 
 		set.add("one");
 		set.add("two");

@@ -1,21 +1,24 @@
 package it.addvalue.csp.engine;
 
+import lombok.val;
 import org.apache.commons.collections4.SetUtils;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
+
+import static java.util.Arrays.asList;
+import static org.hamcrest.CoreMatchers.is;
 
 public class CspSolverTestUtils {
 
 	private CspSolverTestUtils() {
 	}
 
-	public static Set<Solution> solutionsOf(Csp problem) {
+	public static Set<Solution> theSolutionsOf(Csp problem) {
 		return solve(problem);
 	}
 
@@ -28,7 +31,7 @@ public class CspSolverTestUtils {
 		System.out.println(problem);
 
 		System.out.println("Solving problem...\n");
-		Set<Solution> solutions = solver.solve(problem);
+		val solutions = solver.solve(problem);
 
 		if (solutions.isEmpty()) {
 			System.out.println("No solutions found");
@@ -38,7 +41,7 @@ public class CspSolverTestUtils {
 			} else {
 				System.out.println(solutions.size() + " solutions found:");
 			}
-			for (Solution solution : solutions) {
+			for (val solution : solutions) {
 				if (problem.getCostFunction() != null) {
 					System.out.printf("\tcost = %d: ", problem.getCostFunction().evaluate(solution));
 				}
@@ -72,13 +75,81 @@ public class CspSolverTestUtils {
 		};
 	}
 
-	public static <T> Matcher<Iterable<T>> iteratesTo(final T... expected) {
+	public static <T> Matcher<Set<T>> subsetOf(final Set<T> expected) {
+		return new BaseMatcher<Set<T>>() {
+
+			@SuppressWarnings("unchecked")
+			private Set<T> set(Object o) {
+				return (Set<T>) o;
+			}
+
+			public boolean matches(Object actual) {
+				return expected.containsAll(set(actual));
+			}
+
+			public void describeTo(Description description) {
+				description.appendText("is subset of ").appendValue(expected);
+			}
+
+			public void describeMismatch(Object actual, Description description) {
+				description.appendValue(SetUtils.difference(set(actual), expected)).appendText(" were also present");
+			}
+
+		};
+	}
+
+	public static Matcher<Iterable<Solution>> orderedByStrictlyAscendingValuesOf(final CostFunction cost) {
+		return new BaseMatcher<Iterable<Solution>>() {
+
+			@SuppressWarnings("unchecked")
+			private Iterable<Solution> iterable(Object o) {
+				return (Iterable<Solution>) o;
+			}
+
+			public boolean matches(Object actual) {
+				int prevCost = Integer.MIN_VALUE;
+				for (val solution : iterable(actual)) {
+					val currCost = cost.evaluate(solution);
+					if (currCost > prevCost) {
+						prevCost = currCost;
+					} else {
+						return false;
+					}
+				}
+				return true;
+			}
+
+			public void describeTo(Description description) {
+				description.appendText("is strictly ordered by ascending cost");
+			}
+
+			public void describeMismatch(Object actual, Description description) {
+				val costs = new ArrayList<Integer>();
+				for (val solution : iterable(actual)) {
+					costs.add(cost.evaluate(solution));
+				}
+				description.appendText("costs were: ").appendValueList("[", ", ", "]", costs);
+			}
+
+		};
+	}
+
+	public static <T> Matcher<Iterable<T>> inOrderEqualTo(final T... expected) {
+		return inOrderEqualTo(asList(expected));
+	}
+
+	public static <T> Matcher<Iterable<T>> inOrderEqualTo(final Iterable<T> expected) {
 		return new BaseMatcher<Iterable<T>>() {
 
 			@SuppressWarnings("unchecked")
+			private Iterable<T> iterable(Object o) {
+				return (Iterable<T>) o;
+			}
+
+			@SuppressWarnings("unchecked")
 			public boolean matches(Object actual) {
-				Iterator<T> it = iterable(actual).iterator();
-				for (T expectedValue : expected) {
+				val it = iterable(actual).iterator();
+				for (val expectedValue : expected) {
 					if (!it.hasNext() || !it.next().equals(expectedValue)) {
 						return false;
 					}
@@ -86,13 +157,8 @@ public class CspSolverTestUtils {
 				return !it.hasNext();
 			}
 
-			@SuppressWarnings("unchecked")
-			private Iterable<T> iterable(Object o) {
-				return (Iterable<T>) o;
-			}
-
 			public void describeTo(Description description) {
-				description.appendText("iterates to ").appendValue(Arrays.toString(expected));
+				description.appendText("iterates to ").appendValue(expected);
 			}
 
 			public void describeMismatch(Object actual, Description description) {
@@ -102,8 +168,16 @@ public class CspSolverTestUtils {
 		};
 	}
 
-	public static Set<Solution> noSolutions() {
+	public static Set<Solution> theEmptySet() {
 		return new HashSet<Solution>();
+	}
+
+	public static <T> Matcher<T> are(Matcher<T> matcher) {
+		return is(matcher);
+	}
+
+	public static <T> Matcher<T> are(T value) {
+		return is(value);
 	}
 
 }

@@ -1,8 +1,9 @@
 package it.addvalue.csp.engine;
 
+import lombok.val;
+
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,7 +30,7 @@ public class CspSolver {
 	}
 
 	public Set<Solution> solve(Csp csp) {
-		Set<Solution> solutions = csp.newSolutionSet();
+		val solutions = csp.newSolutionSet();
 
 		solveRecursively(csp, Solution.empty(), solutions);
 
@@ -45,11 +46,11 @@ public class CspSolver {
 		if (useMac) {
 			csp = maintainArcConsistency(csp);
 		}
-		Variable variable = selectUnassignedVariable(csp, solution);
-		for (Value value : csp.domainOf(variable)) {
-			Solution newSolution = solution.addAssignment(variable, value);
+		val variable = selectUnassignedVariable(csp, solution);
+		for (val value : csp.domainOf(variable)) {
+			val newSolution = solution.addAssignment(variable, value);
 			if (csp.verifyConsistency(newSolution)) {
-				Csp newCsp = csp.restrictDomain(variable, value);
+				val newCsp = csp.restrictDomain(variable, value);
 				if (solveRecursively(newCsp, newSolution, solutions)) {
 					return true;
 				}
@@ -59,7 +60,7 @@ public class CspSolver {
 	}
 
 	private Variable selectUnassignedVariable(Csp csp, Solution solution) {
-		Set<Variable> variables = new HashSet<Variable>(csp.variables());
+		val variables = new HashSet<Variable>(csp.variables());
 		retainUnassignedVariables(variables, solution);
 
 		if (useMrv && variables.size() > 1) {
@@ -74,7 +75,7 @@ public class CspSolver {
 	}
 
 	private void retainUnassignedVariables(Set<Variable> variables, Solution solution) {
-		Iterator<Variable> it = variables.iterator();
+		val it = variables.iterator();
 		while (it.hasNext()) {
 			if (solution.assigns(it.next())) {
 				it.remove();
@@ -83,8 +84,8 @@ public class CspSolver {
 	}
 
 	private void retainVariablesWithMinimumRemainingValues(Set<Variable> variables, Map<Variable, Domain> domains) {
-		int minCardinality = minimumCardinality(variables, domains);
-		Iterator<Variable> it = variables.iterator();
+		val minCardinality = minimumCardinality(variables, domains);
+		val it = variables.iterator();
 		while (it.hasNext()) {
 			if (domainCardinality(domains, it.next()) > minCardinality) {
 				it.remove();
@@ -93,9 +94,9 @@ public class CspSolver {
 	}
 
 	private void retainMostConstrainedVariables(Set<Variable> variables, Set<Constraint> constraints) {
-		Set<Variable> unassignedVariables = new HashSet<Variable>(variables);
-		int maxDegree = maximumDegree(unassignedVariables, constraints);
-		Iterator<Variable> it = variables.iterator();
+		val unassignedVariables = new HashSet<Variable>(variables);
+		val maxDegree = maximumDegree(unassignedVariables, constraints);
+		val it = variables.iterator();
 		while (it.hasNext()) {
 			if (variableDegree(unassignedVariables, it.next(), constraints) < maxDegree) {
 				it.remove();
@@ -104,7 +105,7 @@ public class CspSolver {
 	}
 
 	private int minimumCardinality(Set<Variable> unassignedVariables, Map<Variable, Domain> domains) {
-		Iterator<Variable> it = unassignedVariables.iterator();
+		val it = unassignedVariables.iterator();
 		int result = domainCardinality(domains, it.next());
 		while (it.hasNext()) {
 			result = min(result, domainCardinality(domains, it.next()));
@@ -113,7 +114,7 @@ public class CspSolver {
 	}
 
 	private int maximumDegree(Set<Variable> unassignedVariables, Set<Constraint> constraints) {
-		Iterator<Variable> it = unassignedVariables.iterator();
+		val it = unassignedVariables.iterator();
 		int maxDegree = variableDegree(unassignedVariables, it.next(), constraints);
 		while (it.hasNext()) {
 			maxDegree = max(maxDegree, variableDegree(unassignedVariables, it.next(), constraints));
@@ -129,7 +130,7 @@ public class CspSolver {
 	                           Variable unassignedVariableToCheck,
 	                           Set<Constraint> constraints) {
 		int variableDegree = 0;
-		for (Constraint constraint : constraints) {
+		for (val constraint : constraints) {
 			if (constraint.variables().contains(unassignedVariableToCheck) &&
 			    unassignedVariables.containsAll(constraint.variables())) {
 				variableDegree++;
@@ -140,12 +141,12 @@ public class CspSolver {
 
 	private Csp maintainArcConsistency(Csp csp) {
 		csp = csp.clone();
-		Set<Constraint> constraintsToCheck = new HashSet<Constraint>(csp.getConstraints());
+		val constraintsToCheck = new HashSet<Constraint>(csp.getConstraints());
 
 		while (!constraintsToCheck.isEmpty()) {
-			Constraint constraint = oneOf(constraintsToCheck);
+			val constraint = oneOf(constraintsToCheck);
 
-			for (Variable restrictedVariable : removeInconsistentValues(csp, constraint)) {
+			for (val restrictedVariable : removeInconsistentValues(csp, constraint)) {
 				constraintsToCheck.addAll(csp.constraintsInvolving(restrictedVariable));
 			}
 
@@ -156,21 +157,21 @@ public class CspSolver {
 	}
 
 	private Set<Variable> removeInconsistentValues(Csp csp, Constraint constraint) {
-		Map<Variable, Domain> newDomains = new HashMap<Variable, Domain>();
-		for (Variable constraintVariable : constraint.variables()) {
+		val newDomains = new HashMap<Variable, Domain>();
+		for (val constraintVariable : constraint.variables()) {
 			newDomains.put(constraintVariable, new Domain());
 		}
-		for (Solution solution : csp.solutionsFor(constraint)) {
+		for (val solution : csp.solutionsFor(constraint)) {
 			if (constraint.verify(solution)) {
-				for (Map.Entry<Variable, Value> assignment : solution.assignments().entrySet()) {
+				for (val assignment : solution.assignments().entrySet()) {
 					newDomains.get(assignment.getKey()).add(assignment.getValue());
 				}
 			}
 		}
 
-		Set<Variable> restrictedVariables = new HashSet<Variable>();
-		for (Variable constraintVariable : constraint.variables()) {
-			Domain newDomain = newDomains.get(constraintVariable);
+		val restrictedVariables = new HashSet<Variable>();
+		for (val constraintVariable : constraint.variables()) {
+			val newDomain = newDomains.get(constraintVariable);
 			if (!csp.getDomains().get(constraintVariable).equals(newDomain)) {
 				restrictedVariables.add(constraintVariable);
 				csp.getDomains().put(constraintVariable, newDomain);

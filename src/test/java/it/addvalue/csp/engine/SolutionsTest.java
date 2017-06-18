@@ -1,5 +1,6 @@
 package it.addvalue.csp.engine;
 
+import lombok.val;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,10 +37,10 @@ public class SolutionsTest {
 		domains.put(z, Domain.containing(new TestValue("z1"), new TestValue("z2")));
 		domains.put(w, Domain.containing(new TestValue("w1")));
 
-		Solutions solutions = new Solutions(domains);
+		val solutions = new Solutions(domains);
 
-		Set<Solution> actualSolutions = new HashSet<Solution>();
-		for (Solution solution : solutions) {
+		val actualSolutions = new HashSet<Solution>();
+		for (val solution : solutions) {
 			System.out.println(solution);
 			actualSolutions.add(solution);
 		}
@@ -48,11 +49,11 @@ public class SolutionsTest {
 	}
 
 	private Set<Solution> expectedSolutions() {
-		Set<Solution> expectedSolutions = new HashSet<Solution>();
-		for (Value xValue : domains.get(x)) {
-			for (Value yValue : domains.get(y)) {
-				for (Value zValue : domains.get(z)) {
-					for (Value wValue : domains.get(w)) {
+		val expectedSolutions = new HashSet<Solution>();
+		for (val xValue : domains.get(x)) {
+			for (val yValue : domains.get(y)) {
+				for (val zValue : domains.get(z)) {
+					for (val wValue : domains.get(w)) {
 						expectedSolutions.add(Solution.builder()
 						                              .set(x, xValue)
 						                              .set(y, yValue)
@@ -73,18 +74,18 @@ public class SolutionsTest {
 		domains.put(z, Domain.containing(new TestValue("z1"), new TestValue("z2")));
 		domains.put(w, Domain.empty());
 
-		Solutions solutions = new Solutions(domains);
+		val solutions = new Solutions(domains);
 
-		Set<Solution> actualSolutions = new HashSet<Solution>();
-		for (Solution solution : solutions) {
+		val actualSolutions = new HashSet<Solution>();
+		for (val solution : solutions) {
 			System.out.println(solution);
 			actualSolutions.add(solution);
 		}
 
-		assertThat(actualSolutions, is(emptySet()));
+		assertThat(actualSolutions, is(theEmptySet()));
 	}
 
-	private Set<Solution> emptySet() {
+	private Set<Solution> theEmptySet() {
 		return new HashSet<Solution>();
 	}
 

@@ -1,6 +1,6 @@
 package it.addvalue.csp.engine;
 
-import it.addvalue.csp.collections.Pair;
+import lombok.val;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,8 +17,9 @@ import static it.addvalue.csp.engine.AustraliaMapColoringTest.State.Q;
 import static it.addvalue.csp.engine.AustraliaMapColoringTest.State.SA;
 import static it.addvalue.csp.engine.AustraliaMapColoringTest.State.V;
 import static it.addvalue.csp.engine.AustraliaMapColoringTest.State.WA;
+import static it.addvalue.csp.engine.CspSolverTestUtils.are;
+import static it.addvalue.csp.engine.CspSolverTestUtils.theSolutionsOf;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
@@ -29,19 +30,18 @@ public class AustraliaMapColoringTest {
 	@Before
 	public void setup() {
 		domains = new HashMap<Variable, Domain>();
-		Domain colors = Domain.containing(Color.values());
-		for (State state : State.values()) {
-			domains.put(state, colors);
+		for (val state : State.values()) {
+			domains.put(state, Domain.containing(Color.values()));
 		}
 	}
 
 	@Test
-	public void testWithBinaryConstraints() {
-		assertThat(CspSolverTestUtils.solutionsOf(binaryProblem()), is(not(emptySet())));
+	public void findColoringsWithBinaryConstraints() {
+		assertThat(theSolutionsOf(theAustraliaColoringBinaryProblem()), are(not(theEmptySet())));
 	}
 
-	private Csp binaryProblem() {
-		Csp csp = new Csp();
+	private Csp theAustraliaColoringBinaryProblem() {
+		val csp = new Csp();
 		csp.setDomains(domains);
 		csp.setConstraints(setOf(mustHaveDifferentColors(WA, NT),
 		                         mustHaveDifferentColors(WA, SA),
@@ -55,12 +55,12 @@ public class AustraliaMapColoringTest {
 		return csp;
 	}
 
-	private Set<Solution> emptySet() {
+	private static Set<Solution> theEmptySet() {
 		return new HashSet<Solution>();
 	}
 
-	private Constraint mustHaveDifferentColors(final Variable... states) {
-		final Set<Variable> stateSet = setOf(states);
+	private static Constraint mustHaveDifferentColors(final Variable... states) {
+		val stateSet = setOf(states);
 		return new Constraint() {
 
 			public Set<Variable> variables() {
@@ -68,9 +68,9 @@ public class AustraliaMapColoringTest {
 			}
 
 			public boolean verify(Solution solution) {
-				for (Pair<Variable> pair : unorderedPairsFrom(states)) {
-					Value color1 = solution.evaluate(pair.getItem1());
-					Value color2 = solution.evaluate(pair.getItem2());
+				for (val pair : unorderedPairsFrom(states)) {
+					val color1 = solution.evaluate(pair.getItem1());
+					val color2 = solution.evaluate(pair.getItem2());
 					if (color1.equals(color2)) {
 						return false;
 					}
@@ -86,12 +86,12 @@ public class AustraliaMapColoringTest {
 	}
 
 	@Test
-	public void testWithNaryConstraints() {
-		assertThat(CspSolverTestUtils.solutionsOf(naryProblem()), is(not(emptySet())));
+	public void findColoringsWithNaryConstraints() {
+		assertThat(theSolutionsOf(theAustraliaColoringNaryProblem()), are(not(theEmptySet())));
 	}
 
-	private Csp naryProblem() {
-		Csp csp = new Csp();
+	private Csp theAustraliaColoringNaryProblem() {
+		val csp = new Csp();
 		csp.setDomains(domains);
 		csp.setConstraints(setOf(mustHaveDifferentColors(WA, NT, SA),
 		                         mustHaveDifferentColors(NT, SA, Q),
@@ -101,9 +101,9 @@ public class AustraliaMapColoringTest {
 	}
 
 	@Test
-	public void equivalentProblemsHaveSameSolution() {
-		assertThat(CspSolverTestUtils.solutionsOf(binaryProblem()),
-		           is(equalTo(CspSolverTestUtils.solutionsOf(naryProblem()))));
+	public void verifySolverCorrectnessWithNaryConstraints() {
+		assertThat(theSolutionsOf(theAustraliaColoringNaryProblem()),
+		           are(equalTo(theSolutionsOf(theAustraliaColoringBinaryProblem()))));
 	}
 
 	public enum State implements Variable {
