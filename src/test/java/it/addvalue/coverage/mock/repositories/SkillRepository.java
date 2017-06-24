@@ -3,7 +3,6 @@ package it.addvalue.coverage.mock.repositories;
 import it.addvalue.coverage.bean.Service;
 import it.addvalue.coverage.bean.Skill;
 import lombok.EqualsAndHashCode;
-import lombok.val;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -21,7 +20,7 @@ public class SkillRepository implements Serializable {
 	private long id = 0;
 
 	public Skill newItem(Service service) {
-		val item = new Skill();
+		Skill item = new Skill();
 		item.setId(id);
 		item.setHandledCallsOverridden(randomInRange(40, 50));
 		item.setSkillLevel(randomInRange(4, 10));

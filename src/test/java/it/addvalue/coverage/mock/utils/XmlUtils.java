@@ -8,6 +8,9 @@ import java.io.IOException;
 
 public class XmlUtils {
 
+	private XmlUtils() {
+	}
+
 	public static void serialize(Object object, String file) {
 		try {
 			xmlMapper().writeValue(new File(file), object);

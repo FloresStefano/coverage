@@ -41,11 +41,11 @@ public class WorkshiftRepository implements Serializable {
 			throw new IllegalArgumentException("max must be <= min+150");
 		}
 		Map<String, String> dailyMap = new HashMap<String, String>();
-		dailyMap.put("LUN", min + "," + (min + 150) + "," + (max - 150) + "," + max);
-		dailyMap.put("MAR", min + "," + (min + 150) + "," + (max - 150) + "," + max);
-		dailyMap.put("MER", min + "," + (min + 150) + "," + (max - 150) + "," + max);
-		dailyMap.put("GIO", min + "," + (min + 150) + "," + (max - 150) + "," + max);
-		dailyMap.put("VEN", min + "," + (min + 150) + "," + (max - 150) + "," + max);
+		dailyMap.put("lun", min + "," + (min + 150) + "," + (max - 150) + "," + max);
+		dailyMap.put("mar", min + "," + (min + 150) + "," + (max - 150) + "," + max);
+		dailyMap.put("mer", min + "," + (min + 150) + "," + (max - 150) + "," + max);
+		dailyMap.put("gio", min + "," + (min + 150) + "," + (max - 150) + "," + max);
+		dailyMap.put("ven", min + "," + (min + 150) + "," + (max - 150) + "," + max);
 		return dailyMap;
 	}
 

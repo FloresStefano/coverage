@@ -9,6 +9,9 @@ import java.io.Serializable;
 
 public class BinaryUtils {
 
+	private BinaryUtils() {
+	}
+
 	public static void serialize(Serializable object, String file) {
 		ObjectOutputStream os = null;
 		try {

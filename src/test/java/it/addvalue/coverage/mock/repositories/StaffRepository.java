@@ -4,7 +4,6 @@ import it.addvalue.coverage.bean.Skill;
 import it.addvalue.coverage.bean.Staff;
 import it.addvalue.coverage.bean.Workshift;
 import lombok.EqualsAndHashCode;
-import lombok.val;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -24,7 +23,7 @@ public class StaffRepository implements Serializable {
 	private long id = 0;
 
 	public Staff newItem(Set<Skill> skills, Set<Workshift> workshifts) {
-		val item = new Staff();
+		Staff item = new Staff();
 		item.setId(id);
 		item.setName("Staff" + id);
 		item.setContractName(CONTRACTNAME);
@@ -37,8 +36,8 @@ public class StaffRepository implements Serializable {
 	}
 
 	private static Set<Long> idWorkshifts(Set<Workshift> workshifts) {
-		val ids = new HashSet<Long>();
-		for (val workshift : workshifts) {
+		Set<Long> ids = new HashSet<Long>();
+		for (Workshift workshift : workshifts) {
 			ids.add(workshift.getId());
 		}
 		return ids;

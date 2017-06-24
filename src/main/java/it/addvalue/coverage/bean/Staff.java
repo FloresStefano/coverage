@@ -23,4 +23,6 @@ public class Staff implements Serializable {
 	private Set<Skill> skills       = new HashSet<Skill>();
 	private Set<Long>  idWorkshifts = new HashSet<Long>();
 
+	// TODO introdurre Boolean isTeamleader
+
 }

@@ -1,10 +1,9 @@
 package it.addvalue.csp.engine;
 
-import lombok.val;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 class Solutions implements Iterable<Solution> {
@@ -20,7 +19,7 @@ class Solutions implements Iterable<Solution> {
 	}
 
 	private boolean emptySolution() {
-		for (val domain : domains.values()) {
+		for (Domain domain : domains.values()) {
 			if (domain.isEmpty()) {
 				return true;
 			}
@@ -46,10 +45,10 @@ class Solutions implements Iterable<Solution> {
 	}
 
 	private Iterator<Solution> nonEmptySolutionIterator() {
-		val variableValues = new HashMap<Variable, Value>();
-		val variables = new ArrayList<Variable>(domains.keySet());
-		val domainIterators = new HashMap<Variable, Iterator<Value>>();
-		for (val variable : domains.keySet()) {
+		final Map<Variable, Value> variableValues = new HashMap<Variable, Value>();
+		final List<Variable> variables = new ArrayList<Variable>(domains.keySet());
+		final Map<Variable, Iterator<Value>> domainIterators = new HashMap<Variable, Iterator<Value>>();
+		for (Variable variable : domains.keySet()) {
 			domainIterators.put(variable, newDomainIterator(variable));
 		}
 		return new Iterator<Solution>() {
@@ -58,7 +57,7 @@ class Solutions implements Iterable<Solution> {
 
 			private void nextRecursively(int i) {
 				if (i < variables.size()) {
-					val variable = variables.get(i);
+					Variable variable = variables.get(i);
 					Iterator<Value> it = domainIterators.get(variable);
 					if (!it.hasNext()) {
 						it = newDomainIterator(variable);
@@ -72,7 +71,7 @@ class Solutions implements Iterable<Solution> {
 			}
 
 			public boolean hasNext() {
-				for (val it : domainIterators.values()) {
+				for (Iterator<Value> it : domainIterators.values()) {
 					if (it.hasNext()) {
 						return true;
 					}

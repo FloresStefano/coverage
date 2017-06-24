@@ -3,7 +3,6 @@ package it.addvalue.csp.engine;
 import it.addvalue.csp.collections.BoundedSet;
 import it.addvalue.csp.collections.BoundedSortedSet;
 import lombok.Data;
-import lombok.val;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -110,7 +109,7 @@ public class Csp implements Cloneable {
 	}
 
 	public boolean verifyConsistency(Solution solution) {
-		for (val constraint : constraints) {
+		for (Constraint constraint : constraints) {
 			if (solution.isCompleteFor(constraint) && !constraint.verify(solution)) {
 				return false;
 			}
@@ -119,14 +118,14 @@ public class Csp implements Cloneable {
 	}
 
 	public Csp restrictDomain(Variable variable, Value value) {
-		val copy = clone();
+		Csp copy = clone();
 		copy.domains.put(variable, Domain.containing(value));
 		return copy;
 	}
 
 	public Csp clone() {
 		try {
-			val copy = (Csp) super.clone();
+			Csp copy = (Csp) super.clone();
 			copy.domains = new HashMap<Variable, Domain>(this.domains);
 			return copy;
 		} catch (CloneNotSupportedException e) {
@@ -135,13 +134,13 @@ public class Csp implements Cloneable {
 	}
 
 	public String toString() {
-		val sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder();
 		sb.append("domains:\n");
-		for (val entry : domains.entrySet()) {
+		for (Map.Entry<Variable, Domain> entry : domains.entrySet()) {
 			sb.append("\t").append(entry.getKey()).append(" in ").append(entry.getValue()).append("\n");
 		}
 		sb.append("constraints:\n");
-		for (val constraint : constraints) {
+		for (Constraint constraint : constraints) {
 			sb.append("\t").append(constraint).append("\n");
 		}
 		if (costFunction != null) {
@@ -159,16 +158,16 @@ public class Csp implements Cloneable {
 	}
 
 	private Map<Variable, Domain> domainsFor(Constraint constraint) {
-		val result = new HashMap<Variable, Domain>();
-		for (val constraintVariable : constraint.variables()) {
+		Map<Variable, Domain> result = new HashMap<Variable, Domain>();
+		for (Variable constraintVariable : constraint.variables()) {
 			result.put(constraintVariable, domains.get(constraintVariable));
 		}
 		return result;
 	}
 
 	public Set<Constraint> constraintsInvolving(Variable variable) {
-		val result = new HashSet<Constraint>();
-		for (val constraint : constraints) {
+		Set<Constraint> result = new HashSet<Constraint>();
+		for (Constraint constraint : constraints) {
 			if (constraint.variables().contains(variable)) {
 				result.add(constraint);
 			}

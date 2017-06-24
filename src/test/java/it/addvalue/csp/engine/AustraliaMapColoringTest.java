@@ -1,6 +1,6 @@
 package it.addvalue.csp.engine;
 
-import lombok.val;
+import it.addvalue.csp.collections.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,7 +30,7 @@ public class AustraliaMapColoringTest {
 	@Before
 	public void setup() {
 		domains = new HashMap<Variable, Domain>();
-		for (val state : State.values()) {
+		for (State state : State.values()) {
 			domains.put(state, Domain.containing(Color.values()));
 		}
 	}
@@ -41,7 +41,7 @@ public class AustraliaMapColoringTest {
 	}
 
 	private Csp theAustraliaColoringBinaryProblem() {
-		val csp = new Csp();
+		Csp csp = new Csp();
 		csp.setDomains(domains);
 		csp.setConstraints(setOf(mustHaveDifferentColors(WA, NT),
 		                         mustHaveDifferentColors(WA, SA),
@@ -60,7 +60,7 @@ public class AustraliaMapColoringTest {
 	}
 
 	private static Constraint mustHaveDifferentColors(final Variable... states) {
-		val stateSet = setOf(states);
+		final Set<Variable> stateSet = setOf(states);
 		return new Constraint() {
 
 			public Set<Variable> variables() {
@@ -68,9 +68,9 @@ public class AustraliaMapColoringTest {
 			}
 
 			public boolean verify(Solution solution) {
-				for (val pair : unorderedPairsFrom(states)) {
-					val color1 = solution.evaluate(pair.getItem1());
-					val color2 = solution.evaluate(pair.getItem2());
+				for (Pair<Variable> pair : unorderedPairsFrom(states)) {
+					Value color1 = solution.evaluate(pair.getItem1());
+					Value color2 = solution.evaluate(pair.getItem2());
 					if (color1.equals(color2)) {
 						return false;
 					}
@@ -91,7 +91,7 @@ public class AustraliaMapColoringTest {
 	}
 
 	private Csp theAustraliaColoringNaryProblem() {
-		val csp = new Csp();
+		Csp csp = new Csp();
 		csp.setDomains(domains);
 		csp.setConstraints(setOf(mustHaveDifferentColors(WA, NT, SA),
 		                         mustHaveDifferentColors(NT, SA, Q),

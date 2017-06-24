@@ -4,7 +4,6 @@ import it.addvalue.coverage.bean.PlanCalendar;
 import it.addvalue.coverage.bean.PlanCalendarDetail;
 import it.addvalue.coverage.bean.Service;
 import lombok.EqualsAndHashCode;
-import lombok.val;
 import org.joda.time.LocalDate;
 
 import java.io.Serializable;
@@ -25,7 +24,7 @@ public class PlanCalendarRepository implements Serializable {
 	private long id = 0;
 
 	public PlanCalendar newItem(LocalDate date, Set<PlanCalendarDetail> details, Set<Service> services) {
-		val item = new PlanCalendar();
+		PlanCalendar item = new PlanCalendar();
 		item.setId(id);
 		item.setName(date.toString("EEE", Locale.ITALIAN));
 		item.setDay(date.toDate());
@@ -42,7 +41,7 @@ public class PlanCalendarRepository implements Serializable {
 
 	private int totalExpectedCallsFor(Set<Service> services) {
 		int totalExpectedCalls = 0;
-		for (val service : services) {
+		for (Service service : services) {
 			totalExpectedCalls += service.getDailyCalls();
 		}
 		return totalExpectedCalls;
@@ -50,7 +49,7 @@ public class PlanCalendarRepository implements Serializable {
 
 	private String totalExpectedCallsDetailFor(Set<Service> services) {
 		String totalExpectedCallsDetail = "0,0,0,0,0,0";
-		for (val service : services) {
+		for (Service service : services) {
 			totalExpectedCallsDetail = csvadd(totalExpectedCallsDetail, service.getDailyCallsDetail());
 		}
 		return totalExpectedCallsDetail;

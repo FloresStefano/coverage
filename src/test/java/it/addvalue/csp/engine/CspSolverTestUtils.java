@@ -1,12 +1,13 @@
 package it.addvalue.csp.engine;
 
-import lombok.val;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import static java.util.Arrays.asList;
@@ -30,7 +31,7 @@ public class CspSolverTestUtils {
 		System.out.println(problem);
 
 		System.out.println("Solving problem...\n");
-		val solutions = solver.solve(problem);
+		Set<Solution> solutions = solver.solve(problem);
 
 		if (solutions.isEmpty()) {
 			System.out.println("No solutions found");
@@ -40,7 +41,7 @@ public class CspSolverTestUtils {
 			} else {
 				System.out.println(solutions.size() + " solutions found:");
 			}
-			for (val solution : solutions) {
+			for (Solution solution : solutions) {
 				if (problem.getCostFunction() != null) {
 					System.out.printf("\tcost = %d: ", problem.getCostFunction().evaluate(solution));
 				}
@@ -107,8 +108,8 @@ public class CspSolverTestUtils {
 
 			public boolean matches(Object actual) {
 				int prevCost = Integer.MIN_VALUE;
-				for (val solution : iterable(actual)) {
-					val currCost = cost.evaluate(solution);
+				for (Solution solution : iterable(actual)) {
+					int currCost = cost.evaluate(solution);
 					if (currCost > prevCost) {
 						prevCost = currCost;
 					} else {
@@ -123,8 +124,8 @@ public class CspSolverTestUtils {
 			}
 
 			public void describeMismatch(Object actual, Description description) {
-				val costs = new ArrayList<Integer>();
-				for (val solution : iterable(actual)) {
+				List<Integer> costs = new ArrayList<Integer>();
+				for (Solution solution : iterable(actual)) {
 					costs.add(cost.evaluate(solution));
 				}
 				description.appendText("costs were: ").appendValueList("[", ", ", "]", costs);
@@ -147,8 +148,8 @@ public class CspSolverTestUtils {
 
 			@SuppressWarnings("unchecked")
 			public boolean matches(Object actual) {
-				val it = iterable(actual).iterator();
-				for (val expectedValue : expected) {
+				Iterator<T> it = iterable(actual).iterator();
+				for (T expectedValue : expected) {
 					if (!it.hasNext() || !it.next().equals(expectedValue)) {
 						return false;
 					}

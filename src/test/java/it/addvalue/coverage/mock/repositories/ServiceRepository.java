@@ -2,11 +2,12 @@ package it.addvalue.coverage.mock.repositories;
 
 import it.addvalue.coverage.bean.Service;
 import lombok.EqualsAndHashCode;
-import lombok.val;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+
+import static it.addvalue.coverage.mock.utils.CsvUtils.csvsum;
 
 @EqualsAndHashCode
 public class ServiceRepository implements Serializable {
@@ -18,13 +19,13 @@ public class ServiceRepository implements Serializable {
 	private long id = 0;
 
 	public Service newItem() {
-		val item = new Service();
+		Service item = new Service();
 		item.setId(id);
 		item.setName("Service" + id);
 		item.setCoverageFrom(400);
 		item.setCoverageTo(900);
-		item.setDailyCalls(1000);
 		item.setDailyCallsDetail("200,400,400,400,400,200");
+		item.setDailyCalls(csvsum(item.getDailyCallsDetail()));
 		data.put(id, item);
 		id++;
 		return item;

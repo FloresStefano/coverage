@@ -8,7 +8,6 @@ import it.addvalue.coverage.bean.Skill;
 import it.addvalue.coverage.bean.Staff;
 import it.addvalue.coverage.bean.Workshift;
 import lombok.EqualsAndHashCode;
-import lombok.val;
 import org.joda.time.LocalDate;
 
 import java.io.Serializable;
@@ -69,20 +68,20 @@ public class GlobalRepository implements Serializable {
 			workshiftRepository.newItem();
 		}
 		for (int i = 0; i < STAFF_COUNT; i++) {
-			val numSkills = randomInRange(1, 3);
-			val numWorkshifts = randomInRange(1, 3);
-			val services = randomServices(numSkills);
-			val skills = new HashSet<Skill>();
-			for (val service : services) {
+			int numSkills = randomInRange(1, 3);
+			int numWorkshifts = randomInRange(1, 3);
+			Set<Service> services = randomServices(numSkills);
+			Set<Skill> skills = new HashSet<Skill>();
+			for (Service service : services) {
 				skills.add(skillRepository.newItem(service));
 			}
-			val workshifts = randomWorkshifts(numWorkshifts);
+			Set<Workshift> workshifts = randomWorkshifts(numWorkshifts);
 			staffRepository.newItem(skills, workshifts);
 		}
-		val services = allServices();
+		Set<Service> services = allServices();
 		for (LocalDate date = START_DATE; date.compareTo(END_DATE) <= 0; date = date.plusDays(1)) {
-			val details = new HashSet<PlanCalendarDetail>();
-			for (val service : services) {
+			Set<PlanCalendarDetail> details = new HashSet<PlanCalendarDetail>();
+			for (Service service : services) {
 				details.add(calendarDetailRepository.newItem(service));
 			}
 			calendarRepository.newItem(date, details, services);

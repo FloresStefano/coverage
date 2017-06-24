@@ -2,7 +2,6 @@ package it.addvalue.coverage.mock.repositories;
 
 import it.addvalue.coverage.bean.Rule;
 import lombok.EqualsAndHashCode;
-import lombok.val;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -18,7 +17,7 @@ public class RuleRepository implements Serializable {
 	private long id = 0;
 
 	public Rule newItem() {
-		val item = new Rule();
+		Rule item = new Rule();
 		item.setId(id);
 		item.setName("Rule" + id);
 		data.put(id, item);

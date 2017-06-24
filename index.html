@@ -28,6 +28,9 @@
 
 
 
+
+
+
     </style>
 </head>
 
@@ -95,15 +98,15 @@ public class CoverageGenerator {
 
 L'input per i test viene caricato staticamente dal file xml "coverage_data.xml" tale file è generabile random da un test apposito.
 
- * List<Staff> staffList: elenco di tutti gli utenti. Gli utenti hanno una lista di skill corrispondenti ai servizi ai quali sono formati e hanno anche una lista di turni che possono essere assegnati loro.
+ * ```List<Staff> staffList```: elenco di tutti gli utenti. Gli utenti hanno una lista di skill corrispondenti ai servizi ai quali sono formati e hanno anche una lista di turni che possono essere assegnati loro.
 
- * List<PlanCalendar> calendarList: elenco di tutti i giorni. I giorni hanno una lista di info di dettaglio aggiuntive per ogni servizio. In queste info si fa riferiemnto al servizio specifico e si applicano eventuali moltiplicatori di carico chiamte.
+ * ```List<PlanCalendar> calendarList```: elenco di tutti i giorni. I giorni hanno una lista di info di dettaglio aggiuntive per ogni servizio. In queste info si fa riferimento al servizio specifico e si applicano eventuali moltiplicatori di carico chiamate.
 
- * List<Rule> ruleList: elenco di tutti le regole disponibili
+ * ```List<Rule> ruleList```: elenco di tutti le regole disponibili
 
- * Map<String, Service> serviceMap: elenco di tutti i servizi disponibili
+ * ```Map<String, Service> serviceMap```: elenco di tutti i servizi disponibili
 
- * Map<String, Workshift> workshiftMap: elenco di tutti i turni disponibili
+ * ```Map<String, Workshift> workshiftMap```: elenco di tutti i turni disponibili
 
 ---
 
@@ -125,7 +128,7 @@ Per ogni giorno di input devono essere specificati quali servizi sono
 attivi e quali sono le loro caratteristiche in termini di expected call
 ecc.. Ogni servizio attivo è presente.
 
-Per ogni giorno, per uno dei servizi attivi, si possono verifivare picchi
+Per ogni giorno, per uno dei servizi attivi, si possono verificare picchi
 rispetto la media dovuti a marker speciali. Di default ci sono le
 caratteristiche base dei servizi ma potrei avere dei marker speciali
 **VARIABILE**= minimo e massimo numero di marker accettati (0 e 365)
@@ -146,7 +149,7 @@ Ad un utente puo' essere dato sol un turno coerente col suo contratto
 
 Per ogni utente c'è la lista dei servizi ai quali l'utente è formato con
 le caratteristiche di quanto è bravo e quali sono le sue performance.
-Un utente è formato ad un sottoinsieme dei servizi totali del callcenter.
+Un utente è formato da un sottoinsieme dei servizi totali del callcenter.
 Da 1 a 4 su 10 totali.
 **VARIABILE** = numero minimo e massimo di servizi su cui un utente di call center e' formato (da 1 a 4 servizi)
 
@@ -165,7 +168,7 @@ nel call center durante il giorno.
 
 # Regole 3/3
 
-La pianificazione deve soddisfare ogni giorno ma deve ragionare a a slot
+La pianificazione deve soddisfare ogni giorno ma deve ragionare a slot
 di 7 gioni. Ovvero ad ogni utente non si può cambiare turno prima di 7
 giorni consecutivi dello stesso turno. Quindi si stabiliscono moduli
 settimanali non giornalieri.
@@ -181,9 +184,15 @@ settimanali non giornalieri.
 
 
 
+
+
+
 </script>
 <script>
     var slideshow = remark.create();
+
+
+
 
 
 
