@@ -1,4 +1,4 @@
-package it.addvalue.coverage.core;
+package it.addvalue.coverage.core.constraints;
 
 import java.util.BitSet;
 

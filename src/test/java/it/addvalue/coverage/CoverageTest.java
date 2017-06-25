@@ -13,8 +13,6 @@ import it.addvalue.coverage.mock.utils.XmlUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.math.BigDecimal;
-
 import static it.addvalue.coverage.mock.utils.CsvUtils.csvadd;
 import static it.addvalue.coverage.mock.utils.CsvUtils.csvloop;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -72,7 +70,7 @@ public class CoverageTest {
 		// VARIABILE = minimo e massimo numero di marker accettati (0 e 365)
 		for (PlanCalendar pc : input.getCalendars()) {
 			for (PlanCalendarDetail pcm : pc.getDetails()) {
-				assertThat(pcm.getMarkerMultiplier(), is(greaterThanOrEqualTo(BigDecimal.ONE)));
+				assertThat(pcm.getMarkerMultiplier(), is(notNullValue()));
 			}
 		}
 	}

@@ -33,12 +33,14 @@ public class Solution {
 		return assignments.containsKey(variable);
 	}
 
-	public Map<Variable, Value> assignments() {
-		return Collections.unmodifiableMap(assignments);
+	@SuppressWarnings("unchecked")
+	public <K extends Variable, V extends Value> Map<K, V> assignments() {
+		return (Map<K, V>) Collections.unmodifiableMap(assignments);
 	}
 
-	public Value evaluate(Variable variable) {
-		return assignments.get(variable);
+	@SuppressWarnings("unchecked")
+	public <T extends Value> T valueOf(Variable variable) {
+		return (T) assignments.get(variable);
 	}
 
 	public boolean isCompleteFor(Csp csp) {

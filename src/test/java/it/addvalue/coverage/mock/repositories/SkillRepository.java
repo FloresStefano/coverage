@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import static it.addvalue.coverage.mock.utils.RandomUtils.randomInRange;
+import static it.addvalue.coverage.mock.utils.RandomUtils.randomInRangeInclusively;
 
 @EqualsAndHashCode
 public class SkillRepository implements Serializable {
@@ -22,9 +22,9 @@ public class SkillRepository implements Serializable {
 	public Skill newItem(Service service) {
 		Skill item = new Skill();
 		item.setId(id);
-		item.setHandledCallsOverridden(randomInRange(40, 50));
-		item.setSkillLevel(randomInRange(4, 10));
-		item.setUsagePriority(10);
+		item.setHandledCallsOverridden(randomInRangeInclusively(40, 50));
+		item.setSkillLevel(randomInRangeInclusively(4, 10));
+		item.setUsagePriority(randomInRangeInclusively(0, 10));
 		item.setIdService(service.getId());
 		data.put(id, item);
 		id++;

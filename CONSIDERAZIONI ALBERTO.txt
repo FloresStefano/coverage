@@ -1,5 +1,0 @@
-1. Garantendo la copertura del Service.dailyCallsDetail per ogni servizio, automaticamente si garantisce anche la copertura di:
-   * Service.dailyCalls
-   * PlanCalendar.totalExpectedCallsDetails
-   * PlanCalendar.totalExpectedCalls
-   poiché questi sono somme dei valori presenti in Service.dailyCallsDetail.

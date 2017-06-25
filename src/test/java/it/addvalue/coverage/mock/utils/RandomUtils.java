@@ -1,7 +1,9 @@
 package it.addvalue.coverage.mock.utils;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -13,13 +15,32 @@ public class RandomUtils {
 	}
 
 	public static <T> Set<T> randomItemsIn(Collection<T> collection, int count) {
-		count = Math.min(count, collection.size());
+		List<T> destructibleList = listFrom(collection);
 		Set<T> result = new HashSet<T>();
-		T[] array = arrayFrom(collection);
-		while (result.size() < count) {
-			result.add(randomItemIn(array));
+		while (result.size() < count && !destructibleList.isEmpty()) {
+			result.add(removeRandomItemIn(destructibleList));
 		}
 		return result;
+	}
+
+	private static <T> ArrayList<T> listFrom(Collection<T> collection) {
+		return new ArrayList<T>(collection);
+	}
+
+	public static <T> T removeRandomItemIn(List<T> list) {
+		return list.remove(randomIndexOf(list));
+	}
+
+	public static <T> int randomIndexOf(Collection<T> list) {
+		return generator.nextInt(list.size());
+	}
+
+	public static <T> T randomItemIn(Collection<T> collection) {
+		return randomItemIn(arrayFrom(collection));
+	}
+
+	public static <T> T randomItemIn(T... items) {
+		return items[randomIndexOf(items)];
 	}
 
 	@SuppressWarnings("unchecked")
@@ -27,15 +48,11 @@ public class RandomUtils {
 		return (T[]) collection.toArray();
 	}
 
-	public static <T> T randomItemIn(T... items) {
-		return items[generator.nextInt(items.length)];
+	public static <T> int randomIndexOf(T... items) {
+		return generator.nextInt(items.length);
 	}
 
-	public static <T> T randomItemIn(Collection<T> collection) {
-		return randomItemIn(arrayFrom(collection));
-	}
-
-	public static int randomInRange(int minInclusive, int maxInclusive) {
+	public static int randomInRangeInclusively(int minInclusive, int maxInclusive) {
 		return generator.nextInt((maxInclusive - minInclusive) + 1) + minInclusive;
 	}
 

@@ -1,4 +1,6 @@
-package it.addvalue.coverage.core;
+package it.addvalue.coverage.core.constraints;
+
+import lombok.Getter;
 
 public class DailyCallsAccumulator {
 
@@ -9,6 +11,8 @@ public class DailyCallsAccumulator {
 	private static final int[] SLOT_END_MINUTES      = {240, 480, 720, 960, 1200, 1440};
 
 	private final int[] callsInSlot = {0, 0, 0, 0, 0, 0};
+	@Getter
+	private       int   totalCalls  = 0;
 
 	public void add(int[] dailySchedule, int maxCallsPerHour) {
 		int maxCallsPerSlot = maxCallsPerHour * SLOT_DURATION_HOURS;
@@ -21,7 +25,9 @@ public class DailyCallsAccumulator {
 			int endSlot = slot(endMinutes);
 
 			for (int slot = startSlot; slot <= endSlot; slot++) {
-				callsInSlot[slot] += numCallsInSlot(maxCallsPerSlot, slot, startMinutes, endMinutes);
+				int numCallsInSlot = numCallsInSlot(maxCallsPerSlot, slot, startMinutes, endMinutes);
+				totalCalls += numCallsInSlot;
+				callsInSlot[slot] += numCallsInSlot;
 			}
 		}
 	}

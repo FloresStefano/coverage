@@ -14,7 +14,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import static it.addvalue.coverage.mock.utils.RandomUtils.randomInRange;
+import static it.addvalue.coverage.mock.utils.RandomUtils.randomInRangeInclusively;
 import static it.addvalue.coverage.mock.utils.RandomUtils.randomItemsIn;
 import static it.addvalue.csp.collections.Collections.setOf;
 
@@ -23,15 +23,16 @@ public class GlobalRepository implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final int                          SERVICE_COUNT            = 6;
-	private static final int                          RULE_COUNT               = 5;
-	private static final int                          WORKSHIFT_COUNT          = 4;
-	private static final int                          STAFF_COUNT              = 15;
-	private static final LocalDate                    START_DATE               = new LocalDate(2017, 1, 1);
-	private static final LocalDate                    END_DATE                 = new LocalDate(2017, 12, 31);
-	private final        ServiceRepository            serviceRepository        = new ServiceRepository();
-	private final        RuleRepository               ruleRepository           = new RuleRepository();
-	private final        WorkshiftRepository          workshiftRepository      = new WorkshiftRepository();
+	private static final int                 SERVICE_COUNT       = 6;
+	private static final int                 RULE_COUNT          = 5;
+	private static final int                 WORKSHIFT_COUNT     = 4;
+	private static final int                 STAFF_COUNT         = 15;
+	private static final int                 TEAM_SIZE           = 5;
+	private static final LocalDate           START_DATE          = new LocalDate(2017, 1, 1);
+	private static final LocalDate           END_DATE            = new LocalDate(2017, 12, 31);
+	private final        ServiceRepository   serviceRepository   = new ServiceRepository();
+	private final        RuleRepository      ruleRepository      = new RuleRepository();
+	private final        WorkshiftRepository workshiftRepository = new WorkshiftRepository();
 	private final        SkillRepository              skillRepository          = new SkillRepository();
 	private final        StaffRepository              staffRepository          = new StaffRepository();
 	private final        PlanCalendarDetailRepository calendarDetailRepository = new PlanCalendarDetailRepository();
@@ -68,15 +69,17 @@ public class GlobalRepository implements Serializable {
 			workshiftRepository.newItem();
 		}
 		for (int i = 0; i < STAFF_COUNT; i++) {
-			int numSkills = randomInRange(1, 3);
-			int numWorkshifts = randomInRange(1, 3);
+			int numSkills = randomInRangeInclusively(1, 3);
+			int numWorkshifts = randomInRangeInclusively(1, 3);
 			Set<Service> services = randomServices(numSkills);
 			Set<Skill> skills = new HashSet<Skill>();
 			for (Service service : services) {
 				skills.add(skillRepository.newItem(service));
 			}
 			Set<Workshift> workshifts = randomWorkshifts(numWorkshifts);
-			staffRepository.newItem(skills, workshifts);
+			int idTeam = i / TEAM_SIZE;
+			boolean isTeamLeader = i % TEAM_SIZE == 0;
+			staffRepository.newItem(skills, workshifts, START_DATE, END_DATE, idTeam, isTeamLeader);
 		}
 		Set<Service> services = allServices();
 		for (LocalDate date = START_DATE; date.compareTo(END_DATE) <= 0; date = date.plusDays(1)) {

@@ -69,8 +69,8 @@ public class AustraliaMapColoringTest {
 
 			public boolean verify(Solution solution) {
 				for (Pair<Variable> pair : unorderedPairsFrom(states)) {
-					Value color1 = solution.evaluate(pair.getItem1());
-					Value color2 = solution.evaluate(pair.getItem2());
+					Value color1 = solution.valueOf(pair.getItem1());
+					Value color2 = solution.valueOf(pair.getItem2());
 					if (color1.equals(color2)) {
 						return false;
 					}

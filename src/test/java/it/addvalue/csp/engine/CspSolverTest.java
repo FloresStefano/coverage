@@ -208,15 +208,15 @@ public class CspSolverTest {
 		}
 
 		private int x(Solution solution) {
-			return ((TestValue) solution.evaluate(x)).value;
+			return ((TestValue) solution.valueOf(x)).value;
 		}
 
 		private int y(Solution solution) {
-			return ((TestValue) solution.evaluate(y)).value;
+			return ((TestValue) solution.valueOf(y)).value;
 		}
 
 		private int z(Solution solution) {
-			return ((TestValue) solution.evaluate(z)).value;
+			return ((TestValue) solution.valueOf(z)).value;
 		}
 
 		public ProblemBuilder infeasible() {

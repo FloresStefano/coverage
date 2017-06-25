@@ -5,7 +5,6 @@ import it.addvalue.coverage.bean.Service;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,8 +13,8 @@ public class PlanCalendarDetailRepository implements Serializable {
 
 	public final Map<Long, PlanCalendarDetail> data = new HashMap<Long, PlanCalendarDetail>();
 
-	private static final BigDecimal NEUTRAL          = BigDecimal.valueOf(100L);
-	private static final long       serialVersionUID = 1L;
+	private static final int  NEUTRAL_MARKER_MULTIPLIER = 100;
+	private static final long serialVersionUID          = 1L;
 
 	private long id = 0;
 
@@ -23,7 +22,7 @@ public class PlanCalendarDetailRepository implements Serializable {
 		PlanCalendarDetail item = new PlanCalendarDetail();
 		item.setId(id);
 		item.setIdService(service.getId());
-		item.setMarkerMultiplier(NEUTRAL);
+		item.setMarkerMultiplier(NEUTRAL_MARKER_MULTIPLIER);
 		data.put(id, item);
 		id++;
 		return item;

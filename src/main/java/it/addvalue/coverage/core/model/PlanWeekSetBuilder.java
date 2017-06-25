@@ -1,4 +1,4 @@
-package it.addvalue.coverage.core;
+package it.addvalue.coverage.core.model;
 
 import it.addvalue.coverage.bean.PlanCalendar;
 import lombok.Builder;
@@ -20,18 +20,18 @@ public class PlanWeekSetBuilder {
 		             .weekyear(planCalendar.getWeekyear())
 		             .weekOfWeekyear(planCalendar.getWeekOfWeekyear())
 		             .build();
-		PlanWeek planWeek = map.get(key);
-		if (planWeek == null) {
-			planWeek = PlanWeek.builder()
-			                   .weekyear(planCalendar.getWeekyear())
-			                   .weekOfWeekyear(planCalendar.getWeekOfWeekyear())
-			                   .build();
-			map.put(key, planWeek);
+		PlanWeek week = map.get(key);
+		if (week == null) {
+			week = PlanWeek.builder()
+			               .weekyear(planCalendar.getWeekyear())
+			               .weekOfWeekyear(planCalendar.getWeekOfWeekyear())
+			               .build();
+			map.put(key, week);
 		}
-		return planWeek;
+		return week;
 	}
 
-	public Set<PlanWeek> planWeeks() {
+	public Set<PlanWeek> weeks() {
 		return setOf(map.values());
 	}
 
