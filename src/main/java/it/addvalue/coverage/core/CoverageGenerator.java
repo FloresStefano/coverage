@@ -41,8 +41,9 @@ import static it.addvalue.coverage.utils.CsvUtils.toIntArray;
 @Data
 public class CoverageGenerator {
 
-	private int     maxSolutions;
-	private boolean fullSearch;
+	private       int       maxSolutions = Csp.UNBOUNDED;
+	private       boolean   fullSearch   = true;
+	private final CspSolver solver       = new CspSolver();
 
 	public Output generate(Input input) {
 		Csp csp = cspFrom(input);
@@ -69,7 +70,7 @@ public class CoverageGenerator {
 	}
 
 	private Set<Solution> solve(Csp csp) {
-		return new CspSolver().solve(csp);
+		return solver.solve(csp);
 	}
 
 	private Output outputFrom(Set<Solution> solutions) {

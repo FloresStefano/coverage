@@ -54,7 +54,7 @@ public class PlanStaff {
 		public Performance(Skill skill, int defaultDailyCallsHandled) {
 			this.skill = skill;
 			dailyCalls = ObjectUtils.defaultIfNull(skill.getHandledCallsOverridden(), defaultDailyCallsHandled);
-			hourlyCalls = dailyCalls / 8;
+			hourlyCalls = (int) Math.round(dailyCalls / 8.0);
 		}
 
 	}
