@@ -4,14 +4,12 @@ import it.addvalue.coverage.bean.Workshift;
 import it.addvalue.csp.engine.Value;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Data
 @EqualsAndHashCode(of = "workshift")
-@ToString(of = "workshift")
 public class PlanWorkshift implements Value {
 
 	private final Workshift workshift;
@@ -27,6 +25,10 @@ public class PlanWorkshift implements Value {
 
 	public int[] dailyScheduleOn(PlanDay day) {
 		return dailySchedule.get(day.getCalendar().getName());
+	}
+
+	public String toString() {
+		return workshift.getName();
 	}
 
 }

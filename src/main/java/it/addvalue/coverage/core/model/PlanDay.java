@@ -4,7 +4,6 @@ import it.addvalue.coverage.bean.PlanCalendar;
 import it.addvalue.coverage.bean.Service;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -12,7 +11,6 @@ import java.util.Map;
 
 @Data
 @EqualsAndHashCode(of = "calendar")
-@ToString(of = "calendar")
 public class PlanDay {
 
 	private final PlanCalendar calendar;
@@ -41,6 +39,10 @@ public class PlanDay {
 
 	public boolean afterExclusively(Date limit) {
 		return calendar.getDay().compareTo(limit) > 0;
+	}
+
+	public String toString() {
+		return String.format("%1$tY-%1$tm-%1$td", calendar.getDay());
 	}
 
 }

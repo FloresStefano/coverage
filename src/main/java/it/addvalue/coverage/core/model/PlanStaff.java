@@ -5,7 +5,6 @@ import it.addvalue.coverage.bean.Skill;
 import it.addvalue.coverage.bean.Staff;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -14,7 +13,6 @@ import java.util.Map;
 
 @Data
 @EqualsAndHashCode(of = "staff")
-@ToString(of = "staff")
 public class PlanStaff {
 
 	private final Staff staff;
@@ -40,6 +38,10 @@ public class PlanStaff {
 
 	public boolean isTeamLeader() {
 		return BooleanUtils.isTrue(staff.getTeamLeader());
+	}
+
+	public String toString() {
+		return staff.getName();
 	}
 
 	@Data
