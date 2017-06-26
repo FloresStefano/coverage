@@ -1,5 +1,6 @@
 package it.addvalue.coverage;
 
+import it.addvalue.coverage.bean.Allocation;
 import it.addvalue.coverage.bean.PlanCalendar;
 import it.addvalue.coverage.bean.PlanCalendarDetail;
 import it.addvalue.coverage.bean.Service;
@@ -12,6 +13,9 @@ import it.addvalue.coverage.mock.utils.CsvUtils;
 import it.addvalue.coverage.mock.utils.XmlUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.Date;
+import java.util.Set;
 
 import static it.addvalue.coverage.mock.utils.CsvUtils.csvadd;
 import static it.addvalue.coverage.mock.utils.CsvUtils.csvloop;
@@ -181,11 +185,33 @@ public class CoverageTest {
 	@Test
 	public void outputTest() {
 		CoverageGenerator generator = new CoverageGenerator();
+
+		int maxSolutions = 4;
+
+		generator.setMaxSolutions(maxSolutions);
+		generator.setFullSearch(false);
+//		generator.getSolver().useMaintainingArcConsistencyPolicy(false);
+
 		Output output = generator.generate(input);
 
-		int days = input.getCalendars().size();
-		int staff = input.getStaffs().size();
-		assertThat(output.getAllocations(), hasSize(equalTo(days * staff)));
+		int numDays = input.getCalendars().size();
+		int numStaffs = input.getStaffs().size();
+
+		assertThat(output.getAllocations(), hasSize(equalTo(maxSolutions)));
+		for (Set<Allocation> allocations : output.getAllocations()) {
+			assertThat(allocations, hasSize(equalTo(numDays * numStaffs)));
+		}
+
+		int solutionCount = 1;
+		for (Set<Allocation> allocations : output.getAllocations()) {
+			System.out.printf("Solution %d:\n", solutionCount++);
+			for (Allocation allocation : allocations) {
+				String staff = globalRepository.getStaff(allocation.getIdStaff()).getName();
+				Date calendar = globalRepository.getCalendar(allocation.getIdCalendar()).getDay();
+				String workshift = globalRepository.getWorkshift(allocation.getIdWorkShift()).getName();
+				System.out.printf("\t(%1$s, %2$tY-%2$tm-%2$td) = %3$s\n", staff, calendar, workshift);
+			}
+		}
 	}
 
 }

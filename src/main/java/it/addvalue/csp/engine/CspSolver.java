@@ -30,14 +30,22 @@ public class CspSolver {
 	}
 
 	public Set<Solution> solve(Csp csp) {
+		CspDebug.beginSolve();
+
 		Set<Solution> solutions = csp.newSolutionSet();
 
 		solveRecursively(csp, Solution.empty(), solutions);
+
+		CspDebug.endSolve();
 
 		return solutions;
 	}
 
 	private boolean solveRecursively(Csp csp, Solution solution, Set<Solution> solutions) {
+
+//		CspDebug.solution(solution);
+		CspDebug.progress(csp, solutions);
+
 		if (solution.isCompleteFor(csp)) {
 			solutions.add(solution);
 			return !csp.isFullSearch() && csp.reachedSolutionCount(solutions);

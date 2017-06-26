@@ -23,16 +23,16 @@ public class GlobalRepository implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final int                 SERVICE_COUNT       = 6;
-	private static final int                 RULE_COUNT          = 5;
-	private static final int                 WORKSHIFT_COUNT     = 4;
-	private static final int                 STAFF_COUNT         = 15;
-	private static final int                 TEAM_SIZE           = 5;
-	private static final LocalDate           START_DATE          = new LocalDate(2017, 1, 1);
-	private static final LocalDate           END_DATE            = new LocalDate(2017, 12, 31);
-	private final        ServiceRepository   serviceRepository   = new ServiceRepository();
-	private final        RuleRepository      ruleRepository      = new RuleRepository();
-	private final        WorkshiftRepository workshiftRepository = new WorkshiftRepository();
+	private static final int                          SERVICE_COUNT            = 6;
+	private static final int                          RULE_COUNT               = 5;
+	private static final int                          WORKSHIFT_COUNT          = 4;
+	private static final int                          STAFF_COUNT              = 15;
+	private static final int                          TEAM_SIZE                = 5;
+	private static final LocalDate                    START_DATE               = new LocalDate(2017, 1, 1);
+	private static final LocalDate                    END_DATE                 = new LocalDate(2017, 12, 31);
+	private final        ServiceRepository            serviceRepository        = new ServiceRepository();
+	private final        RuleRepository               ruleRepository           = new RuleRepository();
+	private final        WorkshiftRepository          workshiftRepository      = new WorkshiftRepository();
 	private final        SkillRepository              skillRepository          = new SkillRepository();
 	private final        StaffRepository              staffRepository          = new StaffRepository();
 	private final        PlanCalendarDetailRepository calendarDetailRepository = new PlanCalendarDetailRepository();
@@ -40,6 +40,18 @@ public class GlobalRepository implements Serializable {
 
 	public Service getService(Long id) {
 		return serviceRepository.data.get(id);
+	}
+
+	public Workshift getWorkshift(Long id) {
+		return workshiftRepository.data.get(id);
+	}
+
+	public Staff getStaff(Long id) {
+		return staffRepository.data.get(id);
+	}
+
+	public PlanCalendar getCalendar(Long id) {
+		return calendarRepository.data.get(id);
 	}
 
 	public Set<PlanCalendar> allCalendars() {
