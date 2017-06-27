@@ -25,18 +25,18 @@ public class GlobalRepository implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final int                          SERVICE_COUNT            = 6;
-	private static final int                          RULE_COUNT               = 5;
-	private static final int                          WORKSHIFT_COUNT          = 4;
-	private static final int                          STAFF_COUNT              = 15;
-	private static final int                          TEAM_SIZE                = 5;
-	private static final LocalDate                    START_DATE               = new LocalDate(2017, 1, 1);
-	private static final LocalDate                    END_DATE                 = new LocalDate(2017, 12, 31);
-	private final        ServiceRepository            serviceRepository        = new ServiceRepository();
-	private final        RuleRepository               ruleRepository           = new RuleRepository();
-	private final        WorkshiftRepository          workshiftRepository      = new WorkshiftRepository();
-	private final        SkillRepository              skillRepository          = new SkillRepository();
-	private final        StaffRepository              staffRepository          = new StaffRepository();
+	private static final int                 SERVICE_COUNT       = 6;
+	private static final int                 RULE_COUNT          = 5;
+	private static final int                 WORKSHIFT_COUNT     = 4;
+	private static final int                 STAFF_COUNT         = 6;
+	private static final int                 TEAM_SIZE           = 3;
+	private static final LocalDate           START_DATE          = new LocalDate(2017, 1, 1);
+	private static final LocalDate           END_DATE            = new LocalDate(2017, 1, 7);
+	private final        ServiceRepository   serviceRepository   = new ServiceRepository();
+	private final        RuleRepository      ruleRepository      = new RuleRepository();
+	private final        WorkshiftRepository workshiftRepository = new WorkshiftRepository();
+	private final        SkillRepository     skillRepository     = new SkillRepository();
+	private final        StaffRepository     staffRepository     = new StaffRepository();
 	private final        PlanCalendarDetailRepository calendarDetailRepository = new PlanCalendarDetailRepository();
 	private final        PlanCalendarRepository       calendarRepository       = new PlanCalendarRepository();
 
@@ -74,7 +74,7 @@ public class GlobalRepository implements Serializable {
 
 	public void populate() {
 		for (int i = 0; i < SERVICE_COUNT; i++) {
-			String dailyCallsDetail = "200,400,400,400,400,200";
+			String dailyCallsDetail = "50,100,100,100,100,50";
 			serviceRepository.insert()
 			                 .withCoverageFrom(400)
 			                 .withCoverageTo(900)
@@ -87,26 +87,21 @@ public class GlobalRepository implements Serializable {
 			ruleRepository.insert().commit();
 		}
 
-		int[] amin = {200, 300, 400, 400};
-		int[] amax = {800, 900, 1000, 1000};
 		for (int i = 0; i < WORKSHIFT_COUNT; i++) {
-			int mod = i % 4;
-			int min = amin[mod];
-			int max = amax[mod];
 			workshiftRepository.insert()
-			                   .withDailySchedule("lun", min + "," + (min + 150) + "," + (max - 150) + "," + max)
-			                   .withDailySchedule("mar", min + "," + (min + 150) + "," + (max - 150) + "," + max)
-			                   .withDailySchedule("mer", min + "," + (min + 150) + "," + (max - 150) + "," + max)
-			                   .withDailySchedule("gio", min + "," + (min + 150) + "," + (max - 150) + "," + max)
-			                   .withDailySchedule("ven", min + "," + (min + 150) + "," + (max - 150) + "," + max)
-			                   .withDailySchedule("sab", min + "," + (min + 150) + "," + (max - 150) + "," + max)
-			                   .withDailySchedule("dom", min + "," + (min + 150) + "," + (max - 150) + "," + max)
+			                   .withDailySchedule("lun", "0,1440")
+			                   .withDailySchedule("mar", "0,1440")
+			                   .withDailySchedule("mer", "0,1440")
+			                   .withDailySchedule("gio", "0,1440")
+			                   .withDailySchedule("ven", "0,1440")
+			                   .withDailySchedule("sab", "0,1440")
+			                   .withDailySchedule("dom", "0,1440")
 			                   .commit();
 		}
 
 		for (int i = 0; i < STAFF_COUNT; i++) {
-			int numSkills = randomInRangeInclusively(1, 3);
-			int numWorkshifts = randomInRangeInclusively(1, 3);
+			int numSkills = SERVICE_COUNT; //randomInRangeInclusively(1, 3);
+			int numWorkshifts = WORKSHIFT_COUNT; // randomInRangeInclusively(1, 3);
 
 			Set<Skill> skills = new HashSet<Skill>();
 			for (Service service : randomServices(numSkills)) {
@@ -118,9 +113,9 @@ public class GlobalRepository implements Serializable {
 				                          .commit());
 			}
 
+			boolean teamLeader = true; // i % TEAM_SIZE == 0;
 			staffRepository.insert()
-			               .withIdTeam((long) i / TEAM_SIZE)
-			               .withTeamLeader(i % TEAM_SIZE == 0)
+			               .withIdTeam((long) i / TEAM_SIZE).withTeamLeader(teamLeader)
 			               .withWorkshifts(randomWorkshifts(numWorkshifts))
 			               .withValidFrom(START_DATE)
 			               .withvalidTo(END_DATE)
