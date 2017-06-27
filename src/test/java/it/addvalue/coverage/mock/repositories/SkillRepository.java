@@ -8,8 +8,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import static it.addvalue.coverage.mock.utils.RandomUtils.randomInRangeInclusively;
-
 @EqualsAndHashCode
 public class SkillRepository implements Serializable {
 
@@ -19,16 +17,41 @@ public class SkillRepository implements Serializable {
 
 	private long id = 0;
 
-	public Skill newItem(Service service) {
-		Skill item = new Skill();
-		item.setId(id);
-		item.setHandledCallsOverridden(randomInRangeInclusively(40, 50));
-		item.setSkillLevel(randomInRangeInclusively(4, 10));
-		item.setUsagePriority(randomInRangeInclusively(0, 10));
-		item.setIdService(service.getId());
-		data.put(id, item);
-		id++;
-		return item;
+	public Insert insert() {
+		return new Insert();
+	}
+
+	public class Insert {
+
+		private final Skill item = new Skill();
+
+		public Insert withSkillLevel(Integer skillLevel) {
+			item.setSkillLevel(skillLevel);
+			return this;
+		}
+
+		public Insert withUsagePriority(Integer usagePriority) {
+			item.setUsagePriority(usagePriority);
+			return this;
+		}
+
+		public Insert withHandledCallsOverridden(Integer handledCallsOverridden) {
+			item.setHandledCallsOverridden(handledCallsOverridden);
+			return this;
+		}
+
+		public Insert withService(Service service) {
+			item.setIdService(service.getId());
+			return this;
+		}
+
+		public Skill commit() {
+			item.setId(id);
+			data.put(id, item);
+			id++;
+			return item;
+		}
+
 	}
 
 }

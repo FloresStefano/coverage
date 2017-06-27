@@ -7,8 +7,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import static it.addvalue.coverage.mock.utils.CsvUtils.csvsum;
-
 @EqualsAndHashCode
 public class ServiceRepository implements Serializable {
 
@@ -18,17 +16,50 @@ public class ServiceRepository implements Serializable {
 
 	private long id = 0;
 
-	public Service newItem() {
-		Service item = new Service();
-		item.setId(id);
-		item.setName("Service" + id);
-		item.setCoverageFrom(400);
-		item.setCoverageTo(900);
-		item.setDailyCallsDetail("200,400,400,400,400,200");
-		item.setDailyCalls(csvsum(item.getDailyCallsDetail()));
-		data.put(id, item);
-		id++;
-		return item;
+	public Insert insert() {
+		return new Insert();
+	}
+
+	public class Insert {
+
+		private final Service item = new Service();
+
+		public Insert() {
+			item.setName("Service" + id);
+		}
+
+		public Insert withName(String name) {
+			item.setName(name);
+			return this;
+		}
+
+		public Insert withDailyCalls(Integer dailyCalls) {
+			item.setDailyCalls(dailyCalls);
+			return this;
+		}
+
+		public Insert withDailyCallsDetail(String dailyCallsDetail) {
+			item.setDailyCallsDetail(dailyCallsDetail);
+			return this;
+		}
+
+		public Insert withCoverageFrom(Integer coverageFrom) {
+			item.setCoverageFrom(coverageFrom);
+			return this;
+		}
+
+		public Insert withCoverageTo(Integer coverageTo) {
+			item.setCoverageTo(coverageTo);
+			return this;
+		}
+
+		public Service commit() {
+			item.setId(id);
+			data.put(id, item);
+			id++;
+			return item;
+		}
+
 	}
 
 }

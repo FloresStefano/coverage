@@ -18,35 +18,41 @@ public class WorkshiftRepository implements Serializable {
 
 	private long id = 0;
 
-	public Workshift newItem() {
-		Workshift item = new Workshift();
-		item.setId(id);
-		item.setName("Workshift" + id);
-		item.setContractName(CONTRACTNAME);
-		item.setDailySchedule(dailySchedule(id));
-		data.put(id, item);
-		id++;
-		return item;
+	public Insert insert() {
+		return new Insert();
 	}
 
-	private Map<String, String> dailySchedule(long idWorkshift) {
-		int[] min = {200, 300, 400, 400};
-		int[] max = {800, 900, 1000, 1000};
-		int mod = (int) (idWorkshift % 4);
-		return mockDailySchedule(min[mod], max[mod]);
-	}
+	public class Insert {
 
-	private static Map<String, String> mockDailySchedule(int min, int max) {
-		if ((min + 150) >= max) {
-			throw new IllegalArgumentException("max must be <= min+150");
+		private final Workshift item = new Workshift();
+
+		public Insert() {
+			item.setContractName(CONTRACTNAME);
+			item.setName("Workshift" + id);
 		}
-		Map<String, String> dailyMap = new HashMap<String, String>();
-		dailyMap.put("lun", min + "," + (min + 150) + "," + (max - 150) + "," + max);
-		dailyMap.put("mar", min + "," + (min + 150) + "," + (max - 150) + "," + max);
-		dailyMap.put("mer", min + "," + (min + 150) + "," + (max - 150) + "," + max);
-		dailyMap.put("gio", min + "," + (min + 150) + "," + (max - 150) + "," + max);
-		dailyMap.put("ven", min + "," + (min + 150) + "," + (max - 150) + "," + max);
-		return dailyMap;
+
+		public Insert withName(String name) {
+			item.setName(name);
+			return this;
+		}
+
+		public Insert withContractName(String contractName) {
+			item.setContractName(contractName);
+			return this;
+		}
+
+		public Insert withDailySchedule(String dayOfWeek, String schedule) {
+			item.getDailySchedule().put(dayOfWeek, schedule);
+			return this;
+		}
+
+		public Workshift commit() {
+			item.setId(id);
+			data.put(id, item);
+			id++;
+			return item;
+		}
+
 	}
 
 }

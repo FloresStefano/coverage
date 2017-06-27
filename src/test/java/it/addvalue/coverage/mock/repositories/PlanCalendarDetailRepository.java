@@ -18,14 +18,35 @@ public class PlanCalendarDetailRepository implements Serializable {
 
 	private long id = 0;
 
-	public PlanCalendarDetail newItem(Service service) {
-		PlanCalendarDetail item = new PlanCalendarDetail();
-		item.setId(id);
-		item.setIdService(service.getId());
-		item.setMarkerMultiplier(NEUTRAL_MARKER_MULTIPLIER);
-		data.put(id, item);
-		id++;
-		return item;
+	public Insert insert() {
+		return new Insert();
+	}
+
+	public class Insert {
+
+		private final PlanCalendarDetail item = new PlanCalendarDetail();
+
+		public Insert() {
+			item.setMarkerMultiplier(NEUTRAL_MARKER_MULTIPLIER);
+		}
+
+		public Insert withService(Service service) {
+			item.setIdService(service.getId());
+			return this;
+		}
+
+		public Insert withMarkerMultiplier(Integer markerMultiplier) {
+			item.setMarkerMultiplier(markerMultiplier);
+			return this;
+		}
+
+		public PlanCalendarDetail commit() {
+			item.setId(id);
+			data.put(id, item);
+			id++;
+			return item;
+		}
+
 	}
 
 }
