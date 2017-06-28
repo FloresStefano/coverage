@@ -7,10 +7,10 @@ import java.util.Set;
 @Log4j(topic = "csp")
 public class Trace {
 
-	private static boolean traceBeginSolve         = true;
-	private static boolean traceConstraintViolated = false;
-	private static boolean traceSolutionFound      = true;
-	private static boolean traceEndSolve           = true;
+	public static boolean traceBeginSolve         = true;
+	public static boolean traceConstraintViolated = false;
+	public static boolean traceSolutionFound      = true;
+	public static boolean traceEndSolve           = true;
 
 	public static void beginSolve(Csp csp) {
 		if (traceBeginSolve) {
@@ -38,7 +38,7 @@ public class Trace {
 
 	public static void endSolve(Set<Solution> solutions) {
 		if (traceEndSolve) {
-			log("Resolution ended: " + solutions.size() + " solutions found");
+			logf("Resolution ended: %d solutions found", solutions.size());
 		}
 	}
 
