@@ -43,4 +43,8 @@ public class TotalDailyCallsCoverageConstraint implements Constraint {
 		       dailyCallsAccumulator.covers(day.getTotalExpectedCallsDetail());
 	}
 
+	public String toString() {
+		return "TotalDailyCallsCoverage{day=" + day + "}";
+	}
+
 }

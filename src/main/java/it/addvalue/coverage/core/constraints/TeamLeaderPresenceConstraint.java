@@ -43,4 +43,8 @@ public class TeamLeaderPresenceConstraint implements Constraint {
 		return true;
 	}
 
+	public String toString() {
+		return "TeamLeaderPresence{day=" + day + "}";
+	}
+
 }

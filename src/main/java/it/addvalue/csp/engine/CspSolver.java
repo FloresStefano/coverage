@@ -36,16 +36,12 @@ public class CspSolver {
 
 		solveRecursively(csp, Solution.empty(), solutions);
 
-		CspDebug.endSolve();
+		CspDebug.endSolve(solutions);
 
 		return solutions;
 	}
 
 	private boolean solveRecursively(Csp csp, Solution solution, Set<Solution> solutions) {
-
-//		CspDebug.solution(solution);
-		CspDebug.progress(csp, solutions);
-
 		if (solution.isCompleteFor(csp)) {
 			solutions.add(solution);
 			return !csp.isFullSearch() && csp.reachedSolutionCount(solutions);
@@ -174,6 +170,8 @@ public class CspSolver {
 				for (Map.Entry<Variable, Value> assignment : solution.assignments().entrySet()) {
 					newDomains.get(assignment.getKey()).add(assignment.getValue());
 				}
+			} else {
+				CspDebug.constraintViolated(solution, constraint);
 			}
 		}
 

@@ -45,13 +45,13 @@ public class StaffRepository implements Serializable {
 			return this;
 		}
 
-		public Insert withIdTeam(Long idTeam) {
+		public Insert withIdTeam(long idTeam) {
 			item.setIdTeam(idTeam);
 			return this;
 		}
 
-		public Insert withTeamLeader(Boolean teamLeader) {
-			item.setTeamLeader(teamLeader);
+		public Insert teamLeader() {
+			item.setTeamLeader(true);
 			return this;
 		}
 
@@ -85,6 +85,13 @@ public class StaffRepository implements Serializable {
 			return this;
 		}
 
+		public Insert withSkills(Skill... skills) {
+			for (Skill skill : skills) {
+				item.getSkills().add(skill);
+			}
+			return this;
+		}
+
 		public Insert withSkills(Iterable<Skill> skills) {
 			for (Skill skill : skills) {
 				item.getSkills().add(skill);
@@ -94,6 +101,13 @@ public class StaffRepository implements Serializable {
 
 		public Insert withWorkshift(Workshift workshift) {
 			item.getIdWorkshifts().add(workshift.getId());
+			return this;
+		}
+
+		public Insert withWorkshifts(Workshift... workshifts) {
+			for (Workshift workshift : workshifts) {
+				item.getIdWorkshifts().add(workshift.getId());
+			}
 			return this;
 		}
 

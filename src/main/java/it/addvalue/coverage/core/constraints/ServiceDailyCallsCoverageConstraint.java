@@ -39,4 +39,8 @@ public class ServiceDailyCallsCoverageConstraint implements Constraint {
 		       dailyCallsAccumulator.covers(day.markedDailyCallsDetailFor(service));
 	}
 
+	public String toString() {
+		return "ServiceDailyCallsCoverage{day=" + day + ", service=" + service.getName() + "}";
+	}
+
 }

@@ -25,17 +25,17 @@ public class SkillRepository implements Serializable {
 
 		private final Skill item = new Skill();
 
-		public Insert withSkillLevel(Integer skillLevel) {
+		public Insert withSkillLevel(int skillLevel) {
 			item.setSkillLevel(skillLevel);
 			return this;
 		}
 
-		public Insert withUsagePriority(Integer usagePriority) {
+		public Insert withUsagePriority(int usagePriority) {
 			item.setUsagePriority(usagePriority);
 			return this;
 		}
 
-		public Insert withHandledCallsOverridden(Integer handledCallsOverridden) {
+		public Insert withHandledCalls(int handledCallsOverridden) {
 			item.setHandledCallsOverridden(handledCallsOverridden);
 			return this;
 		}

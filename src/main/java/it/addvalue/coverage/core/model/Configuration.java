@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.util.Map;
 
+import static it.addvalue.coverage.core.model.RuleKeys.DEFAULT_DAILY_CALLS_HANDLED;
+import static it.addvalue.coverage.core.model.RuleKeys.UNDERCOVERAGE_TOLERANCE_PERCENTAGE;
+
 @Data
 public class Configuration {
 
@@ -17,11 +20,11 @@ public class Configuration {
 	}
 
 	private static int defaultDailyCallsHandled(Map<String, Rule> ruleByKey) {
-		return intRuleValue("default-daily-calls-handled", 50, ruleByKey);
+		return intRuleValue(DEFAULT_DAILY_CALLS_HANDLED, 50, ruleByKey);
 	}
 
 	private static int undercoverageTolerancePercentage(Map<String, Rule> ruleByKey) {
-		return intRuleValue("undercoverage-tolerance-percentage", 20, ruleByKey);
+		return intRuleValue(UNDERCOVERAGE_TOLERANCE_PERCENTAGE, 20, ruleByKey);
 	}
 
 	private static int intRuleValue(String key, int defaultValue, Map<String, Rule> ruleByKey) {

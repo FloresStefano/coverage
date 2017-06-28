@@ -38,4 +38,8 @@ public class ServiceOpeningHoursCoverageConstraint implements Constraint {
 		return dailyCoverageMerger.covers(service.getCoverageFrom(), service.getCoverageTo());
 	}
 
+	public String toString() {
+		return "ServiceOpeningHoursCoverage{day=" + day + ", service=" + service.getName() + "}";
+	}
+
 }

@@ -1,6 +1,9 @@
 package it.addvalue.coverage;
 
 import it.addvalue.coverage.bean.Allocation;
+import it.addvalue.coverage.bean.Input;
+import it.addvalue.coverage.bean.Output;
+import it.addvalue.coverage.bean.Plan;
 import it.addvalue.coverage.bean.PlanCalendar;
 import it.addvalue.coverage.bean.PlanCalendarDetail;
 import it.addvalue.coverage.bean.Service;
@@ -14,8 +17,9 @@ import it.addvalue.coverage.mock.utils.XmlUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
-import java.util.Set;
 
 import static it.addvalue.coverage.mock.utils.CsvUtils.csvadd;
 import static it.addvalue.coverage.mock.utils.CsvUtils.csvloop;
@@ -27,17 +31,18 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertThat;
 
 public class CoverageTest {
 
-	private static GlobalRepository globalRepository;
+	private static GlobalRepository db;
 	private static Input            input;
 
 	@BeforeClass
 	public static void init() {
 		input = XmlUtils.deserialize("coverage_data.xml", Input.class);
-		globalRepository = BinaryUtils.deserialize("repository_data.bin", GlobalRepository.class);
+		db = BinaryUtils.deserialize("repository_data.bin", GlobalRepository.class);
 	}
 
 	// A fronte di un input dev'essere prodotto un output
@@ -62,7 +67,7 @@ public class CoverageTest {
 	@Test
 	public void everydayAllServicesMustBeSpecified() {
 		for (PlanCalendar pc : input.getCalendars()) {
-			assertThat(pc.getDetails(), hasSize(globalRepository.allServices().size()));
+			assertThat(pc.getDetails(), hasSize(db.allServices().size()));
 		}
 	}
 
@@ -86,7 +91,7 @@ public class CoverageTest {
 		for (PlanCalendar day : input.getCalendars()) {
 			int sumServiceDailyCalls = 0;
 			for (PlanCalendarDetail detail : day.getDetails()) {
-				Service service = globalRepository.getService(detail.getIdService());
+				Service service = db.service(detail.getIdService());
 				sumServiceDailyCalls += service.getDailyCalls();
 			}
 			assertThat(day.getTotalExpectedCalls(), is(greaterThanOrEqualTo(sumServiceDailyCalls)));
@@ -100,7 +105,7 @@ public class CoverageTest {
 		for (PlanCalendar day : input.getCalendars()) {
 			String sumServiceDailyCallsDetail = "0,0,0,0,0,0";
 			for (PlanCalendarDetail detail : day.getDetails()) {
-				Service service = globalRepository.getService(detail.getIdService());
+				Service service = db.service(detail.getIdService());
 				sumServiceDailyCallsDetail = csvadd(sumServiceDailyCallsDetail, service.getDailyCallsDetail());
 			}
 			csvloop(day.getTotalExpectedCallsDetail(), sumServiceDailyCallsDetail, new CsvUtils.Action() {
@@ -131,7 +136,7 @@ public class CoverageTest {
 	@Test
 	public void staffAndWorkshifByContractTest() {
 		for (Staff staff : input.getStaffs()) {
-			for (Workshift workshift : globalRepository.allWorkshifts()) {
+			for (Workshift workshift : db.allWorkshifts()) {
 				assertThat(workshift.getContractName(), is(equalTo(staff.getContractName())));
 			}
 		}
@@ -149,7 +154,7 @@ public class CoverageTest {
 
 		for (Staff staff : input.getStaffs()) {
 			assertThat(staff.getSkills(), is(not(empty())));
-			assertThat(staff.getSkills(), hasSize(lessThan(globalRepository.allServices().size())));
+			assertThat(staff.getSkills(), hasSize(lessThan(db.allServices().size())));
 		}
 	}
 
@@ -197,21 +202,48 @@ public class CoverageTest {
 		int numDays = input.getCalendars().size();
 		int numStaffs = input.getStaffs().size();
 
-		assertThat(output.getAllocations(), hasSize(equalTo(maxSolutions)));
-		for (Set<Allocation> allocations : output.getAllocations()) {
-			assertThat(allocations, hasSize(equalTo(numDays * numStaffs)));
+		assertThat(output.getPlans(), hasSize(lessThanOrEqualTo(maxSolutions)));
+		for (Plan plan : output.getPlans()) {
+			assertThat(plan.getAllocations(), hasSize(equalTo(numDays * numStaffs)));
 		}
 
 		int solutionCount = 1;
-		for (Set<Allocation> allocations : output.getAllocations()) {
-			System.out.printf("Solution %d:\n", solutionCount++);
-			for (Allocation allocation : allocations) {
-				String staff = globalRepository.getStaff(allocation.getIdStaff()).getName();
-				Date calendar = globalRepository.getCalendar(allocation.getIdCalendar()).getDay();
-				String workshift = globalRepository.getWorkshift(allocation.getIdWorkShift()).getName();
-				System.out.printf("\t(%1$s, %2$tY-%2$tm-%2$td) = %3$s\n", staff, calendar, workshift);
-			}
+		for (Plan plan : output.getPlans()) {
+			System.out.printf("Solution %d:", solutionCount++);
+
+			printSolution(plan);
 		}
+	}
+
+	private void printSolution(Plan plan) {
+		sortAllocationsByDateAndStaff(plan);
+		Long idCalendar = null;
+		for (Allocation allocation : plan.getAllocations()) {
+			if (!allocation.getIdCalendar().equals(idCalendar)) {
+				idCalendar = allocation.getIdCalendar();
+				System.out.printf("\n\t%1$tY-%1$tm-%1$td: ", db.calendar(idCalendar).getDay());
+			}
+			System.out.printf(" %10s = %-10s ",
+			                  db.staff(allocation.getIdStaff()).getName(),
+			                  db.workshift(allocation.getIdWorkShift()).getName());
+		}
+		System.out.println("\n");
+	}
+
+	private void sortAllocationsByDateAndStaff(Plan plan) {
+		Collections.sort(plan.getAllocations(), new Comparator<Allocation>() {
+			public int compare(Allocation a1, Allocation a2) {
+				Date d1 = db.calendar(a1.getIdCalendar()).getDay();
+				Date d2 = db.calendar(a2.getIdCalendar()).getDay();
+				int dateCompare = d1.compareTo(d2);
+				if (dateCompare != 0) {
+					return dateCompare;
+				}
+				String s1 = db.staff(a1.getIdStaff()).getName();
+				String s2 = db.staff(a2.getIdStaff()).getName();
+				return s1.compareTo(s2);
+			}
+		});
 	}
 
 }

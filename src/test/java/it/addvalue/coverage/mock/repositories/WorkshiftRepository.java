@@ -10,7 +10,7 @@ import java.util.Map;
 @EqualsAndHashCode
 public class WorkshiftRepository implements Serializable {
 
-	public static final String CONTRACTNAME = "FullTime";
+	public static final String CONTRACTNAME = "YouWork";
 
 	public final Map<Long, Workshift> data = new HashMap<Long, Workshift>();
 

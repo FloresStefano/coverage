@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import static it.addvalue.coverage.mock.utils.CsvUtils.csvsum;
+
 @EqualsAndHashCode
 public class ServiceRepository implements Serializable {
 
@@ -33,8 +35,13 @@ public class ServiceRepository implements Serializable {
 			return this;
 		}
 
-		public Insert withDailyCalls(Integer dailyCalls) {
+		public Insert withDailyCalls(int dailyCalls) {
 			item.setDailyCalls(dailyCalls);
+			return this;
+		}
+
+		public Insert withDailyCallsAsSumOfDetails() {
+			item.setDailyCalls(csvsum(item.getDailyCallsDetail()));
 			return this;
 		}
 
@@ -43,12 +50,12 @@ public class ServiceRepository implements Serializable {
 			return this;
 		}
 
-		public Insert withCoverageFrom(Integer coverageFrom) {
+		public Insert withCoverageFrom(int coverageFrom) {
 			item.setCoverageFrom(coverageFrom);
 			return this;
 		}
 
-		public Insert withCoverageTo(Integer coverageTo) {
+		public Insert withCoverageTo(int coverageTo) {
 			item.setCoverageTo(coverageTo);
 			return this;
 		}
@@ -59,7 +66,6 @@ public class ServiceRepository implements Serializable {
 			id++;
 			return item;
 		}
-
 	}
 
 }

@@ -1,8 +1,9 @@
 package it.addvalue.coverage.core;
 
-import it.addvalue.coverage.Input;
-import it.addvalue.coverage.Output;
 import it.addvalue.coverage.bean.Allocation;
+import it.addvalue.coverage.bean.Input;
+import it.addvalue.coverage.bean.Output;
+import it.addvalue.coverage.bean.Plan;
 import it.addvalue.coverage.bean.PlanCalendar;
 import it.addvalue.coverage.bean.PlanCalendarDetail;
 import it.addvalue.coverage.bean.Rule;
@@ -76,8 +77,8 @@ public class CoverageGenerator {
 	private Output outputFrom(Set<Solution> solutions) {
 		Output output = new Output();
 		for (Solution solution : solutions) {
-			Set<Allocation> allocations = new HashSet<Allocation>();
-			output.getAllocations().add(allocations);
+			Plan plan = new Plan();
+			output.getPlans().add(plan);
 
 			for (Map.Entry<Variable, Value> assignmentEntry : solution.assignments().entrySet()) {
 				PlanVariable variable = (PlanVariable) assignmentEntry.getKey();
@@ -85,7 +86,7 @@ public class CoverageGenerator {
 
 				for (PlanDay day : variable.getWeek().getDays()) {
 					Allocation allocation = new Allocation();
-					allocations.add(allocation);
+					plan.getAllocations().add(allocation);
 
 					allocation.setIdCalendar(day.idCalendar());
 					allocation.setIdStaff(variable.idStaff());

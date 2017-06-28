@@ -110,8 +110,11 @@ public class Csp implements Cloneable {
 
 	public boolean verifyConsistency(Solution solution) {
 		for (Constraint constraint : constraints) {
-			if (solution.isCompleteFor(constraint) && !constraint.verify(solution)) {
-				return false;
+			if (solution.isCompleteFor(constraint)) {
+				if (!constraint.verify(solution)) {
+					CspDebug.constraintViolated(solution, constraint);
+					return false;
+				}
 			}
 		}
 		return true;

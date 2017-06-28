@@ -15,16 +15,23 @@ import java.util.Map;
 @EqualsAndHashCode(of = "staff")
 public class PlanStaff {
 
+	private static final int DEFAULT_SKILL_LEVEL    = 3;
+	private static final int DEFAULT_USAGE_PRIORITY = 3;
+
 	private final Staff staff;
 	private final Map<Service, Performance> performances = new HashMap<Service, Performance>();
 
 	public boolean canHandle(Service service) {
 		Performance performance = performances.get(service);
-		return performance != null && performance.getSkill().getUsagePriority() > 0;
+		return performance != null && performance.getUsagePriority() > 0;
 	}
 
 	public int usagePriorityFor(Service service) {
-		return performances.get(service).getSkill().getUsagePriority();
+		return performances.get(service).getUsagePriority();
+	}
+
+	public int skillLevelFor(Service service) {
+		return performances.get(service).getSkillLevel();
 	}
 
 	public int hourlyCallsFor(Service service) {
@@ -50,11 +57,15 @@ public class PlanStaff {
 		private final Skill skill;
 		private final int   dailyCalls;
 		private final int   hourlyCalls;
+		private final int   skillLevel;
+		private final int   usagePriority;
 
 		public Performance(Skill skill, int defaultDailyCallsHandled) {
 			this.skill = skill;
 			dailyCalls = ObjectUtils.defaultIfNull(skill.getHandledCallsOverridden(), defaultDailyCallsHandled);
 			hourlyCalls = (int) Math.round(dailyCalls / 8.0);
+			skillLevel = ObjectUtils.defaultIfNull(skill.getSkillLevel(), DEFAULT_SKILL_LEVEL);
+			usagePriority = ObjectUtils.defaultIfNull(skill.getUsagePriority(), DEFAULT_USAGE_PRIORITY);
 		}
 
 	}
