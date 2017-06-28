@@ -42,18 +42,18 @@ public class GenerateInputTest {
 		                                .withDailyCallsDetail("0,0,75,75,50,0")
 		                                .withDailyCallsAsSumOfDetails()
 		                                .commit();
-		Service youApp = db.services.insert()
-		                            .withName("YouApp")
-		                            .withCoverageFrom(540)
-		                            .withCoverageTo(780)
-		                            .withDailyCallsDetail("0,0,75,25,0,0")
-		                            .withDailyCallsAsSumOfDetails()
-		                            .commit();
 		Service youWeb = db.services.insert()
 		                            .withName("YouWeb")
 		                            .withCoverageFrom(840)
 		                            .withCoverageTo(1080)
 		                            .withDailyCallsDetail("0,0,0,50,50,0")
+		                            .withDailyCallsAsSumOfDetails()
+		                            .commit();
+		Service youApp = db.services.insert()
+		                            .withName("YouApp")
+		                            .withCoverageFrom(540)
+		                            .withCoverageTo(780)
+		                            .withDailyCallsDetail("0,0,75,25,0,0")
 		                            .withDailyCallsAsSumOfDetails()
 		                            .commit();
 
@@ -67,8 +67,8 @@ public class GenerateInputTest {
 		                                  .commit();
 		Workshift weekends = db.workshifts.insert()
 		                                  .withName("Weekends")
-		                                  .withDailySchedule("sab", "540,1080")
-		                                  .withDailySchedule("dom", "540,1080")
+		                                  .withDailySchedule("sab", "540,780,840,1080")
+		                                  .withDailySchedule("dom", "540,780,840,1080")
 		                                  .commit();
 		Workshift mornings = db.workshifts.insert()
 		                                  .withName("Mornings")
@@ -77,6 +77,8 @@ public class GenerateInputTest {
 		                                  .withDailySchedule("mer", "540,840")
 		                                  .withDailySchedule("gio", "540,840")
 		                                  .withDailySchedule("ven", "540,840")
+		                                  .withDailySchedule("sab", "540,840")
+		                                  .withDailySchedule("dom", "540,840")
 		                                  .commit();
 		Workshift afternoons = db.workshifts.insert()
 		                                    .withName("Afternoons")
@@ -85,83 +87,85 @@ public class GenerateInputTest {
 		                                    .withDailySchedule("mer", "780,1080")
 		                                    .withDailySchedule("gio", "780,1080")
 		                                    .withDailySchedule("ven", "780,1080")
+		                                    .withDailySchedule("sab", "780,1080")
+		                                    .withDailySchedule("dom", "780,1080")
 		                                    .commit();
 
 		db.staffs.insert()
 		         .teamLeader()
-		         .withName("Alpha")
+		         .withName("AlphaTL")
 		         .withIdTeam(1)
-		         .withWorkshifts(fullTime, weekends, mornings)
-		         .withSkills(db.skills.insert().withHandledCalls(40).withService(youInvoice).commit(),
-		                     db.skills.insert().withHandledCalls(40).withService(youApp).commit())
+		         .withWorkshifts(fullTime, weekends, afternoons)
+		         .withSkills(db.skills.insert().withDailyCallsHandled(30).withService(youInvoice).commit(),
+		                     db.skills.insert().withDailyCallsHandled(30).withService(youWeb).commit())
 		         .commit();
 		db.staffs.insert()
-		         .teamLeader()
 		         .withName("Bravo")
-		         .withIdTeam(2)
-		         .withWorkshifts(fullTime, weekends, afternoons)
-		         .withSkills(db.skills.insert().withHandledCalls(40).withService(youInvoice).commit(),
-		                     db.skills.insert().withHandledCalls(50).withService(youApp).commit(),
-		                     db.skills.insert().withHandledCalls(50).withService(youWeb).commit())
+		         .withIdTeam(1)
+		         .withWorkshifts(fullTime, weekends, mornings)
+		         .withSkills(db.skills.insert().withDailyCallsHandled(50).withService(youInvoice).commit(),
+		                     db.skills.insert().withDailyCallsHandled(50).withService(youWeb).commit())
 		         .commit();
 		db.staffs.insert()
 		         .withName("Charlie")
 		         .withIdTeam(1)
-		         .withWorkshifts(fullTime)
-		         .withSkills(db.skills.insert().withHandledCalls(20).withService(youInvoice).commit())
+		         .withWorkshifts(fullTime, weekends, afternoons)
+		         .withSkills(db.skills.insert().withDailyCallsHandled(50).withService(youInvoice).commit(),
+		                     db.skills.insert().withDailyCallsHandled(50).withService(youWeb).commit())
 		         .commit();
 		db.staffs.insert()
 		         .withName("Delta")
-		         .withIdTeam(2)
-		         .withWorkshifts(fullTime)
-		         .withSkills(db.skills.insert().withHandledCalls(50).withService(youApp).commit())
+		         .withIdTeam(1)
+		         .withWorkshifts(fullTime, mornings, afternoons)
+		         .withSkills(db.skills.insert().withDailyCallsHandled(40).withService(youInvoice).commit(),
+		                     db.skills.insert().withDailyCallsHandled(40).withService(youWeb).commit())
 		         .commit();
 		db.staffs.insert()
 		         .withName("Echo")
 		         .withIdTeam(1)
-		         .withWorkshifts(fullTime)
-		         .withSkills(db.skills.insert().withHandledCalls(50).withService(youWeb).commit())
+		         .withWorkshifts(weekends, afternoons)
+		         .withSkills(db.skills.insert().withDailyCallsHandled(40).withService(youInvoice).commit(),
+		                     db.skills.insert().withDailyCallsHandled(40).withService(youWeb).commit())
 		         .commit();
 		db.staffs.insert()
-		         .withName("Foxtrot")
+		         .teamLeader()
+		         .withName("FoxtrotTL")
 		         .withIdTeam(2)
-		         .withWorkshifts(fullTime, mornings)
-		         .withSkills(db.skills.insert().withHandledCalls(20).withService(youInvoice).commit(),
-		                     db.skills.insert().withHandledCalls(50).withService(youApp).commit())
+		         .withWorkshifts(fullTime, weekends, mornings)
+		         .withSkills(db.skills.insert().withDailyCallsHandled(30).withService(youInvoice).commit(),
+		                     db.skills.insert().withDailyCallsHandled(30).withService(youApp).commit())
 		         .commit();
 		db.staffs.insert()
 		         .withName("Golf")
-		         .withIdTeam(1)
-		         .withWorkshifts(fullTime, afternoons)
-		         .withSkills(db.skills.insert().withHandledCalls(50).withService(youApp).commit(),
-		                     db.skills.insert().withHandledCalls(50).withService(youWeb).commit())
+		         .withIdTeam(2)
+		         .withWorkshifts(fullTime, weekends, mornings)
+		         .withSkills(db.skills.insert().withDailyCallsHandled(50).withService(youInvoice).commit(),
+		                     db.skills.insert().withDailyCallsHandled(50).withService(youApp).commit())
 		         .commit();
 		db.staffs.insert()
 		         .withName("Hotel")
 		         .withIdTeam(2)
-		         .withWorkshifts(fullTime, weekends)
-		         .withSkills(db.skills.insert().withHandledCalls(20).withService(youInvoice).commit(),
-		                     db.skills.insert().withHandledCalls(50).withService(youWeb).commit())
+		         .withWorkshifts(fullTime, weekends, afternoons)
+		         .withSkills(db.skills.insert().withDailyCallsHandled(50).withService(youInvoice).commit(),
+		                     db.skills.insert().withDailyCallsHandled(50).withService(youApp).commit())
 		         .commit();
 		db.staffs.insert()
 		         .withName("India")
-		         .withIdTeam(1)
-		         .withWorkshifts(fullTime)
-		         .withSkills(db.skills.insert().withHandledCalls(20).withService(youInvoice).commit(),
-		                     db.skills.insert().withHandledCalls(50).withService(youApp).commit(),
-		                     db.skills.insert().withHandledCalls(50).withService(youWeb).commit())
+		         .withIdTeam(2)
+		         .withWorkshifts(fullTime, mornings, afternoons)
+		         .withSkills(db.skills.insert().withDailyCallsHandled(40).withService(youInvoice).commit(),
+		                     db.skills.insert().withDailyCallsHandled(40).withService(youApp).commit())
 		         .commit();
 		db.staffs.insert()
 		         .withName("Juliet")
 		         .withIdTeam(2)
-		         .withWorkshifts(mornings, afternoons, weekends)
-		         .withSkills(db.skills.insert().withHandledCalls(20).withService(youInvoice).commit(),
-		                     db.skills.insert().withHandledCalls(50).withService(youApp).commit(),
-		                     db.skills.insert().withHandledCalls(50).withService(youWeb).commit())
+		         .withWorkshifts(mornings, afternoons)
+		         .withSkills(db.skills.insert().withDailyCallsHandled(40).withService(youInvoice).commit(),
+		                     db.skills.insert().withDailyCallsHandled(40).withService(youApp).commit())
 		         .commit();
 
 		final LocalDate startDate = new LocalDate(2017, 1, 1);
-		final LocalDate endDate = new LocalDate(2017, 1, 7);
+		final LocalDate endDate = new LocalDate(2017, 1, 31);
 		for (LocalDate date = startDate; date.compareTo(endDate) <= 0; date = date.plusDays(1)) {
 			Set<PlanCalendarDetail> details = new HashSet<PlanCalendarDetail>();
 			for (Service service : db.allServices()) {
@@ -207,112 +211,6 @@ public class GenerateInputTest {
 		BinaryUtils.serialize(db, binFilename);
 
 		assertThat(BinaryUtils.deserialize(binFilename, GlobalRepository.class), is(equalTo(db)));
-	}
-
-	@Test
-	public void prepareSimplifiedData() {
-		db.rules.insert().withKey(DEFAULT_DAILY_CALLS_HANDLED).withValue("50").commit();
-		db.rules.insert().withKey(UNDERCOVERAGE_TOLERANCE_PERCENTAGE).withValue("20").commit();
-
-		Service youInvoice = db.services.insert()
-		                                .withName("YouInvoice")
-		                                .withCoverageFrom(540)
-		                                .withCoverageTo(1080)
-		                                .withDailyCallsDetail("0,0,75,75,50,0")
-		                                .withDailyCallsAsSumOfDetails()
-		                                .commit();
-
-		Workshift fullTime = db.workshifts.insert()
-		                                  .withName("FullTime")
-		                                  .withDailySchedule("lun", "540,1080")
-		                                  .withDailySchedule("mar", "540,1080")
-		                                  .withDailySchedule("mer", "540,1080")
-		                                  .withDailySchedule("gio", "540,1080")
-		                                  .withDailySchedule("ven", "540,1080")
-		                                  .withDailySchedule("sab", "540,1080")
-		                                  .withDailySchedule("dom", "540,1080")
-		                                  .commit();
-
-		db.staffs.insert()
-		         .teamLeader()
-		         .withName("Alpha")
-		         .withIdTeam(1)
-		         .withWorkshifts(fullTime)
-		         .withSkills(db.skills.insert().withHandledCalls(50).withService(youInvoice).commit())
-		         .commit();
-		db.staffs.insert()
-		         .teamLeader()
-		         .withName("Bravo")
-		         .withIdTeam(2)
-		         .withWorkshifts(fullTime)
-		         .withSkills(db.skills.insert().withHandledCalls(50).withService(youInvoice).commit())
-		         .commit();
-		db.staffs.insert()
-		         .withName("Charlie")
-		         .withIdTeam(1)
-		         .withWorkshifts(fullTime)
-		         .withSkills(db.skills.insert().withHandledCalls(50).withService(youInvoice).commit())
-		         .commit();
-		db.staffs.insert()
-		         .withName("Delta")
-		         .withIdTeam(2)
-		         .withWorkshifts(fullTime)
-		         .withSkills(db.skills.insert().withHandledCalls(50).withService(youInvoice).commit())
-		         .commit();
-		db.staffs.insert()
-		         .withName("Echo")
-		         .withIdTeam(1)
-		         .withWorkshifts(fullTime)
-		         .withSkills(db.skills.insert().withHandledCalls(50).withService(youInvoice).commit())
-		         .commit();
-		db.staffs.insert()
-		         .withName("Foxtrot")
-		         .withIdTeam(2)
-		         .withWorkshifts(fullTime)
-		         .withSkills(db.skills.insert().withHandledCalls(50).withService(youInvoice).commit())
-		         .commit();
-		db.staffs.insert()
-		         .withName("Golf")
-		         .withIdTeam(1)
-		         .withWorkshifts(fullTime)
-		         .withSkills(db.skills.insert().withHandledCalls(50).withService(youInvoice).commit())
-		         .commit();
-		db.staffs.insert()
-		         .withName("Hotel")
-		         .withIdTeam(2)
-		         .withWorkshifts(fullTime)
-		         .withSkills(db.skills.insert().withHandledCalls(50).withService(youInvoice).commit())
-		         .commit();
-		db.staffs.insert()
-		         .withName("India")
-		         .withIdTeam(1)
-		         .withWorkshifts(fullTime)
-		         .withSkills(db.skills.insert().withHandledCalls(50).withService(youInvoice).commit())
-		         .commit();
-		db.staffs.insert()
-		         .withName("Juliet")
-		         .withIdTeam(2)
-		         .withWorkshifts(fullTime)
-		         .withSkills(db.skills.insert().withHandledCalls(50).withService(youInvoice).commit())
-		         .commit();
-
-		final LocalDate startDate = new LocalDate(2017, 1, 1);
-		final LocalDate endDate = new LocalDate(2017, 1, 7);
-		for (LocalDate date = startDate; date.compareTo(endDate) <= 0; date = date.plusDays(1)) {
-			Set<PlanCalendarDetail> details = new HashSet<PlanCalendarDetail>();
-			for (Service service : db.allServices()) {
-				details.add(db.calendarDetails.insert().withService(service).commit());
-			}
-			db.calendars.insert()
-			            .withDay(date)
-			            .withDetails(details)
-			            .withTotalExpectedCalls(totalExpectedCallsFor(db.allServices()))
-			            .withTotalExpectedCallsDetail(totalExpectedCallsDetailFor(db.allServices()))
-			            .commit();
-		}
-
-		persistRepositoriesToXml("coverage_data.xml");
-		persistRepositoriesToBinary("repository_data.bin");
 	}
 
 }

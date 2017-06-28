@@ -8,6 +8,7 @@ import java.util.Set;
 
 import static it.addvalue.csp.collections.Collections.copySet;
 import static it.addvalue.csp.collections.Collections.oneOf;
+import static it.addvalue.csp.collections.Collections.shuffle;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
@@ -30,19 +31,20 @@ public class CspSolver {
 	}
 
 	public Set<Solution> solve(Csp csp) {
-		CspDebug.beginSolve();
+		Trace.beginSolve(csp);
 
 		Set<Solution> solutions = csp.newSolutionSet();
 
 		solveRecursively(csp, Solution.empty(), solutions);
 
-		CspDebug.endSolve(solutions);
+		Trace.endSolve(solutions);
 
 		return solutions;
 	}
 
 	private boolean solveRecursively(Csp csp, Solution solution, Set<Solution> solutions) {
 		if (solution.isCompleteFor(csp)) {
+			Trace.solutionFound(solution);
 			solutions.add(solution);
 			return !csp.isFullSearch() && csp.reachedSolutionCount(solutions);
 		}
@@ -51,7 +53,7 @@ public class CspSolver {
 			csp = maintainArcConsistency(csp);
 		}
 		Variable variable = selectUnassignedVariable(csp, solution);
-		for (Value value : csp.domainOf(variable)) {
+		for (Value value : shuffle(csp.domainOf(variable))) {
 			Solution newSolution = solution.addAssignment(variable, value);
 			if (csp.verifyConsistency(newSolution)) {
 				Csp newCsp = csp.restrictDomain(variable, value);
@@ -171,7 +173,7 @@ public class CspSolver {
 					newDomains.get(assignment.getKey()).add(assignment.getValue());
 				}
 			} else {
-				CspDebug.constraintViolated(solution, constraint);
+				Trace.constraintViolated(constraint, solution);
 			}
 		}
 

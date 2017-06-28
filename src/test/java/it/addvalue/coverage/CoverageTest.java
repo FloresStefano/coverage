@@ -45,15 +45,6 @@ public class CoverageTest {
 		db = BinaryUtils.deserialize("repository_data.bin", GlobalRepository.class);
 	}
 
-	// A fronte di un input dev'essere prodotto un output
-	@Test
-	public void forEachInputAnOutputMustBeGenerated() {
-		CoverageGenerator generator = new CoverageGenerator();
-		Output output = generator.generate(input);
-		assertThat(input, is(notNullValue()));
-		assertThat(output, is(notNullValue()));
-	}
-
 	// L'input deve contenere tutti i giorni di un anno
 	@Test
 	public void theInputMustContainAllYearDays() {
@@ -195,9 +186,12 @@ public class CoverageTest {
 
 		generator.setMaxSolutions(maxSolutions);
 		generator.setFullSearch(false);
-//		generator.getSolver().useMaintainingArcConsistencyPolicy(false);
+
+		assertThat(input, is(notNullValue()));
 
 		Output output = generator.generate(input);
+
+		assertThat(output, is(notNullValue()));
 
 		int numDays = input.getCalendars().size();
 		int numStaffs = input.getStaffs().size();
@@ -221,9 +215,10 @@ public class CoverageTest {
 		for (Allocation allocation : plan.getAllocations()) {
 			if (!allocation.getIdCalendar().equals(idCalendar)) {
 				idCalendar = allocation.getIdCalendar();
-				System.out.printf("\n\t%1$tY-%1$tm-%1$td: ", db.calendar(idCalendar).getDay());
+				PlanCalendar calendar = db.calendar(idCalendar);
+				System.out.printf("\n\t%1$tY-%1$tm-%1$td:%2$s:  ", calendar.getDay(), calendar.getName());
 			}
-			System.out.printf(" %10s = %-10s ",
+			System.out.printf("%s = %-10s  ",
 			                  db.staff(allocation.getIdStaff()).getName(),
 			                  db.workshift(allocation.getIdWorkShift()).getName());
 		}

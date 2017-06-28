@@ -51,7 +51,7 @@ import java.util.Set;
  * <td>*</td>
  * <td>{@code UNBOUNDED}</td>
  * <td>defined</td>
- * <td>all by distinct cost (!)</td>
+ * <td>all (!) by distinct cost</td>
  * <td>ascending cost</td>
  * </tr>
  * <tr>
@@ -112,7 +112,7 @@ public class Csp implements Cloneable {
 		for (Constraint constraint : constraints) {
 			if (solution.isCompleteFor(constraint)) {
 				if (!constraint.verify(solution)) {
-					CspDebug.constraintViolated(solution, constraint);
+					Trace.constraintViolated(constraint, solution);
 					return false;
 				}
 			}
@@ -149,7 +149,7 @@ public class Csp implements Cloneable {
 		if (costFunction != null) {
 			sb.append("solution cost:\n\t").append(costFunction).append("\n");
 		}
-		if (maxSolutions < Integer.MAX_VALUE) {
+		if (maxSolutions != UNBOUNDED) {
 			sb.append("max solutions: ").append(maxSolutions).append("\n");
 		}
 		sb.append("full search: ").append(fullSearch).append("\n");

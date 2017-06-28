@@ -11,10 +11,10 @@ import it.addvalue.coverage.bean.Service;
 import it.addvalue.coverage.bean.Skill;
 import it.addvalue.coverage.bean.Staff;
 import it.addvalue.coverage.bean.Workshift;
-import it.addvalue.coverage.core.constraints.ServiceDailyCallsCoverageConstraint;
-import it.addvalue.coverage.core.constraints.ServiceOpeningHoursCoverageConstraint;
-import it.addvalue.coverage.core.constraints.TeamLeaderPresenceConstraint;
-import it.addvalue.coverage.core.constraints.TotalDailyCallsCoverageConstraint;
+import it.addvalue.coverage.core.constraints.ServiceDailyCallsCovered;
+import it.addvalue.coverage.core.constraints.ServiceOpeningHoursCovered;
+import it.addvalue.coverage.core.constraints.TeamLeaderPresent;
+import it.addvalue.coverage.core.constraints.TotalExpectedDailyCallsCovered;
 import it.addvalue.coverage.core.model.Configuration;
 import it.addvalue.coverage.core.model.PlanDay;
 import it.addvalue.coverage.core.model.PlanStaff;
@@ -166,13 +166,11 @@ public class CoverageGenerator {
 		for (PlanWeek week : weeks) {
 			for (PlanDay day : week.getDays()) {
 				for (Service service : services) {
-					constraints.add(new ServiceDailyCallsCoverageConstraint(week.getInvolvedVariables(), service, day));
-					constraints.add(new ServiceOpeningHoursCoverageConstraint(week.getInvolvedVariables(),
-					                                                          service,
-					                                                          day));
+					constraints.add(new ServiceDailyCallsCovered(week.getInvolvedVariables(), service, day));
+					constraints.add(new ServiceOpeningHoursCovered(week.getInvolvedVariables(), service, day));
 				}
-				constraints.add(new TotalDailyCallsCoverageConstraint(week.getInvolvedVariables(), services, day));
-				constraints.add(new TeamLeaderPresenceConstraint(week.getInvolvedVariables(), services, day));
+				constraints.add(new TotalExpectedDailyCallsCovered(week.getInvolvedVariables(), services, day));
+				constraints.add(new TeamLeaderPresent(week.getInvolvedVariables(), services, day));
 			}
 		}
 		return constraints;

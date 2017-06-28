@@ -1,10 +1,13 @@
 package it.addvalue.csp.collections;
 
+import org.apache.commons.collections4.IterableUtils;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 public class Collections {
@@ -18,6 +21,12 @@ public class Collections {
 
 	public static <T> Set<T> emptySet() {
 		return new HashSet<T>();
+	}
+
+	public static <T> Iterable<T> shuffle(Iterable<T> values) {
+		List<T> list = IterableUtils.toList(values);
+		java.util.Collections.shuffle(list);
+		return list;
 	}
 
 	@SuppressWarnings("unchecked")

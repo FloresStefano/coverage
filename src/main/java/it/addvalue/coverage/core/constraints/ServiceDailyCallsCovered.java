@@ -13,7 +13,7 @@ import lombok.Data;
 import java.util.Set;
 
 @Data
-public class ServiceDailyCallsCoverageConstraint implements Constraint {
+public class ServiceDailyCallsCovered implements Constraint {
 
 	private final Set<PlanVariable> constrainedVariables;
 	private final Service           service;
@@ -40,7 +40,7 @@ public class ServiceDailyCallsCoverageConstraint implements Constraint {
 	}
 
 	public String toString() {
-		return "ServiceDailyCallsCoverage{day=" + day + ", service=" + service.getName() + "}";
+		return this.getClass().getSimpleName() + ": " + day + ", " + service.getName();
 	}
 
 }

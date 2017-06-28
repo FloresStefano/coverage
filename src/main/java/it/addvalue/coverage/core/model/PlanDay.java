@@ -42,7 +42,7 @@ public class PlanDay {
 	}
 
 	public String toString() {
-		return String.format("%1$tY-%1$tm-%1$td", calendar.getDay());
+		return String.format("%1$tY-%1$tm-%1$td:%2$s", calendar.getDay(), calendar.getName());
 	}
 
 }

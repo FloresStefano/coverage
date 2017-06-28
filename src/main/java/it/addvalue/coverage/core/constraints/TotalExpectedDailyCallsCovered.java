@@ -13,7 +13,7 @@ import lombok.Data;
 import java.util.Set;
 
 @Data
-public class TeamLeaderPresenceConstraint implements Constraint {
+public class TotalExpectedDailyCallsCovered implements Constraint {
 
 	private final Set<PlanVariable> constrainedVariables;
 	private final Set<Service>      services;
@@ -24,27 +24,27 @@ public class TeamLeaderPresenceConstraint implements Constraint {
 	}
 
 	public boolean verify(Solution solution) {
-		DailyCoverageMerger teamLeaderDailyCoverageMerger = new DailyCoverageMerger();
+		DailyCallsAccumulator dailyCallsAccumulator = new DailyCallsAccumulator();
 
 		for (PlanVariable variable : constrainedVariables) {
 			PlanWorkshift workshift = solution.valueOf(variable);
 			PlanStaff staff = variable.getStaff();
 
-			if (staff.isTeamLeader() && staff.isPresentOn(day) && workshift.hasScheduleOn(day)) {
-				teamLeaderDailyCoverageMerger.add(workshift.dailyScheduleOn(day));
+			for (Service service : services) {
+				if (staff.canHandle(service) && staff.isPresentOn(day) && workshift.hasScheduleOn(day)) {
+					int[] dailySchedule = workshift.dailyScheduleOn(day);
+
+					dailyCallsAccumulator.add(dailySchedule, staff.hourlyCallsFor(service));
+				}
 			}
 		}
 
-		for (Service service : services) {
-			if (!teamLeaderDailyCoverageMerger.covers(service.getCoverageFrom(), service.getCoverageTo())) {
-				return false;
-			}
-		}
-		return true;
+		return dailyCallsAccumulator.getTotalCalls() >= day.getCalendar().getTotalExpectedCalls() &&
+		       dailyCallsAccumulator.covers(day.getTotalExpectedCallsDetail());
 	}
 
 	public String toString() {
-		return "TeamLeaderPresence{day=" + day + "}";
+		return this.getClass().getSimpleName() + ": " + day;
 	}
 
 }

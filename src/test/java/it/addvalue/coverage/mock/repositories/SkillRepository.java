@@ -35,7 +35,7 @@ public class SkillRepository implements Serializable {
 			return this;
 		}
 
-		public Insert withHandledCalls(int handledCallsOverridden) {
+		public Insert withDailyCallsHandled(int handledCallsOverridden) {
 			item.setHandledCallsOverridden(handledCallsOverridden);
 			return this;
 		}
