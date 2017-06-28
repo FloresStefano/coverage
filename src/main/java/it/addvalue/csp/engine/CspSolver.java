@@ -8,7 +8,6 @@ import java.util.Set;
 
 import static it.addvalue.csp.collections.Collections.copySet;
 import static it.addvalue.csp.collections.Collections.oneOf;
-import static it.addvalue.csp.collections.Collections.shuffle;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
@@ -53,7 +52,7 @@ public class CspSolver {
 			csp = maintainArcConsistency(csp);
 		}
 		Variable variable = selectUnassignedVariable(csp, solution);
-		for (Value value : shuffle(csp.domainOf(variable))) {
+		for (Value value : csp.domainOf(variable)) {
 			Solution newSolution = solution.addAssignment(variable, value);
 			if (csp.verifyConsistency(newSolution)) {
 				Csp newCsp = csp.restrictDomain(variable, value);
