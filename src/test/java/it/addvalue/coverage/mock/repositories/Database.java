@@ -14,7 +14,7 @@ import java.util.Set;
 import static it.addvalue.csp.collections.Collections.setOf;
 
 @EqualsAndHashCode
-public class GlobalRepository implements Serializable {
+public class Database implements Serializable {
 
 	public final ServiceRepository            services        = new ServiceRepository();
 	public final RuleRepository               rules           = new RuleRepository();

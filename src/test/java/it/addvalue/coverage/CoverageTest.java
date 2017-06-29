@@ -10,10 +10,8 @@ import it.addvalue.coverage.bean.Service;
 import it.addvalue.coverage.bean.Staff;
 import it.addvalue.coverage.bean.Workshift;
 import it.addvalue.coverage.core.CoverageGenerator;
-import it.addvalue.coverage.mock.repositories.GlobalRepository;
-import it.addvalue.coverage.mock.utils.BinaryUtils;
+import it.addvalue.coverage.mock.repositories.Database;
 import it.addvalue.coverage.mock.utils.CsvUtils;
-import it.addvalue.coverage.mock.utils.XmlUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -36,13 +34,14 @@ import static org.junit.Assert.assertThat;
 
 public class CoverageTest {
 
-	private static GlobalRepository db;
-	private static Input            input;
+	private static Database db;
+	private static Input    input;
 
 	@BeforeClass
-	public static void init() {
-		input = XmlUtils.deserialize("coverage_data.xml", Input.class);
-		db = BinaryUtils.deserialize("repository_data.bin", GlobalRepository.class);
+	public static void setupData() {
+		db = new Database();
+		TestSet.insertSimpleScenario(db);
+		input = db.toInput();
 	}
 
 	// L'input deve contenere tutti i giorni di un anno
