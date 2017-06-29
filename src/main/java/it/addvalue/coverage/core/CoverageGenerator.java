@@ -42,9 +42,10 @@ import static it.addvalue.coverage.utils.CsvUtils.toIntArray;
 @Data
 public class CoverageGenerator {
 
-	private       int       maxSolutions = Csp.UNBOUNDED;
-	private       boolean   fullSearch   = true;
-	private final CspSolver solver       = new CspSolver();
+	private       Integer   maxSolutions  = null;
+	private       Long      maxIterations = null;
+	private       Boolean   fullSearch    = null;
+	private final CspSolver solver        = new CspSolver();
 
 	public Output generate(Input input) {
 		Csp csp = cspFrom(input);
@@ -65,8 +66,15 @@ public class CoverageGenerator {
 		csp.setDomains(domains(staffs, weeks, workshiftById));
 		csp.setConstraints(constraints(weeks, services));
 		csp.setCostFunction(costFunction(weeks));
-		csp.setMaxSolutions(maxSolutions);
-		csp.setFullSearch(fullSearch);
+		if (maxSolutions != null) {
+			csp.setMaxSolutions(maxSolutions);
+		}
+		if (maxIterations != null) {
+			csp.setMaxIterations(maxIterations);
+		}
+		if (fullSearch != null) {
+			csp.setFullSearch(fullSearch);
+		}
 		return csp;
 	}
 

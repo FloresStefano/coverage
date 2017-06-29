@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * <table border=1>
@@ -66,32 +67,29 @@ import java.util.Set;
 @Data
 public class Csp implements Cloneable {
 
-	public static final int UNBOUNDED = Integer.MAX_VALUE;
+	public static final int UNBOUNDED = -1;
 
-	private Map<Variable, Domain> domains      = new HashMap<Variable, Domain>();
-	private Set<Constraint>       constraints  = new HashSet<Constraint>();
-	private CostFunction          costFunction = null;
-	private int                   maxSolutions = UNBOUNDED;
-	private boolean               fullSearch   = false;
+	private Map<Variable, Domain> domains       = new HashMap<Variable, Domain>();
+	private Set<Constraint>       constraints   = new HashSet<Constraint>();
+	private CostFunction          costFunction  = null;
+	private int                   maxSolutions  = UNBOUNDED;
+	private long                  maxIterations = UNBOUNDED;
+	private boolean               fullSearch    = false;
 
 	public Set<Solution> newSolutionSet() {
-		if (hasCostFunctionDefined()) {
-			return sortedSolutionSetWithAscendingCost();
+		if (maxSolutions > 0) {
+			if (costFunction != null) {
+				return new BoundedSortedSet<Solution>(maxSolutions, ascendingCostComparator());
+			} else {
+				return new BoundedSet<Solution>(maxSolutions);
+			}
 		} else {
-			return unsortedSolutionSet();
+			if (costFunction != null) {
+				return new TreeSet<Solution>(ascendingCostComparator());
+			} else {
+				return new HashSet<Solution>();
+			}
 		}
-	}
-
-	private boolean hasCostFunctionDefined() {
-		return costFunction != null;
-	}
-
-	private Set<Solution> sortedSolutionSetWithAscendingCost() {
-		return new BoundedSortedSet<Solution>(maxSolutions, ascendingCostComparator());
-	}
-
-	private Set<Solution> unsortedSolutionSet() {
-		return new BoundedSet<Solution>(maxSolutions);
 	}
 
 	private Comparator<Solution> ascendingCostComparator() {
@@ -149,8 +147,11 @@ public class Csp implements Cloneable {
 		if (costFunction != null) {
 			sb.append("solution cost:\n\t").append(costFunction).append("\n");
 		}
-		if (maxSolutions != UNBOUNDED) {
+		if (maxSolutions > 0) {
 			sb.append("max solutions: ").append(maxSolutions).append("\n");
+		}
+		if (maxIterations > 0) {
+			sb.append("max iterations: ").append(maxIterations).append("\n");
 		}
 		sb.append("full search: ").append(fullSearch).append("\n");
 		return sb.toString();
@@ -182,8 +183,12 @@ public class Csp implements Cloneable {
 		return domains.get(variable);
 	}
 
-	public boolean reachedSolutionCount(Set<Solution> solutions) {
-		return solutions.size() >= maxSolutions;
+	public boolean reachedMaxSolutions(Set<Solution> solutions) {
+		return maxSolutions > 0 && solutions.size() >= maxSolutions;
+	}
+
+	public boolean reachedMaxIterations(long numIterations) {
+		return maxIterations > 0L && numIterations >= maxIterations;
 	}
 
 }

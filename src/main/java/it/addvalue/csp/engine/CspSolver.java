@@ -17,6 +17,9 @@ public class CspSolver {
 	private boolean useMcv = true;
 	private boolean useMac = true;
 
+	private static final boolean TERMINATE = true;
+	private static final boolean CONTINUE  = false;
+
 	public void useMinimumRemainingValuesPolicy(boolean mrv) {
 		this.useMrv = mrv;
 	}
@@ -34,34 +37,47 @@ public class CspSolver {
 
 		Set<Solution> solutions = csp.newSolutionSet();
 
-		solveRecursively(csp, Solution.empty(), solutions);
+		solveRecursively(csp, Solution.empty(), solutions, 0L);
 
 		Trace.endSolve(solutions);
 
 		return solutions;
 	}
 
-	private boolean solveRecursively(Csp csp, Solution solution, Set<Solution> solutions) {
+	private boolean solveRecursively(Csp csp, Solution solution, Set<Solution> solutions, long iterations) {
 		if (solution.isCompleteFor(csp)) {
 			Trace.solutionFound(solution);
 			solutions.add(solution);
-			return !csp.isFullSearch() && csp.reachedSolutionCount(solutions);
+			if (!csp.isFullSearch() && csp.reachedMaxSolutions(solutions)) {
+				Trace.maxSolutionsReached(csp);
+				return TERMINATE;
+			} else {
+				return CONTINUE;
+			}
 		}
 
 		if (useMac) {
 			csp = maintainArcConsistency(csp);
 		}
+
 		Variable variable = selectUnassignedVariable(csp, solution);
 		for (Value value : csp.domainOf(variable)) {
+
+			if (csp.reachedMaxIterations(++iterations)) {
+				Trace.maxIterationsReached(csp);
+				return TERMINATE;
+			}
+
 			Solution newSolution = solution.addAssignment(variable, value);
 			if (csp.verifyConsistency(newSolution)) {
 				Csp newCsp = csp.restrictDomain(variable, value);
-				if (solveRecursively(newCsp, newSolution, solutions)) {
-					return true;
+				if (solveRecursively(newCsp, newSolution, solutions, iterations) == TERMINATE) {
+					return TERMINATE;
 				}
 			}
 		}
-		return false;
+
+		return CONTINUE;
 	}
 
 	private Variable selectUnassignedVariable(Csp csp, Solution solution) {
