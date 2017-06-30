@@ -8,6 +8,7 @@ import java.util.Set;
 
 import static it.addvalue.csp.collections.Collections.copySet;
 import static it.addvalue.csp.collections.Collections.oneOf;
+import static it.addvalue.csp.collections.Collections.shuffle;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
@@ -57,7 +58,7 @@ public class CspSolver {
 		}
 
 		Variable variable = selectUnassignedVariable(csp, solution);
-		for (Value value : csp.domainOf(variable)) {
+		for (Value value : shuffle(csp.domainOf(variable))) {
 
 			if (csp.reachedMaxIterations(++iterations)) {
 				Trace.maxIterationsReached(csp);
