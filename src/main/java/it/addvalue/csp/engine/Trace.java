@@ -7,16 +7,16 @@ import java.util.Set;
 @Log4j(topic = "csp")
 public class Trace {
 
-	public static boolean traceEnabled              = true;
-	public static boolean traceBeginSolve           = true;
-	public static boolean traceConstraintViolated   = false;
-	public static boolean traceSolutionFound        = true;
-	public static boolean traceEndSolve             = true;
-	public static boolean traceMaxSolutionsReached  = true;
-	public static boolean traceMaxIterationsReached = true;
+	public static boolean enabled              = true;
+	public static boolean beginSolve           = true;
+	public static boolean constraintViolated   = false;
+	public static boolean solutionFound        = false;
+	public static boolean endSolve             = true;
+	public static boolean maxSolutionsReached  = true;
+	public static boolean maxIterationsReached = true;
 
 	public static void beginSolve(Csp csp) {
-		if (traceEnabled && traceBeginSolve) {
+		if (enabled && beginSolve) {
 			logf("Resolution started\n%s", csp);
 		}
 	}
@@ -28,7 +28,7 @@ public class Trace {
 	}
 
 	public static void maxIterationsReached(Csp csp) {
-		if (traceEnabled && traceMaxIterationsReached) {
+		if (enabled && maxIterationsReached) {
 			log("Max-iterations limit reached");
 		}
 	}
@@ -40,25 +40,25 @@ public class Trace {
 	}
 
 	public static void maxSolutionsReached(Csp csp) {
-		if (traceEnabled && traceMaxSolutionsReached) {
+		if (enabled && maxSolutionsReached) {
 			log("Max-solutions limit reached");
 		}
 	}
 
 	public static void constraintViolated(Constraint constraint, Solution solution) {
-		if (traceEnabled && traceConstraintViolated) {
+		if (enabled && constraintViolated) {
 			logf("Constraint violated: %s", constraint);
 		}
 	}
 
 	public static void solutionFound(Solution solution) {
-		if (traceEnabled && traceSolutionFound) {
+		if (enabled && solutionFound) {
 			logf("Found solution: %s", solution);
 		}
 	}
 
 	public static void endSolve(Set<Solution> solutions) {
-		if (traceEnabled && traceEndSolve) {
+		if (enabled && endSolve) {
 			logf("Resolution ended: %d solutions found", solutions.size());
 		}
 	}

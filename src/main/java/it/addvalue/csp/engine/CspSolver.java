@@ -34,13 +34,9 @@ public class CspSolver {
 
 	public Set<Solution> solve(Csp csp) {
 		Trace.beginSolve(csp);
-
 		Set<Solution> solutions = csp.newSolutionSet();
-
 		solveRecursively(csp, Solution.empty(), solutions, 0L);
-
 		Trace.endSolve(solutions);
-
 		return solutions;
 	}
 

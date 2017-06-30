@@ -12,4 +12,10 @@ public class WeightedCostFunction implements CostFunction {
 		return weight * delegate.evaluate(solution);
 	}
 
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(weight).append(" * ").append(delegate);
+		return sb.toString();
+	}
+
 }

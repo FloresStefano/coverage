@@ -14,6 +14,7 @@ public class PlanWorkshift implements Value {
 
 	private final Workshift workshift;
 	private final Map<String, int[]> dailySchedule = new HashMap<String, int[]>();
+	private final int weeklyDuration;
 
 	public Long idWorkshift() {
 		return workshift.getId();
@@ -31,4 +32,8 @@ public class PlanWorkshift implements Value {
 		return workshift.getName();
 	}
 
+	public int weeklyDuration() {
+		return weeklyDuration;
+	}
+	
 }

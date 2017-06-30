@@ -3,7 +3,7 @@ package it.addvalue.csp.engine;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompositeCostFunction implements CostFunction {
+public class SummationCostFunction implements CostFunction {
 
 	private final List<CostFunction> delegates = new ArrayList<CostFunction>();
 
@@ -17,6 +17,17 @@ public class CompositeCostFunction implements CostFunction {
 			sum += delegate.evaluate(solution);
 		}
 		return sum;
+	}
+
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		for (CostFunction delegate : delegates) {
+			if (sb.length() > 0) {
+				sb.append(" + ");
+			}
+			sb.append(delegate);
+		}
+		return sb.toString();
 	}
 
 }

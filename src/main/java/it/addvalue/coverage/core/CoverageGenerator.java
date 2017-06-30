@@ -15,6 +15,9 @@ import it.addvalue.coverage.core.constraints.ServiceDailyCallsCovered;
 import it.addvalue.coverage.core.constraints.ServiceOpeningHoursCovered;
 import it.addvalue.coverage.core.constraints.TeamLeaderPresent;
 import it.addvalue.coverage.core.constraints.TotalExpectedDailyCallsCovered;
+import it.addvalue.coverage.core.costfunctions.AverageSkillLevel;
+import it.addvalue.coverage.core.costfunctions.AverageUsagePriority;
+import it.addvalue.coverage.core.costfunctions.TotalWorkshiftInvariancy;
 import it.addvalue.coverage.core.model.Configuration;
 import it.addvalue.coverage.core.model.PlanDay;
 import it.addvalue.coverage.core.model.PlanStaff;
@@ -28,8 +31,10 @@ import it.addvalue.csp.engine.Csp;
 import it.addvalue.csp.engine.CspSolver;
 import it.addvalue.csp.engine.Domain;
 import it.addvalue.csp.engine.Solution;
+import it.addvalue.csp.engine.SummationCostFunction;
 import it.addvalue.csp.engine.Value;
 import it.addvalue.csp.engine.Variable;
+import it.addvalue.csp.engine.WeightedCostFunction;
 import lombok.Data;
 
 import java.util.HashMap;
@@ -37,6 +42,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static it.addvalue.coverage.utils.CsvUtils.csvSum;
 import static it.addvalue.coverage.utils.CsvUtils.toIntArray;
 
 @Data
@@ -65,7 +71,7 @@ public class CoverageGenerator {
 		Csp csp = new Csp();
 		csp.setDomains(domains(staffs, weeks, workshiftById));
 		csp.setConstraints(constraints(weeks, services));
-		csp.setCostFunction(costFunction(weeks));
+		csp.setCostFunction(costFunction(services));
 		if (maxSolutions != null) {
 			csp.setMaxSolutions(maxSolutions);
 		}
@@ -184,16 +190,20 @@ public class CoverageGenerator {
 		return constraints;
 	}
 
-	private static CostFunction costFunction(Set<PlanWeek> weeks) {
-		// TODO aggiungere cost functions
-//		CompositeCostFunction costFunction = new CompositeCostFunction();
-//		costFunction.addDelegate(new WeightedCostFunction(-1, new UsagePrioritySumCostFunction()));
-//		return costFunction;
-		return null;
+	private static CostFunction costFunction(Set<Service> services) {
+		SummationCostFunction costFunction = new SummationCostFunction();
+		costFunction.addDelegate(new WeightedCostFunction(-1, new AverageUsagePriority(services)));
+		costFunction.addDelegate(new WeightedCostFunction(-1, new AverageSkillLevel(services)));
+		costFunction.addDelegate(new WeightedCostFunction(10, new TotalWorkshiftInvariancy()));
+		return costFunction;
 	}
 
 	private static PlanWorkshift newWorkshift(Workshift workshift) {
-		PlanWorkshift planWorkshift = new PlanWorkshift(workshift);
+		int weeklyDuration = 0;
+		for (String dailySchedule : workshift.getDailySchedule().values()) {
+			weeklyDuration += csvSum(dailySchedule);
+		}
+		PlanWorkshift planWorkshift = new PlanWorkshift(workshift, weeklyDuration);
 		for (Map.Entry<String, String> dailyScheduleEntry : workshift.getDailySchedule().entrySet()) {
 			String weekDayName = dailyScheduleEntry.getKey();
 			String dailySchedule = dailyScheduleEntry.getValue();

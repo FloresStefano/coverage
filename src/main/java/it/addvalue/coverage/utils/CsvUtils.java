@@ -14,4 +14,12 @@ public class CsvUtils {
 		return array;
 	}
 
+	public static int csvSum(String csv) {
+		int sum = 0;
+		for (String part : csv.split(",")) {
+			sum += Integer.parseInt(part);
+		}
+		return sum;
+	}
+
 }

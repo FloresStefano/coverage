@@ -79,27 +79,17 @@ public class Csp implements Cloneable {
 	public Set<Solution> newSolutionSet() {
 		if (maxSolutions > 0) {
 			if (costFunction != null) {
-				return new BoundedSortedSet<Solution>(maxSolutions, ascendingCostComparator());
+				return new BoundedSortedSet<Solution>(maxSolutions, new AscendingCostComparator(costFunction));
 			} else {
 				return new BoundedSet<Solution>(maxSolutions);
 			}
 		} else {
 			if (costFunction != null) {
-				return new TreeSet<Solution>(ascendingCostComparator());
+				return new TreeSet<Solution>(new AscendingCostComparator(costFunction));
 			} else {
 				return new HashSet<Solution>();
 			}
 		}
-	}
-
-	private Comparator<Solution> ascendingCostComparator() {
-		return new Comparator<Solution>() {
-
-			public int compare(Solution solution1, Solution solution2) {
-				return costFunction.evaluate(solution1) - costFunction.evaluate(solution2);
-			}
-
-		};
 	}
 
 	public Set<Variable> variables() {
@@ -189,6 +179,18 @@ public class Csp implements Cloneable {
 
 	public boolean reachedMaxIterations(long numIterations) {
 		return maxIterations > 0L && numIterations >= maxIterations;
+	}
+
+	@Data
+	private static class AscendingCostComparator implements Comparator<Solution> {
+
+		private final CostFunction costFunction;
+
+		public int compare(Solution solution1, Solution solution2) {
+			int diff = costFunction.evaluate(solution1) - costFunction.evaluate(solution2);
+			return diff != 0 ? diff : (solution1.hashCode() - solution2.hashCode());
+		}
+
 	}
 
 }

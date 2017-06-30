@@ -184,8 +184,8 @@ public class CoverageTest {
 		int maxSolutions = 4;
 
 		generator.setMaxSolutions(maxSolutions);
-//		generator.setMaxIterations(50);
-//		generator.setFullSearch(false);
+		generator.setMaxIterations(70L);
+		generator.setFullSearch(true);
 
 		assertThat(input, is(notNullValue()));
 

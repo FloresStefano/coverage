@@ -10,7 +10,7 @@ import java.util.Set;
 @Data
 @Builder
 @EqualsAndHashCode(of = {"weekyear", "weekOfWeekyear"})
-public class PlanWeek {
+public class PlanWeek implements Comparable<PlanWeek> {
 
 	private final int weekyear;
 	private final int weekOfWeekyear;
@@ -19,6 +19,14 @@ public class PlanWeek {
 
 	public String toString() {
 		return String.format("%d-%d", weekyear, weekOfWeekyear);
+	}
+
+	public int compareTo(PlanWeek that) {
+		int diff = this.weekyear - that.weekyear;
+		if (diff != 0) {
+			return diff;
+		}
+		return this.weekOfWeekyear - that.weekOfWeekyear;
 	}
 
 }
