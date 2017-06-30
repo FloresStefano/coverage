@@ -42,7 +42,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static it.addvalue.coverage.utils.CsvUtils.csvSum;
 import static it.addvalue.coverage.utils.CsvUtils.toIntArray;
 
 @Data
@@ -201,7 +200,7 @@ public class CoverageGenerator {
 	private static PlanWorkshift newWorkshift(Workshift workshift) {
 		int weeklyDuration = 0;
 		for (String dailySchedule : workshift.getDailySchedule().values()) {
-			weeklyDuration += csvSum(dailySchedule);
+			weeklyDuration += dailyScheduleDuration(dailySchedule);
 		}
 		PlanWorkshift planWorkshift = new PlanWorkshift(workshift, weeklyDuration);
 		for (Map.Entry<String, String> dailyScheduleEntry : workshift.getDailySchedule().entrySet()) {
@@ -248,6 +247,17 @@ public class CoverageGenerator {
 			domain.add(planValueByWorkshiftId.get(idWorkshift));
 		}
 		return domain;
+	}
+
+	private static int dailyScheduleDuration(String dailySchedule) {
+		String[] parts = dailySchedule.split(",");
+		int duration = 0;
+		for (int i = 0; i < parts.length; i += 2) {
+			int fromMinutes = Integer.parseInt(parts[i]);
+			int toMinutes = Integer.parseInt(parts[i + 1]);
+			duration += toMinutes - fromMinutes;
+		}
+		return duration;
 	}
 
 	private static int[] percentage(int[] source, int percentage) {
