@@ -2,8 +2,10 @@ package it.addvalue.csp.engine;
 
 import lombok.EqualsAndHashCode;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import static it.addvalue.csp.collections.Collections.copySet;
@@ -65,6 +67,12 @@ public class Domain implements Iterable<Value> {
 
 	public Iterator<Value> iterator() {
 		return values.iterator();
+	}
+
+	public Iterable<Value> shuffled() {
+		List<Value> list = new ArrayList<Value>(values);
+		java.util.Collections.shuffle(list);
+		return list;
 	}
 
 }

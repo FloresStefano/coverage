@@ -8,7 +8,6 @@ import java.util.Set;
 
 import static it.addvalue.csp.collections.Collections.copySet;
 import static it.addvalue.csp.collections.Collections.oneOf;
-import static it.addvalue.csp.collections.Collections.shuffle;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
@@ -35,7 +34,7 @@ public class CspSolver {
 
 	public Set<Solution> solve(Csp csp) {
 		Trace.beginSolve(csp);
-		Set<Solution> solutions = csp.newSolutionSet();
+		Set<Solution> solutions = csp.createSolutionSet();
 		solveRecursively(csp, Solution.empty(), solutions, 0L);
 		Trace.endSolve(solutions);
 		return solutions;
@@ -58,7 +57,7 @@ public class CspSolver {
 		}
 
 		Variable variable = selectUnassignedVariable(csp, solution);
-		for (Value value : shuffle(csp.domainOf(variable))) {
+		for (Value value : csp.domainOf(variable).shuffled()) {
 
 			if (csp.reachedMaxIterations(++iterations)) {
 				Trace.maxIterationsReached(csp);

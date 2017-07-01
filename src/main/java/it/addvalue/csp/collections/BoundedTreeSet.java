@@ -3,11 +3,11 @@ package it.addvalue.csp.collections;
 import java.util.Comparator;
 import java.util.TreeSet;
 
-public class BoundedSortedSet<E> extends TreeSet<E> {
+public class BoundedTreeSet<E> extends TreeSet<E> {
 
 	private final int maxSize;
 
-	public BoundedSortedSet(int maxSize, Comparator<? super E> comparator) {
+	public BoundedTreeSet(int maxSize, Comparator<? super E> comparator) {
 		super(comparator);
 		this.maxSize = maxSize;
 	}

@@ -134,6 +134,42 @@ public class CspSolverTestUtils {
 		};
 	}
 
+	public static Matcher<Iterable<Solution>> orderedByLooselyAscendingValuesOf(final CostFunction cost) {
+		return new BaseMatcher<Iterable<Solution>>() {
+
+			@SuppressWarnings("unchecked")
+			private Iterable<Solution> iterable(Object o) {
+				return (Iterable<Solution>) o;
+			}
+
+			public boolean matches(Object actual) {
+				int prevCost = Integer.MIN_VALUE;
+				for (Solution solution : iterable(actual)) {
+					int currCost = cost.evaluate(solution);
+					if (currCost >= prevCost) {
+						prevCost = currCost;
+					} else {
+						return false;
+					}
+				}
+				return true;
+			}
+
+			public void describeTo(Description description) {
+				description.appendText("is loosely ordered by ascending cost");
+			}
+
+			public void describeMismatch(Object actual, Description description) {
+				List<Integer> costs = new ArrayList<Integer>();
+				for (Solution solution : iterable(actual)) {
+					costs.add(cost.evaluate(solution));
+				}
+				description.appendText("costs were: ").appendValueList("[", ", ", "]", costs);
+			}
+
+		};
+	}
+
 	public static <T> Matcher<Iterable<T>> inOrderEqualTo(final T... expected) {
 		return inOrderEqualTo(asList(expected));
 	}

@@ -14,7 +14,7 @@ import static it.addvalue.csp.collections.Collections.setOf;
 import static it.addvalue.csp.engine.Csp.UNBOUNDED;
 import static it.addvalue.csp.engine.CspSolverTestUtils.are;
 import static it.addvalue.csp.engine.CspSolverTestUtils.inOrderEqualTo;
-import static it.addvalue.csp.engine.CspSolverTestUtils.orderedByStrictlyAscendingValuesOf;
+import static it.addvalue.csp.engine.CspSolverTestUtils.orderedByLooselyAscendingValuesOf;
 import static it.addvalue.csp.engine.CspSolverTestUtils.subsetOf;
 import static it.addvalue.csp.engine.CspSolverTestUtils.theEmptySet;
 import static java.util.Arrays.asList;
@@ -92,7 +92,7 @@ public class CspSolverTest {
 	}
 
 	private Matcher<Iterable<Solution>> orderedByAscendingCost() {
-		return orderedByStrictlyAscendingValuesOf(aProblem().costFunction());
+		return orderedByLooselyAscendingValuesOf(aProblem().costFunction());
 	}
 
 	@Test

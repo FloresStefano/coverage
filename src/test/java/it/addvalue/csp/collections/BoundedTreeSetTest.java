@@ -9,11 +9,11 @@ import static it.addvalue.csp.engine.CspSolverTestUtils.inOrderEqualTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class BoundedSortedSetTest {
+public class BoundedTreeSetTest {
 
 	@Test
 	public void collectsTheLesserItemsNeverExceedingMaxSize() {
-		Set<String> set = new BoundedSortedSet<String>(4, defaultComparatorFor(String.class));
+		Set<String> set = new BoundedTreeSet<String>(4, defaultComparatorFor(String.class));
 
 		set.add("bravo");
 		set.add("delta");

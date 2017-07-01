@@ -1,7 +1,7 @@
 package it.addvalue.csp.engine;
 
 import it.addvalue.csp.collections.BoundedSet;
-import it.addvalue.csp.collections.BoundedSortedSet;
+import it.addvalue.csp.collections.BoundedTreeSet;
 import lombok.Data;
 
 import java.util.Comparator;
@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
@@ -76,20 +77,36 @@ public class Csp implements Cloneable {
 	private long                  maxIterations = UNBOUNDED;
 	private boolean               fullSearch    = false;
 
-	public Set<Solution> newSolutionSet() {
+	public Set<Solution> createSolutionSet() {
 		if (maxSolutions > 0) {
 			if (costFunction != null) {
-				return new BoundedSortedSet<Solution>(maxSolutions, new AscendingCostComparator(costFunction));
+				return newBoundedSortedSolutionSet(maxSolutions, costFunction);
 			} else {
-				return new BoundedSet<Solution>(maxSolutions);
+				return newBoundedSolutionSet(maxSolutions);
 			}
 		} else {
 			if (costFunction != null) {
-				return new TreeSet<Solution>(new AscendingCostComparator(costFunction));
+				return newSortedSolutionSet(costFunction);
 			} else {
-				return new HashSet<Solution>();
+				return newSolutionSet();
 			}
 		}
+	}
+
+	private static Set<Solution> newBoundedSortedSolutionSet(int maxSolutions, CostFunction costFunction) {
+		return new BoundedTreeSet<Solution>(maxSolutions, new AscendingCostComparator(costFunction));
+	}
+
+	private static Set<Solution> newBoundedSolutionSet(int maxSolutions) {
+		return new BoundedSet<Solution>(maxSolutions);
+	}
+
+	private static SortedSet<Solution> newSortedSolutionSet(CostFunction costFunction) {
+		return new TreeSet<Solution>(new AscendingCostComparator(costFunction));
+	}
+
+	private static Set<Solution> newSolutionSet() {
+		return new HashSet<Solution>();
 	}
 
 	public Set<Variable> variables() {
