@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import static it.addvalue.csp.engine.CspSolverTestUtils.are;
 import static it.addvalue.csp.engine.CspSolverTestUtils.have;
+import static it.addvalue.csp.engine.CspSolverTestUtils.orderedByLooselyAscendingValuesOf;
 import static it.addvalue.csp.engine.CspSolverTestUtils.subsetOf;
 import static it.addvalue.csp.engine.CspSolverTestUtils.theEmptySet;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -30,7 +31,8 @@ public class CspSolverTest extends CspSolverTestBase {
 
 	@Test
 	public void aWeightedSearchProducesSolutionsOrderedByAscendingCost() {
-		assertThat(theSolutionsOf(aProblem().feasible().with(costFunction())), are(orderedByLooselyAscendingCosts()));
+		assertThat(theSolutionsOf(aProblem().feasible().with(costFunction())),
+		           are(orderedByLooselyAscendingValuesOf(theCostFunction())));
 	}
 
 	@Test

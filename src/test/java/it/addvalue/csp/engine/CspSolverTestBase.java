@@ -90,10 +90,6 @@ public class CspSolverTestBase {
 		return CspSolverTestUtils.satisfyTheConstraintsOf(builder.build());
 	}
 
-	protected Matcher<Iterable<Solution>> orderedByLooselyAscendingCosts() {
-		return CspSolverTestUtils.orderedByLooselyAscendingValuesOf(theCostFunction());
-	}
-
 	protected ProblemBuilder theProblem() {
 		return theProblem;
 	}
