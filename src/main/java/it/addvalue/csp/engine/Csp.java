@@ -143,24 +143,26 @@ public class Csp implements Cloneable {
 
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("domains:\n");
+		sb.append("domains:");
 		for (Map.Entry<Variable, Domain> entry : domains.entrySet()) {
-			sb.append("\t").append(entry.getKey()).append(" in ").append(entry.getValue()).append("\n");
+			sb.append("\n\t").append(entry.getKey()).append(" in ").append(entry.getValue());
 		}
-		sb.append("constraints:\n");
+		sb.append("\nconstraints:");
 		for (Constraint constraint : constraints) {
-			sb.append("\t").append(constraint).append("\n");
+			sb.append("\n\t").append(constraint);
 		}
 		if (costFunction != null) {
-			sb.append("solution cost:\n\t").append(costFunction).append("\n");
+			sb.append("\nsolution cost:\n\t").append(costFunction);
 		}
 		if (maxSolutions > 0) {
-			sb.append("max solutions: ").append(maxSolutions).append("\n");
+			sb.append("\nmax solutions: ").append(maxSolutions);
 		}
 		if (maxIterations > 0) {
-			sb.append("max iterations: ").append(maxIterations).append("\n");
+			sb.append("\nmax iterations: ").append(maxIterations);
 		}
-		sb.append("full search: ").append(fullSearch).append("\n");
+		if (fullSearch) {
+			sb.append("\nfull search");
+		}
 		return sb.toString();
 	}
 
@@ -190,12 +192,12 @@ public class Csp implements Cloneable {
 		return domains.get(variable);
 	}
 
-	public boolean reachedMaxSolutions(Set<Solution> solutions) {
-		return maxSolutions > 0 && solutions.size() >= maxSolutions;
+	public boolean reachedMaxSolutions(Results results) {
+		return maxSolutions > 0 && results.getSolutions().size() >= maxSolutions;
 	}
 
-	public boolean reachedMaxIterations(long numIterations) {
-		return maxIterations > 0L && numIterations >= maxIterations;
+	public boolean reachedMaxIterations(Results results) {
+		return maxIterations > 0L && results.getIterations() >= maxIterations;
 	}
 
 	@Data
@@ -204,8 +206,14 @@ public class Csp implements Cloneable {
 		private final CostFunction costFunction;
 
 		public int compare(Solution solution1, Solution solution2) {
+			if (solution1.equals(solution2)) {
+				return 0;
+			}
 			int diff = costFunction.evaluate(solution1) - costFunction.evaluate(solution2);
-			return diff != 0 ? diff : (solution1.hashCode() - solution2.hashCode());
+			if (diff != 0) {
+				return diff;
+			}
+			return System.identityHashCode(solution1) - System.identityHashCode(solution2);
 		}
 
 	}

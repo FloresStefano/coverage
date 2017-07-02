@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-@EqualsAndHashCode(of = "assignments")
+@EqualsAndHashCode
 public class Solution {
 
 	private final Map<Variable, Value> assignments;

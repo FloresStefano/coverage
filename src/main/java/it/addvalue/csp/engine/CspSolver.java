@@ -35,17 +35,18 @@ public class CspSolver {
 	public Set<Solution> solve(Csp csp) {
 		Trace.beginSolve(csp);
 		Set<Solution> solutions = csp.createSolutionSet();
-		solveRecursively(csp, Solution.empty(), solutions, 0L);
-		Trace.endSolve(solutions);
+		Results results = new Results(solutions);
+		solveRecursively(csp, Solution.empty(), results);
+		Trace.endSolve(csp, results);
 		return solutions;
 	}
 
-	private boolean solveRecursively(Csp csp, Solution solution, Set<Solution> solutions, long iterations) {
+	private boolean solveRecursively(Csp csp, Solution solution, Results results) {
 		if (solution.isCompleteFor(csp)) {
-			Trace.solutionFound(solution);
-			solutions.add(solution);
-			if (!csp.isFullSearch() && csp.reachedMaxSolutions(solutions)) {
-				Trace.maxSolutionsReached(csp);
+			results.addSolution(solution);
+			Trace.solutionFound(csp, solution, results);
+			if (!csp.isFullSearch() && csp.reachedMaxSolutions(results)) {
+				Trace.maxSolutionsReached(csp, results);
 				return TERMINATE;
 			} else {
 				return CONTINUE;
@@ -59,15 +60,16 @@ public class CspSolver {
 		Variable variable = selectUnassignedVariable(csp, solution);
 		for (Value value : csp.domainOf(variable).shuffled()) {
 
-			if (csp.reachedMaxIterations(++iterations)) {
-				Trace.maxIterationsReached(csp);
+			results.incrementIterations();
+			if (csp.reachedMaxIterations(results)) {
+				Trace.maxIterationsReached(csp, results);
 				return TERMINATE;
 			}
 
 			Solution newSolution = solution.addAssignment(variable, value);
 			if (csp.verifyConsistency(newSolution)) {
 				Csp newCsp = csp.restrictDomain(variable, value);
-				if (solveRecursively(newCsp, newSolution, solutions, iterations) == TERMINATE) {
+				if (solveRecursively(newCsp, newSolution, results) == TERMINATE) {
 					return TERMINATE;
 				}
 			}

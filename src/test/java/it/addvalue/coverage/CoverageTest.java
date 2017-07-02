@@ -184,7 +184,7 @@ public class CoverageTest {
 		int maxSolutions = 4;
 
 		generator.setMaxSolutions(maxSolutions);
-		generator.setMaxIterations(80L);
+		generator.setMaxIterations(200L);
 		generator.setFullSearch(true);
 
 		assertThat(input, is(notNullValue()));
@@ -204,7 +204,6 @@ public class CoverageTest {
 		int solutionCount = 1;
 		for (Plan plan : output.getPlans()) {
 			System.out.printf("Solution %d:", solutionCount++);
-
 			printSolution(plan);
 		}
 	}

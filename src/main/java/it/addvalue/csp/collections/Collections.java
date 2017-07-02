@@ -1,10 +1,12 @@
 package it.addvalue.csp.collections;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 public class Collections {
@@ -83,6 +85,14 @@ public class Collections {
 
 	public static <T> Set<T> copySet(Set<T> items) {
 		return new HashSet<T>(items);
+	}
+
+	public static List<Integer> first(int[] array, int count) {
+		List<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < count; i++) {
+			list.add(array[i]);
+		}
+		return list;
 	}
 
 }
