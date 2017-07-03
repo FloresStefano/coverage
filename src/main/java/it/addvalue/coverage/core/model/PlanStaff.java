@@ -38,6 +38,15 @@ public class PlanStaff {
 		return performances.get(service).getHourlyCalls();
 	}
 
+	public boolean isPresentOnAtLeastOneDayOf(PlanWeek week) {
+		for (PlanDay day : week.getDays()) {
+			if (isPresentOn(day)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public boolean isPresentOn(PlanDay day) {
 		return (staff.getValidFrom() == null || day.afterInclusively(staff.getValidFrom())) &&
 		       (staff.getValidTo() == null || day.beforeInclusively(staff.getValidTo()));

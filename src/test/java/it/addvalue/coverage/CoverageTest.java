@@ -12,12 +12,15 @@ import it.addvalue.coverage.bean.Workshift;
 import it.addvalue.coverage.core.CoverageGenerator;
 import it.addvalue.coverage.mock.repositories.Database;
 import it.addvalue.coverage.mock.utils.CsvUtils;
+import javafx.util.Pair;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeSet;
 
 import static it.addvalue.coverage.mock.utils.CsvUtils.csvadd;
 import static it.addvalue.coverage.mock.utils.CsvUtils.csvloop;
@@ -198,46 +201,62 @@ public class CoverageTest {
 
 		assertThat(output.getPlans(), hasSize(lessThanOrEqualTo(maxSolutions)));
 		for (Plan plan : output.getPlans()) {
-			assertThat(plan.getAllocations(), hasSize(equalTo(numDays * numStaffs)));
+			assertThat(plan.getAllocations(), hasSize(lessThanOrEqualTo(numDays * numStaffs)));
 		}
 
 		int solutionCount = 1;
 		for (Plan plan : output.getPlans()) {
-			System.out.printf("Solution %d:", solutionCount++);
+			System.out.printf("Solution %d:\n", solutionCount++);
 			printSolution(plan);
 		}
 	}
 
 	private void printSolution(Plan plan) {
-		sortAllocationsByDateAndStaff(plan);
-		Long idCalendar = null;
-		for (Allocation allocation : plan.getAllocations()) {
-			if (!allocation.getIdCalendar().equals(idCalendar)) {
-				idCalendar = allocation.getIdCalendar();
-				PlanCalendar calendar = db.calendar(idCalendar);
-				System.out.printf("\n\t%1$tY-%1$tm-%1$td:%2$s:  ", calendar.getDay(), calendar.getName());
+		TreeSet<PlanCalendar> days = new TreeSet<PlanCalendar>(new Comparator<PlanCalendar>() {
+
+			public int compare(PlanCalendar c1, PlanCalendar c2) {
+				return c1.getDay().compareTo(c2.getDay());
 			}
-			System.out.printf("%s = %-10s  ",
-			                  db.staff(allocation.getIdStaff()).getName(),
-			                  db.workshift(allocation.getIdWorkShift()).getName());
+
+		});
+		TreeSet<Staff> staffs = new TreeSet<Staff>(new Comparator<Staff>() {
+
+			public int compare(Staff s1, Staff s2) {
+				return s1.getName().compareTo(s2.getName());
+			}
+
+		});
+		Map<Pair<PlanCalendar, Staff>, Workshift> workshifts = new HashMap<Pair<PlanCalendar, Staff>, Workshift>();
+		for (Allocation allocation : plan.getAllocations()) {
+			PlanCalendar day = db.calendar(allocation.getIdCalendar());
+			Staff staff = db.staff(allocation.getIdStaff());
+			Workshift workshift = db.workshift(allocation.getIdWorkShift());
+			days.add(day);
+			staffs.add(staff);
+			workshifts.put(new Pair<PlanCalendar, Staff>(day, staff), workshift);
+		}
+
+		final int width = 12;
+		String staffFormat = String.format("%%-%ds", width);
+		System.out.print("                |  ");
+		for (Staff staff : staffs) {
+			System.out.printf(staffFormat, staff.getName());
+		}
+		System.out.println();
+		System.out.print("----------------+--");
+		System.out.print(StringUtils.repeat('-', width * staffs.size()));
+		for (PlanCalendar day : days) {
+			System.out.printf("\n%1$tY-%1$tm-%1$td:%2$s  |  ", day.getDay(), day.getName());
+			for (Staff staff : staffs) {
+				Workshift workshift = workshifts.get(new Pair<PlanCalendar, Staff>(day, staff));
+				if (workshift != null) {
+					System.out.printf(staffFormat, workshift.getName());
+				} else {
+					System.out.printf(staffFormat, "");
+				}
+			}
 		}
 		System.out.println("\n");
-	}
-
-	private void sortAllocationsByDateAndStaff(Plan plan) {
-		Collections.sort(plan.getAllocations(), new Comparator<Allocation>() {
-			public int compare(Allocation a1, Allocation a2) {
-				Date d1 = db.calendar(a1.getIdCalendar()).getDay();
-				Date d2 = db.calendar(a2.getIdCalendar()).getDay();
-				int dateCompare = d1.compareTo(d2);
-				if (dateCompare != 0) {
-					return dateCompare;
-				}
-				String s1 = db.staff(a1.getIdStaff()).getName();
-				String s2 = db.staff(a2.getIdStaff()).getName();
-				return s1.compareTo(s2);
-			}
-		});
 	}
 
 }

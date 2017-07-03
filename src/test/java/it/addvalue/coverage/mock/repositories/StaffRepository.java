@@ -70,12 +70,12 @@ public class StaffRepository implements Serializable {
 			return this;
 		}
 
-		public Insert withvalidTo(String iso8601ValidTo) {
+		public Insert withValidTo(String iso8601ValidTo) {
 			item.setValidTo(Iso8601Utils.parse(iso8601ValidTo));
 			return this;
 		}
 
-		public Insert withvalidTo(LocalDate validTo) {
+		public Insert withValidTo(LocalDate validTo) {
 			item.setValidTo(validTo.toDate());
 			return this;
 		}

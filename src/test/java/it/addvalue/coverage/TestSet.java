@@ -113,6 +113,7 @@ public class TestSet {
 		         .withWorkshifts(weekends, afternoons)
 		         .withSkills(db.skills.insert().withDailyCallsHandled(40).withService(youInvoice).commit(),
 		                     db.skills.insert().withDailyCallsHandled(40).withService(youWeb).commit())
+		         .withValidFrom("2017-01-19")
 		         .commit();
 		db.staffs.insert()
 		         .teamLeader()
@@ -149,6 +150,14 @@ public class TestSet {
 		         .withWorkshifts(mornings, afternoons)
 		         .withSkills(db.skills.insert().withDailyCallsHandled(40).withService(youInvoice).commit(),
 		                     db.skills.insert().withDailyCallsHandled(40).withService(youApp).commit())
+		         .commit();
+		db.staffs.insert()
+		         .withName("Kilo")
+		         .withIdTeam(1)
+		         .withWorkshifts(weekends, afternoons)
+		         .withSkills(db.skills.insert().withDailyCallsHandled(40).withService(youInvoice).commit(),
+		                     db.skills.insert().withDailyCallsHandled(40).withService(youWeb).commit())
+		         .withValidTo("2017-01-18")
 		         .commit();
 
 		final LocalDate startDate = new LocalDate(2017, 1, 1);

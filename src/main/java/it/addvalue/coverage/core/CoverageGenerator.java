@@ -96,14 +96,17 @@ public class CoverageGenerator {
 			for (Map.Entry<Variable, Value> assignmentEntry : solution.assignments().entrySet()) {
 				PlanVariable variable = (PlanVariable) assignmentEntry.getKey();
 				PlanWorkshift value = (PlanWorkshift) assignmentEntry.getValue();
+				PlanStaff staff = variable.getStaff();
 
 				for (PlanDay day : variable.getWeek().getDays()) {
-					Allocation allocation = new Allocation();
-					plan.getAllocations().add(allocation);
+					if (staff.isPresentOn(day)) {
+						Allocation allocation = new Allocation();
+						plan.getAllocations().add(allocation);
 
-					allocation.setIdCalendar(day.idCalendar());
-					allocation.setIdStaff(variable.idStaff());
-					allocation.setIdWorkShift(value.idWorkshift());
+						allocation.setIdCalendar(day.idCalendar());
+						allocation.setIdStaff(variable.idStaff());
+						allocation.setIdWorkShift(value.idWorkshift());
+					}
 				}
 			}
 		}
@@ -164,11 +167,13 @@ public class CoverageGenerator {
 		Map<Variable, Domain> domains = new HashMap<Variable, Domain>();
 		for (PlanStaff staff : staffs) {
 			for (PlanWeek week : weeks) {
-				PlanVariable variable = newVariable(staff, week);
-				Domain domain = domain(staff, workshiftById);
-				domains.put(variable, domain);
+				if (staff.isPresentOnAtLeastOneDayOf(week)) {
+					PlanVariable variable = newVariable(staff, week);
+					Domain domain = domain(staff, workshiftById);
+					domains.put(variable, domain);
 
-				week.getInvolvedVariables().add(variable);
+					week.getInvolvedVariables().add(variable);
+				}
 			}
 		}
 		return domains;
