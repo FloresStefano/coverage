@@ -12,8 +12,8 @@ import it.addvalue.coverage.bean.Workshift;
 import it.addvalue.coverage.core.CoverageGenerator;
 import it.addvalue.coverage.mock.repositories.Database;
 import it.addvalue.coverage.mock.utils.CsvUtils;
-import javafx.util.Pair;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -233,7 +233,7 @@ public class CoverageTest {
 			Workshift workshift = db.workshift(allocation.getIdWorkShift());
 			days.add(day);
 			staffs.add(staff);
-			workshifts.put(new Pair<PlanCalendar, Staff>(day, staff), workshift);
+			workshifts.put(Pair.of(day, staff), workshift);
 		}
 
 		final int width = 12;
@@ -248,7 +248,7 @@ public class CoverageTest {
 		for (PlanCalendar day : days) {
 			System.out.printf("\n%1$tY-%1$tm-%1$td:%2$s  |  ", day.getDay(), day.getName());
 			for (Staff staff : staffs) {
-				Workshift workshift = workshifts.get(new Pair<PlanCalendar, Staff>(day, staff));
+				Workshift workshift = workshifts.get(Pair.of(day, staff));
 				if (workshift != null) {
 					System.out.printf(staffFormat, workshift.getName());
 				} else {
