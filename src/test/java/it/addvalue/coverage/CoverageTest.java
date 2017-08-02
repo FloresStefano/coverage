@@ -211,7 +211,7 @@ public class CoverageTest {
 		}
 	}
 
-	private void printSolution(Plan plan) {
+	public static void printSolution(Plan plan) {
 		TreeSet<PlanCalendar> days = new TreeSet<PlanCalendar>(new Comparator<PlanCalendar>() {
 
 			public int compare(PlanCalendar c1, PlanCalendar c2) {

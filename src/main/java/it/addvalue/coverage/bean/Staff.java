@@ -17,6 +17,7 @@ public class Staff implements Serializable {
 	private Long    id;
 	private String  name;
 	private Long    idTeam;
+	private Long    idContract;
 	private Boolean teamLeader;
 	private String  contractName;
 	private Date    validFrom;
