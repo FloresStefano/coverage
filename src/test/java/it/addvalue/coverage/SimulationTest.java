@@ -24,7 +24,8 @@ public class SimulationTest
     public static void setupData()
     {
         //input = JsonUtils.deserialize("input-mock.json", Input.class);
-        input = JsonUtils.deserialize("input-real.json", Input.class);
+        //input = JsonUtils.deserialize("input-real1.json", Input.class);
+        input = JsonUtils.deserialize("input-real2.json", Input.class);
         JsonUtils.prettyPrint(input);
     }
 
