@@ -31,7 +31,7 @@ public class GenerateInputTest {
 	private void persistRepositoriesToXml(String xmlFilename) {
 		Input input = db.toInput();
 
-		XmlUtils.serialize(input, xmlFilename);
+		XmlUtils.prettySerialize(input, xmlFilename);
 
 		assertThat(XmlUtils.deserialize(xmlFilename, Input.class), is(equalTo(input)));
 	}

@@ -4,6 +4,7 @@
             <id>5</id>
             <name>FoxtrotTL</name>
             <idTeam>2</idTeam>
+            <idContract/>
             <teamLeader>true</teamLeader>
             <contractName>YouWork</contractName>
             <validFrom/>
@@ -34,6 +35,7 @@
             <id>6</id>
             <name>Golf</name>
             <idTeam>2</idTeam>
+            <idContract/>
             <teamLeader/>
             <contractName>YouWork</contractName>
             <validFrom/>
@@ -64,6 +66,7 @@
             <id>7</id>
             <name>Hotel</name>
             <idTeam>2</idTeam>
+            <idContract/>
             <teamLeader/>
             <contractName>YouWork</contractName>
             <validFrom/>
@@ -94,6 +97,7 @@
             <id>8</id>
             <name>India</name>
             <idTeam>2</idTeam>
+            <idContract/>
             <teamLeader/>
             <contractName>YouWork</contractName>
             <validFrom/>
@@ -124,6 +128,7 @@
             <id>9</id>
             <name>Juliet</name>
             <idTeam>2</idTeam>
+            <idContract/>
             <teamLeader/>
             <contractName>YouWork</contractName>
             <validFrom/>
@@ -150,9 +155,40 @@
             </idWorkshifts>
         </staffs>
         <staffs>
+            <id>10</id>
+            <name>Kilo</name>
+            <idTeam>1</idTeam>
+            <idContract/>
+            <teamLeader/>
+            <contractName>YouWork</contractName>
+            <validFrom/>
+            <validTo>2017-01-18T00:00:00+01:00</validTo>
+            <skills>
+                <skills>
+                    <id>21</id>
+                    <skillLevel/>
+                    <usagePriority/>
+                    <handledCallsOverridden>40</handledCallsOverridden>
+                    <idService>1</idService>
+                </skills>
+                <skills>
+                    <id>20</id>
+                    <skillLevel/>
+                    <usagePriority/>
+                    <handledCallsOverridden>40</handledCallsOverridden>
+                    <idService>0</idService>
+                </skills>
+            </skills>
+            <idWorkshifts>
+                <idWorkshifts>1</idWorkshifts>
+                <idWorkshifts>3</idWorkshifts>
+            </idWorkshifts>
+        </staffs>
+        <staffs>
             <id>0</id>
             <name>AlphaTL</name>
             <idTeam>1</idTeam>
+            <idContract/>
             <teamLeader>true</teamLeader>
             <contractName>YouWork</contractName>
             <validFrom/>
@@ -183,6 +219,7 @@
             <id>1</id>
             <name>Bravo</name>
             <idTeam>1</idTeam>
+            <idContract/>
             <teamLeader/>
             <contractName>YouWork</contractName>
             <validFrom/>
@@ -213,6 +250,7 @@
             <id>2</id>
             <name>Charlie</name>
             <idTeam>1</idTeam>
+            <idContract/>
             <teamLeader/>
             <contractName>YouWork</contractName>
             <validFrom/>
@@ -243,6 +281,7 @@
             <id>3</id>
             <name>Delta</name>
             <idTeam>1</idTeam>
+            <idContract/>
             <teamLeader/>
             <contractName>YouWork</contractName>
             <validFrom/>
@@ -273,9 +312,10 @@
             <id>4</id>
             <name>Echo</name>
             <idTeam>1</idTeam>
+            <idContract/>
             <teamLeader/>
             <contractName>YouWork</contractName>
-            <validFrom/>
+            <validFrom>2017-01-19T00:00:00+01:00</validFrom>
             <validTo/>
             <skills>
                 <skills>
@@ -303,7 +343,7 @@
         <calendars>
             <id>5</id>
             <name>ven</name>
-            <day>1483657200000</day>
+            <day>2017-01-06T00:00:00+01:00</day>
             <dayOfWeek>5</dayOfWeek>
             <weekOfWeekyear>1</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -330,7 +370,7 @@
         <calendars>
             <id>6</id>
             <name>sab</name>
-            <day>1483743600000</day>
+            <day>2017-01-07T00:00:00+01:00</day>
             <dayOfWeek>6</dayOfWeek>
             <weekOfWeekyear>1</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -357,7 +397,7 @@
         <calendars>
             <id>7</id>
             <name>dom</name>
-            <day>1483830000000</day>
+            <day>2017-01-08T00:00:00+01:00</day>
             <dayOfWeek>7</dayOfWeek>
             <weekOfWeekyear>1</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -384,7 +424,7 @@
         <calendars>
             <id>8</id>
             <name>lun</name>
-            <day>1483916400000</day>
+            <day>2017-01-09T00:00:00+01:00</day>
             <dayOfWeek>1</dayOfWeek>
             <weekOfWeekyear>2</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -411,7 +451,7 @@
         <calendars>
             <id>9</id>
             <name>mar</name>
-            <day>1484002800000</day>
+            <day>2017-01-10T00:00:00+01:00</day>
             <dayOfWeek>2</dayOfWeek>
             <weekOfWeekyear>2</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -438,7 +478,7 @@
         <calendars>
             <id>10</id>
             <name>mer</name>
-            <day>1484089200000</day>
+            <day>2017-01-11T00:00:00+01:00</day>
             <dayOfWeek>3</dayOfWeek>
             <weekOfWeekyear>2</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -465,7 +505,7 @@
         <calendars>
             <id>11</id>
             <name>gio</name>
-            <day>1484175600000</day>
+            <day>2017-01-12T00:00:00+01:00</day>
             <dayOfWeek>4</dayOfWeek>
             <weekOfWeekyear>2</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -492,7 +532,7 @@
         <calendars>
             <id>12</id>
             <name>ven</name>
-            <day>1484262000000</day>
+            <day>2017-01-13T00:00:00+01:00</day>
             <dayOfWeek>5</dayOfWeek>
             <weekOfWeekyear>2</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -519,7 +559,7 @@
         <calendars>
             <id>13</id>
             <name>sab</name>
-            <day>1484348400000</day>
+            <day>2017-01-14T00:00:00+01:00</day>
             <dayOfWeek>6</dayOfWeek>
             <weekOfWeekyear>2</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -546,7 +586,7 @@
         <calendars>
             <id>14</id>
             <name>dom</name>
-            <day>1484434800000</day>
+            <day>2017-01-15T00:00:00+01:00</day>
             <dayOfWeek>7</dayOfWeek>
             <weekOfWeekyear>2</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -573,7 +613,7 @@
         <calendars>
             <id>15</id>
             <name>lun</name>
-            <day>1484521200000</day>
+            <day>2017-01-16T00:00:00+01:00</day>
             <dayOfWeek>1</dayOfWeek>
             <weekOfWeekyear>3</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -600,7 +640,7 @@
         <calendars>
             <id>16</id>
             <name>mar</name>
-            <day>1484607600000</day>
+            <day>2017-01-17T00:00:00+01:00</day>
             <dayOfWeek>2</dayOfWeek>
             <weekOfWeekyear>3</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -627,7 +667,7 @@
         <calendars>
             <id>17</id>
             <name>mer</name>
-            <day>1484694000000</day>
+            <day>2017-01-18T00:00:00+01:00</day>
             <dayOfWeek>3</dayOfWeek>
             <weekOfWeekyear>3</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -654,7 +694,7 @@
         <calendars>
             <id>18</id>
             <name>gio</name>
-            <day>1484780400000</day>
+            <day>2017-01-19T00:00:00+01:00</day>
             <dayOfWeek>4</dayOfWeek>
             <weekOfWeekyear>3</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -681,7 +721,7 @@
         <calendars>
             <id>19</id>
             <name>ven</name>
-            <day>1484866800000</day>
+            <day>2017-01-20T00:00:00+01:00</day>
             <dayOfWeek>5</dayOfWeek>
             <weekOfWeekyear>3</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -708,7 +748,7 @@
         <calendars>
             <id>20</id>
             <name>sab</name>
-            <day>1484953200000</day>
+            <day>2017-01-21T00:00:00+01:00</day>
             <dayOfWeek>6</dayOfWeek>
             <weekOfWeekyear>3</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -735,7 +775,7 @@
         <calendars>
             <id>21</id>
             <name>dom</name>
-            <day>1485039600000</day>
+            <day>2017-01-22T00:00:00+01:00</day>
             <dayOfWeek>7</dayOfWeek>
             <weekOfWeekyear>3</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -762,7 +802,7 @@
         <calendars>
             <id>22</id>
             <name>lun</name>
-            <day>1485126000000</day>
+            <day>2017-01-23T00:00:00+01:00</day>
             <dayOfWeek>1</dayOfWeek>
             <weekOfWeekyear>4</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -789,7 +829,7 @@
         <calendars>
             <id>23</id>
             <name>mar</name>
-            <day>1485212400000</day>
+            <day>2017-01-24T00:00:00+01:00</day>
             <dayOfWeek>2</dayOfWeek>
             <weekOfWeekyear>4</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -816,7 +856,7 @@
         <calendars>
             <id>24</id>
             <name>mer</name>
-            <day>1485298800000</day>
+            <day>2017-01-25T00:00:00+01:00</day>
             <dayOfWeek>3</dayOfWeek>
             <weekOfWeekyear>4</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -843,7 +883,7 @@
         <calendars>
             <id>25</id>
             <name>gio</name>
-            <day>1485385200000</day>
+            <day>2017-01-26T00:00:00+01:00</day>
             <dayOfWeek>4</dayOfWeek>
             <weekOfWeekyear>4</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -870,7 +910,7 @@
         <calendars>
             <id>26</id>
             <name>ven</name>
-            <day>1485471600000</day>
+            <day>2017-01-27T00:00:00+01:00</day>
             <dayOfWeek>5</dayOfWeek>
             <weekOfWeekyear>4</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -897,7 +937,7 @@
         <calendars>
             <id>27</id>
             <name>sab</name>
-            <day>1485558000000</day>
+            <day>2017-01-28T00:00:00+01:00</day>
             <dayOfWeek>6</dayOfWeek>
             <weekOfWeekyear>4</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -924,7 +964,7 @@
         <calendars>
             <id>28</id>
             <name>dom</name>
-            <day>1485644400000</day>
+            <day>2017-01-29T00:00:00+01:00</day>
             <dayOfWeek>7</dayOfWeek>
             <weekOfWeekyear>4</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -951,7 +991,7 @@
         <calendars>
             <id>29</id>
             <name>lun</name>
-            <day>1485730800000</day>
+            <day>2017-01-30T00:00:00+01:00</day>
             <dayOfWeek>1</dayOfWeek>
             <weekOfWeekyear>5</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -978,7 +1018,7 @@
         <calendars>
             <id>30</id>
             <name>mar</name>
-            <day>1485817200000</day>
+            <day>2017-01-31T00:00:00+01:00</day>
             <dayOfWeek>2</dayOfWeek>
             <weekOfWeekyear>5</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -1005,7 +1045,7 @@
         <calendars>
             <id>0</id>
             <name>dom</name>
-            <day>1483225200000</day>
+            <day>2017-01-01T00:00:00+01:00</day>
             <dayOfWeek>7</dayOfWeek>
             <weekOfWeekyear>52</weekOfWeekyear>
             <weekyear>2016</weekyear>
@@ -1032,7 +1072,7 @@
         <calendars>
             <id>1</id>
             <name>lun</name>
-            <day>1483311600000</day>
+            <day>2017-01-02T00:00:00+01:00</day>
             <dayOfWeek>1</dayOfWeek>
             <weekOfWeekyear>1</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -1059,7 +1099,7 @@
         <calendars>
             <id>2</id>
             <name>mar</name>
-            <day>1483398000000</day>
+            <day>2017-01-03T00:00:00+01:00</day>
             <dayOfWeek>2</dayOfWeek>
             <weekOfWeekyear>1</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -1086,7 +1126,7 @@
         <calendars>
             <id>3</id>
             <name>mer</name>
-            <day>1483484400000</day>
+            <day>2017-01-04T00:00:00+01:00</day>
             <dayOfWeek>3</dayOfWeek>
             <weekOfWeekyear>1</weekOfWeekyear>
             <weekyear>2017</weekyear>
@@ -1113,7 +1153,7 @@
         <calendars>
             <id>4</id>
             <name>gio</name>
-            <day>1483570800000</day>
+            <day>2017-01-05T00:00:00+01:00</day>
             <dayOfWeek>4</dayOfWeek>
             <weekOfWeekyear>1</weekOfWeekyear>
             <weekyear>2017</weekyear>

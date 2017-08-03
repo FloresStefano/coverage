@@ -19,14 +19,28 @@ public class XmlUtils {
 		}
 	}
 
-	private static XmlMapper xmlMapper() {
-		return new XmlMapper();
+	public static void prettySerialize(Object object, String file) {
+		try {
+			xmlMapper().writerWithDefaultPrettyPrinter().writeValue(new File(file), object);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public static <T> T deserialize(String file, Class<T> clazz) {
 		try {
 			return xmlMapper().readValue(new File(file), clazz);
 		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static String print(Object object) {
+		try {
+			String xml = xmlMapper().writer().writeValueAsString(object);
+			System.out.println(xml);
+			return xml;
+		} catch (JsonProcessingException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -39,6 +53,12 @@ public class XmlUtils {
 		} catch (JsonProcessingException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	private static XmlMapper xmlMapper() {
+		XmlMapper xmlMapper = new XmlMapper();
+		xmlMapper.setDateFormat(Iso8601Utils.DATE_FORMAT);
+		return xmlMapper;
 	}
 
 }

@@ -1,408 +1,442 @@
 {
-   "staffs":[{
-         "id":1,
-         "name":"afarinazzo",
-         "idTeam":37,
-         "teamLeader":true,
-         "idContract":1,
-         "contractName":"Dipendente fulltime",
-         "validFrom":1483225200000,
-         "validTo":1514761199000,
-         "skills":[
-            {
-               "id":1,
-               "skillLevel":null,
-               "usagePriority":null,
-               "handledCallsOverridden":250,
-               "idService":2
+    "staffs": [
+        {
+            "id": 5,
+            "name": "hdsgs013",
+            "idTeam": 37,
+            "idContract": 2,
+            "teamLeader": false,
+            "contractName": "Dipendente parttime",
+            "validFrom": "2017-01-01T00:00:00+01:00",
+            "validTo": "2017-09-25T23:59:59+02:00",
+            "skills": [
+                {
+                    "id": 5,
+                    "skillLevel": null,
+                    "usagePriority": null,
+                    "handledCallsOverridden": 250,
+                    "idService": 2
+                }
+            ],
+            "idWorkshifts": [
+                1,
+                2,
+                3,
+                4
+            ]
+        },
+        {
+            "id": 6,
+            "name": "cristian",
+            "idTeam": 37,
+            "idContract": 2,
+            "teamLeader": false,
+            "contractName": "Dipendente parttime",
+            "validFrom": "2017-02-02T00:00:00+01:00",
+            "validTo": "2017-12-31T23:59:59+01:00",
+            "skills": [
+                {
+                    "id": 6,
+                    "skillLevel": null,
+                    "usagePriority": null,
+                    "handledCallsOverridden": 250,
+                    "idService": 2
+                }
+            ],
+            "idWorkshifts": [
+                1,
+                2,
+                3,
+                4
+            ]
+        },
+        {
+            "id": 7,
+            "name": "lpoli",
+            "idTeam": 38,
+            "idContract": 3,
+            "teamLeader": false,
+            "contractName": "Esterno fulltime",
+            "validFrom": "2017-01-01T00:00:00+01:00",
+            "validTo": "2017-12-31T23:59:59+01:00",
+            "skills": [
+                {
+                    "id": 7,
+                    "skillLevel": null,
+                    "usagePriority": null,
+                    "handledCallsOverridden": 250,
+                    "idService": 2
+                }
+            ],
+            "idWorkshifts": [
+                1,
+                2,
+                3,
+                4
+            ]
+        },
+        {
+            "id": 8,
+            "name": "daniele",
+            "idTeam": 38,
+            "idContract": 3,
+            "teamLeader": false,
+            "contractName": "Esterno fulltime",
+            "validFrom": "2017-01-01T00:00:00+01:00",
+            "validTo": "2017-09-25T23:59:59+02:00",
+            "skills": [
+                {
+                    "id": 8,
+                    "skillLevel": null,
+                    "usagePriority": null,
+                    "handledCallsOverridden": 250,
+                    "idService": 2
+                }
+            ],
+            "idWorkshifts": [
+                1,
+                2,
+                3,
+                4
+            ]
+        },
+        {
+            "id": 9,
+            "name": "hdsgs016",
+            "idTeam": 38,
+            "idContract": 3,
+            "teamLeader": false,
+            "contractName": "Esterno fulltime",
+            "validFrom": "2017-02-02T00:00:00+01:00",
+            "validTo": "2017-12-31T23:59:59+01:00",
+            "skills": [
+                {
+                    "id": 9,
+                    "skillLevel": null,
+                    "usagePriority": null,
+                    "handledCallsOverridden": 250,
+                    "idService": 2
+                }
+            ],
+            "idWorkshifts": [
+                1,
+                2,
+                3,
+                4
+            ]
+        },
+        {
+            "id": 10,
+            "name": "egavazzoni",
+            "idTeam": 38,
+            "idContract": 4,
+            "teamLeader": false,
+            "contractName": "Esterno parttime",
+            "validFrom": "2017-01-01T00:00:00+01:00",
+            "validTo": "2017-12-31T23:59:59+01:00",
+            "skills": [
+                {
+                    "id": 10,
+                    "skillLevel": null,
+                    "usagePriority": null,
+                    "handledCallsOverridden": 250,
+                    "idService": 2
+                }
+            ],
+            "idWorkshifts": [
+                1,
+                2,
+                3,
+                4
+            ]
+        },
+        {
+            "id": 11,
+            "name": "ES03072",
+            "idTeam": 38,
+            "idContract": 4,
+            "teamLeader": false,
+            "contractName": "Esterno parttime",
+            "validFrom": "2017-01-01T00:00:00+01:00",
+            "validTo": "2017-09-25T23:59:59+02:00",
+            "skills": [
+                {
+                    "id": 11,
+                    "skillLevel": null,
+                    "usagePriority": null,
+                    "handledCallsOverridden": 250,
+                    "idService": 2
+                }
+            ],
+            "idWorkshifts": [
+                1,
+                2,
+                3,
+                4
+            ]
+        },
+        {
+            "id": 1,
+            "name": "afarinazzo",
+            "idTeam": 37,
+            "idContract": 1,
+            "teamLeader": true,
+            "contractName": "Dipendente fulltime",
+            "validFrom": "2017-01-01T00:00:00+01:00",
+            "validTo": "2017-12-31T23:59:59+01:00",
+            "skills": [
+                {
+                    "id": 1,
+                    "skillLevel": null,
+                    "usagePriority": null,
+                    "handledCallsOverridden": 250,
+                    "idService": 2
+                }
+            ],
+            "idWorkshifts": [
+                1,
+                2,
+                3,
+                4
+            ]
+        },
+        {
+            "id": 2,
+            "name": "tm00011",
+            "idTeam": 37,
+            "idContract": 1,
+            "teamLeader": false,
+            "contractName": "Dipendente fulltime",
+            "validFrom": "2017-01-01T00:00:00+01:00",
+            "validTo": "2017-09-25T23:59:59+02:00",
+            "skills": [
+                {
+                    "id": 2,
+                    "skillLevel": null,
+                    "usagePriority": null,
+                    "handledCallsOverridden": 250,
+                    "idService": 2
+                }
+            ],
+            "idWorkshifts": [
+                1,
+                2,
+                3,
+                4
+            ]
+        },
+        {
+            "id": 3,
+            "name": "sgs002",
+            "idTeam": 37,
+            "idContract": 1,
+            "teamLeader": false,
+            "contractName": "Dipendente fulltime",
+            "validFrom": "2017-02-02T00:00:00+01:00",
+            "validTo": "2017-12-31T23:59:59+01:00",
+            "skills": [
+                {
+                    "id": 3,
+                    "skillLevel": null,
+                    "usagePriority": null,
+                    "handledCallsOverridden": 250,
+                    "idService": 2
+                }
+            ],
+            "idWorkshifts": [
+                1,
+                2,
+                3,
+                4
+            ]
+        },
+        {
+            "id": 4,
+            "name": "mmarsilio",
+            "idTeam": 37,
+            "idContract": 2,
+            "teamLeader": false,
+            "contractName": "Dipendente parttime",
+            "validFrom": "2017-01-01T00:00:00+01:00",
+            "validTo": "2017-12-31T23:59:59+01:00",
+            "skills": [
+                {
+                    "id": 4,
+                    "skillLevel": null,
+                    "usagePriority": null,
+                    "handledCallsOverridden": 250,
+                    "idService": 2
+                }
+            ],
+            "idWorkshifts": [
+                1,
+                2,
+                3,
+                4
+            ]
+        }
+    ],
+    "calendars": [
+        {
+            "id": 31,
+            "name": "LUN",
+            "day": "2017-01-30T00:00:00+01:00",
+            "dayOfWeek": 1,
+            "weekOfWeekyear": 5,
+            "weekyear": 2017,
+            "totalExpectedCalls": 1000,
+            "totalExpectedCallsDetail": "0,250,250,250,250,0",
+            "details": [
+                {
+                    "id": 1,
+                    "idService": 2,
+                    "markerMultiplier": 100
+                }
+            ]
+        },
+        {
+            "id": 32,
+            "name": "MAR",
+            "day": "2017-01-31T00:00:00+01:00",
+            "dayOfWeek": 2,
+            "weekOfWeekyear": 5,
+            "weekyear": 2017,
+            "totalExpectedCalls": 1000,
+            "totalExpectedCallsDetail": "0,250,250,250,250,0",
+            "details": [
+                {
+                    "id": 2,
+                    "idService": 2,
+                    "markerMultiplier": 100
+                }
+            ]
+        },
+        {
+            "id": 33,
+            "name": "MER",
+            "day": "2017-02-01T00:00:00+01:00",
+            "dayOfWeek": 3,
+            "weekOfWeekyear": 5,
+            "weekyear": 2017,
+            "totalExpectedCalls": 1000,
+            "totalExpectedCallsDetail": "0,250,250,250,250,0",
+            "details": [
+                {
+                    "id": 3,
+                    "idService": 2,
+                    "markerMultiplier": 100
+                }
+            ]
+        },
+        {
+            "id": 34,
+            "name": "GIO",
+            "day": "2017-02-02T00:00:00+01:00",
+            "dayOfWeek": 4,
+            "weekOfWeekyear": 5,
+            "weekyear": 2017,
+            "totalExpectedCalls": 1000,
+            "totalExpectedCallsDetail": "0,250,250,250,250,0",
+            "details": [
+                {
+                    "id": 4,
+                    "idService": 2,
+                    "markerMultiplier": 100
+                }
+            ]
+        },
+        {
+            "id": 35,
+            "name": "VEN",
+            "day": "2017-02-03T00:00:00+01:00",
+            "dayOfWeek": 5,
+            "weekOfWeekyear": 5,
+            "weekyear": 2017,
+            "totalExpectedCalls": 1000,
+            "totalExpectedCallsDetail": "0,250,250,250,250,0",
+            "details": [
+                {
+                    "id": 5,
+                    "idService": 2,
+                    "markerMultiplier": 100
+                }
+            ]
+        }
+    ],
+    "rules": [
+        {
+            "id": 0,
+            "name": "Rule0",
+            "key": "default-daily-calls-handled",
+            "value": "250",
+            "weight": null
+        },
+        {
+            "id": 1,
+            "name": "Rule1",
+            "key": "undercoverage-tolerance-percentage",
+            "value": "50",
+            "weight": null
+        }
+    ],
+    "services": [
+        {
+            "id": 2,
+            "name": "YouWeb",
+            "dailyCalls": 1000,
+            "dailyCallsDetail": "0,250,250,250,250,0",
+            "coverageFrom": 600,
+            "coverageTo": 1000
+        }
+    ],
+    "workshifts": [
+        {
+            "id": 1,
+            "name": "Turno Tecmarket 1",
+            "contractName": "Dipendente fulltime",
+            "dailySchedule": {
+                "GIO": "540,780,840,1080",
+                "MER": "540,780,840,1080",
+                "LUN": "540,780,840,1080",
+                "VEN": "540,780,840,1080",
+                "MAR": "540,780,840,1080"
             }
-         ],
-         "idWorkshifts":[
-            1,2,3,4
-         ]
-      },
-      {
-         "id":2,
-         "name":"tm00011",
-         "idTeam":37,
-         "teamLeader":false,
-         "idContract":1,
-         "contractName":"Dipendente fulltime",
-         "validFrom":1483225200000,
-         "validTo":1506376799000,
-         "skills":[
-            {
-               "id":2,
-               "skillLevel":null,
-               "usagePriority":null,
-               "handledCallsOverridden":250,
-               "idService":2
+        },
+        {
+            "id": 2,
+            "name": "Turno Tecmarket 2",
+            "contractName": "Dipendente parttime",
+            "dailySchedule": {
+                "GIO": "360,600,720,960",
+                "MER": "360,600,720,960",
+                "LUN": "360,600,720,960",
+                "VEN": "360,600,720,960",
+                "MAR": "360,600,720,960"
             }
-         ],
-         "idWorkshifts":[
-            1,2,3,4
-         ]
-      },
-      {
-         "id":3,
-         "name":"sgs002",
-         "idTeam":37,
-         "teamLeader":false,
-         "idContract":1,
-         "contractName":"Dipendente fulltime",
-         "validFrom":1485990000000,
-         "validTo":1514761199000,
-         "skills":[
-            {
-               "id":3,
-               "skillLevel":null,
-               "usagePriority":null,
-               "handledCallsOverridden":250,
-               "idService":2
+        },
+        {
+            "id": 3,
+            "name": "Turno Galileo 1",
+            "contractName": "Esterno fulltime",
+            "dailySchedule": {
+                "GIO": "780,1020,1080,1320",
+                "MER": "780,1020,1080,1320",
+                "LUN": "780,1020,1080,1320",
+                "VEN": "780,1020,1080,1320",
+                "MAR": "780,1020,1080,1320"
             }
-         ],
-         "idWorkshifts":[
-            1,2,3,4
-         ]
-      },
-       {
-         "id":4,
-         "name":"mmarsilio",
-         "idTeam":37,
-         "teamLeader":false,
-         "idContract":2,
-         "contractName":"Dipendente parttime",
-         "validFrom":1483225200000,
-         "validTo":1514761199000,
-         "skills":[
-            {
-               "id":4,
-               "skillLevel":null,
-               "usagePriority":null,
-               "handledCallsOverridden":250,
-               "idService":2
+        },
+        {
+            "id": 4,
+            "name": "Turno Galileo 2",
+            "contractName": "Esterno parttime",
+            "dailySchedule": {
+                "GIO": "570,810,870,1110",
+                "MER": "570,810,870,1110",
+                "LUN": "570,810,870,1110",
+                "VEN": "570,810,870,1110",
+                "MAR": "570,810,870,1110"
             }
-         ],
-         "idWorkshifts":[
-            1,2,3,4
-         ]
-      },
-   		{
-         "id":5,
-         "name":"hdsgs013",
-         "idTeam":37,
-         "teamLeader":false,
-         "idContract":2,
-         "contractName":"Dipendente parttime",
-         "validFrom":1483225200000,
-         "validTo":1506376799000,
-         "skills":[
-            {
-               "id":5,
-               "skillLevel":null,
-               "usagePriority":null,
-               "handledCallsOverridden":250,
-               "idService":2
-            }
-         ],
-         "idWorkshifts":[
-            1,2,3,4
-         ]
-      },
-      {
-         "id":6,
-         "name":"cristian",
-         "idTeam":37,
-         "teamLeader":false,
-         "idContract":2,
-         "contractName":"Dipendente parttime",
-         "validFrom":1485990000000,
-         "validTo":1514761199000,
-         "skills":[
-            {
-               "id":6,
-               "skillLevel":null,
-               "usagePriority":null,
-               "handledCallsOverridden":250,
-               "idService":2
-            }
-         ],
-         "idWorkshifts":[
-            1,2,3,4
-         ]
-      },
-      {
-         "id":7,
-         "name":"lpoli",
-         "idTeam":38,
-         "teamLeader":false,
-         "idContract":3,
-         "contractName":"Esterno fulltime",
-         "validFrom":1483225200000,
-         "validTo":1514761199000,
-         "skills":[
-            {
-               "id":7,
-               "skillLevel":null,
-               "usagePriority":null,
-               "handledCallsOverridden":250,
-               "idService":2
-            }
-         ],
-         "idWorkshifts":[
-            1,2,3,4
-         ]
-      },
-      {
-         "id":8,
-         "name":"daniele",
-         "idTeam":38,
-         "teamLeader":false,
-         "idContract":3,
-         "contractName":"Esterno fulltime",
-         "validFrom":1483225200000,
-         "validTo":1506376799000,
-         "skills":[
-            {
-               "id":8,
-               "skillLevel":null,
-               "usagePriority":null,
-               "handledCallsOverridden":250,
-               "idService":2
-            }
-         ],
-         "idWorkshifts":[
-            1,2,3,4
-         ]
-      },
-      {
-         "id":9,
-         "name":"hdsgs016",
-         "idTeam":38,
-         "teamLeader":false,
-         "idContract":3,
-         "contractName":"Esterno fulltime",
-         "validFrom":1485990000003,
-         "validTo":1514761199000,
-         "skills":[
-            {
-               "id":9,
-               "skillLevel":null,
-               "usagePriority":null,
-               "handledCallsOverridden":250,
-               "idService":2
-            }
-         ],
-         "idWorkshifts":[
-            1,2,3,4
-         ]
-      },
-      {
-         "id":10,
-         "name":"egavazzoni",
-         "idTeam":38,
-         "teamLeader":false,
-         "idContract":4,
-         "contractName":"Esterno parttime",
-         "validFrom":1483225200000,
-         "validTo":1514761199000,
-         "skills":[
-            {
-               "id":10,
-               "skillLevel":null,
-               "usagePriority":null,
-               "handledCallsOverridden":250,
-               "idService":2
-            }
-         ],
-         "idWorkshifts":[
-            1,2,3,4
-         ]
-      },
-      {
-         "id":11,
-         "name":"ES03072",
-         "idTeam":38,
-         "teamLeader":false,
-         "idContract":4,
-         "contractName":"Esterno parttime",
-         "validFrom":1483225200000,
-         "validTo":1506376799000,
-         "skills":[
-            {
-               "id":11,
-               "skillLevel":null,
-               "usagePriority":null,
-               "handledCallsOverridden":250,
-               "idService":2
-            }
-         ],
-         "idWorkshifts":[
-            1,2,3,4
-         ]
-      }  
-   ],
-   "calendars":[
-   	{
-         "id":31,
-         "name":"LUN",
-         "day":1485730800000,
-         "dayOfWeek":1,
-         "weekOfWeekyear":5,
-         "weekyear":2017,
-         "totalExpectedCalls":1000,
-         "totalExpectedCallsDetail":"0,250,250,250,250,0",
-         "details":[
-            {
-               "id":1,
-               "idService":2,
-               "markerMultiplier":100
-            }
-         ]
-      },
-      {
-         "id":32,
-         "name":"MAR",
-         "day":1485817200000,
-         "dayOfWeek":2,
-         "weekOfWeekyear":5,
-         "weekyear":2017,
-         "totalExpectedCalls":1000,
-         "totalExpectedCallsDetail":"0,250,250,250,250,0",
-         "details":[
-            {
-               "id":2,
-               "idService":2,
-               "markerMultiplier":100
-            }
-         ]
-      },
-      {
-         "id":33,
-         "name":"MER",
-         "day":1485903600000,
-         "dayOfWeek":3,
-         "weekOfWeekyear":5,
-         "weekyear":2017,
-         "totalExpectedCalls":1000,
-         "totalExpectedCallsDetail":"0,250,250,250,250,0",
-         "details":[
-            {
-               "id":3,
-               "idService":2,
-               "markerMultiplier":100
-            }
-         ]
-      },
-      {
-         "id":34,
-         "name":"GIO",
-         "day":1485990000000,
-         "dayOfWeek":4,
-         "weekOfWeekyear":5,
-         "weekyear":2017,
-         "totalExpectedCalls":1000,
-         "totalExpectedCallsDetail":"0,250,250,250,250,0",
-         "details":[
-            {
-               "id":4,
-               "idService":2,
-               "markerMultiplier":100
-            }
-         ]
-      },
-      {
-         "id":35,
-         "name":"VEN",
-         "day":1486076400000,
-         "dayOfWeek":5,
-         "weekOfWeekyear":5,
-         "weekyear":2017,
-         "totalExpectedCalls":1000,
-         "totalExpectedCallsDetail":"0,250,250,250,250,0",
-         "details":[
-            {
-               "id":5,
-               "idService":2,
-               "markerMultiplier":100
-            }
-         ]
-      }
-   ],
-   "rules":[
-      {
-         "id":0,
-         "name":"Rule0",
-         "key":"default-daily-calls-handled",
-         "value":"250",
-         "weight":null
-      },
-      {
-         "id":1,
-         "name":"Rule1",
-         "key":"undercoverage-tolerance-percentage",
-         "value":"50",
-         "weight":null
-      }
-   ],
-   "services":[
-      {
-         "id":2,
-         "name":"YouWeb",
-         "dailyCalls":1000,
-         "dailyCallsDetail":"0,250,250,250,250,0",
-         "coverageFrom":600,
-         "coverageTo":1000
-      }
-   ],
-   "workshifts":[
-   		{
-         "id":1,
-         "name":"Turno Tecmarket 1",
-         "contractName":"Dipendente fulltime",
-         "dailySchedule":{
-            "GIO":"540,780,840,1080",
-            "MER":"540,780,840,1080",
-            "LUN":"540,780,840,1080",
-            "VEN":"540,780,840,1080",
-            "MAR":"540,780,840,1080"
-         }
-      },
-      {
-         "id":2,
-         "name":"Turno Tecmarket 2",
-         "contractName":"Dipendente parttime",
-         "dailySchedule":{
-            "GIO":"360,600,720,960",
-            "MER":"360,600,720,960",
-            "LUN":"360,600,720,960",
-            "VEN":"360,600,720,960",
-            "MAR":"360,600,720,960"
-         }
-      },
-      {
-         "id":3,
-         "name":"Turno Galileo 1",
-         "contractName":"Esterno fulltime",
-         "dailySchedule":{
-            "GIO":"780,1020,1080,1320",
-            "MER":"780,1020,1080,1320",
-            "LUN":"780,1020,1080,1320",
-            "VEN":"780,1020,1080,1320",
-            "MAR":"780,1020,1080,1320"
-         }
-      },
-      {
-         "id":4,
-         "name":"Turno Galileo 2",
-         "contractName":"Esterno parttime",
-         "dailySchedule":{
-            "GIO":"570,810,870,1110",
-            "MER":"570,810,870,1110",
-            "LUN":"570,810,870,1110",
-            "VEN":"570,810,870,1110",
-            "MAR":"570,810,870,1110"
-         }
-      }
-   ]
+        }
+    ]
 }
